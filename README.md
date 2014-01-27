@@ -75,47 +75,7 @@ You will also need to place our INSTALL_REFERRER receiver inside the application
 
 For more information on how MobileAppTracking uses the INSTALL_REFERRER, see [How Google Play Install Referrer Works](http://support.mobileapptracking.com/entries/22561636-how-google-play-install-referrer-works).
 
-## Installs and Updates
-
-As the success of attributing app events after the initial install is dependent upon first tracking that install,
-we require that the install is the first event tracked. To track install of your mobile app, use the “trackInstall”
-method. If users have already installed your app prior to SDK implementation, then these users should be tracked as updates.
-
-### Track Installs
-
-The “trackInstall” method is used to track when users install your mobile app on their device and will only record one
-conversion per install in reports. You should call trackInstall() in the app's initialize method after
-instantiating a MobileAppTracker class.
-
-	mobileAppTracker.trackInstall();
-
-The “trackInstall” method automatically tracks updates of your app if the app version differs from the last app version it saw.
-
-### Handling Installs Prior to SDK Implementation - Track as Updates
-
-What if your app already has thousands or millions of users prior to SDK implementation? What happens when these users update 
-the app to the new version that contains the MAT SDK?
-
-MAT provides you two ways to make sure that the existing users do not count towards new app installs.
-
-1. Call SDK method "trackUpdate" instead of "trackInstall".
-
-	If you are integrating MAT into an existing app where you have users you’ve seen before, you can track an update yourself with the trackUpdate() method.
-
-		mobileAppTracker.trackUpdate();
-
-2. Import prior installs to the platform.
-
-These methods are useful if you already have an app in the store and plan to add the MAT SDK in a new version. 
-Learn how to [handle installs prior to SDK implementation here](http://support.mobileapptracking.com/entries/22621001-Handling-Installs-prior-to-SDK-implementation).
-
-If the code used to differentiate installs versus app updates is not properly implemented, then you will notice 
-a [spike of total installs](http://support.mobileapptracking.com/entries/22900598-Spike-of-Total-Installs-on-First-day-of-SDK) on the first day of the SDK implementation.
-
 ## Events
-
-After the install has been tracked, the “trackAction” method is intended to be used to track user actions such as reaching a 
-certain level in a game or making an in-app purchase. The “trackAction” method allows you to define the event name dynamically.
 
 All "trackAction" methods are used in the following format:
 
@@ -172,102 +132,6 @@ You can find counts of Opens by viewing Reports > Mobile Apps. Include the param
 The platform does not provide logs of Opens. If you track Opens using a name other than "open" then these tracked events will
 cost the same price as all other events to track.
 
-### Other Events
-
-You can track other events in your app dynamically by calling “trackAction”. The “trackAction” method is intended for tracking
-any user actions. This method allows you to define the event name.
-
-To dynamically track an event, replace “event name or action” with the name of the event you want to track. The tracking engine
-will then look up the event by the name. If an event with the defined name doesn’t exist, the tracking engine will automatically
-create an event for you with that name. An Event Name has to be alphanumeric.
-
-You can pass in an event name or event id. If you pass in an event name and isEventId = false, then you are indicating to the SDK that
-you want your own event name passed in. If you pass in an event id and isEventId = true, then you are indicating that you have a 
-pre-defined event id in the platform that you associate the action with.
-
-You can find these events in platform by viewing Reports->Logs->Event Logs.
-
-The max event limit per site is 100. Learn more about the [max limit of events](http://support.mobileapptracking.com/entries/22803093-Max-Event-Limit-per-Site).
-
-While our platform always blocks the tracking of duplicate installs, by default it does not block duplicate event requests. 
-However, there may be other types of events that you only want tracked once per device/user. Please see [block duplicate requests setting for events](http://support.mobileapptracking.com/entries/22927312-Block-Duplicate-Request-Setting-for-Events) for further information.
-
-## Testing Plugin Integration with SDK
-
-These pages contain instructions on how to test whether the SDKs were successfully implemented for the various platforms:
-
-[Testing Android SDK Integration](http://support.mobileapptracking.com/entries/22541781-Testing-Android-SDK-integration)
-
-[Testing iOS SDK Integration](http://support.mobileapptracking.com/entries/22561876-testing-ios-sdk-integration)
-
-## Debug Mode and Duplicates
-
-__Debugging__
-
-When the Debug mode is enabled in the SDK, the server responds with debug information about the success or failure of the
-tracking requests.
-
-__Note__: For Android, debug mode log output can be found in LogCat under the tag "MobileAppTracker".
-
-To debug log messages that show the event status and server response, call the "setDebugMode" method with Boolean true:
-
-	mobileAppTracker.setDebugMode(true);
-
-__Allow Duplicates__
-
-The platform rejects installs from devices it has seen before.  For testing purposes, you may want to bypass this behavior
-and fire multiple installs from the same testing device.
- 
-There are two methods you can employ to do so: (1) calling the "setAllowDuplicates" method, and (2) set up a test profile.
-
-(1) Call the “setAllowDuplicates” after initializing MobileAppTracker, with Boolean true:
-
-	mobileAppTracker.setAllowDuplicateRequests(true);
-
-(2) Set up a [test profile](http://support.mobileapptracking.com/entries/22541401-Test-Profiles). A Test Profile should be 
-used when you want to allow duplicate installs and/or events from a device you are using from testing and don't want to 
-implement setAllowDuplicateRequests in the code and instead allow duplicate requests from the platform.
-
-
-**_The setDebugMode and setAllowDuplicates calls are meant for use only during debugging and testing. Please be sure to disable these for release builds._**
-
-## Additional Resources
-
-### Custom Settings
-
-The SDK supports several custom identifiers that you can use as alternate means to identify your installs or events.
-Call these setters before calling the corresponding trackInstall or trackAction code.
-
-__OpenUDID__ (iOS only, deprecated - use setAppleAdvertisingIdentifier instead)
-
-This sets the OpenUDID of the device. Can be generated with the official implementation at [http://OpenUDID.org](http://OpenUDID.org).
-Calling this will do nothing on Android apps.
-
-	mobileAppTracker.setOpenUDID("your_open_udid");
-
-__TRUSTe ID__
-
-If you are integrating with the TRUSTe SDK, you can pass in your TRUSTe ID with setTRUSTeId, which populates the “TPID” field.
-
-	mobileAppTracker.setTRUSTeId("your_truste_id");
-
-__User ID__
-
-If you have a user ID of your own that you wish to track, pass it in as a string with setUserId. This populates the “User ID”
-field in our reporting, and also the postback variable {user_id}.
-
-	mobileAppTracker.setUserID("custom_user_id");
-
-The SDK supports several custom identifiers that you can use as alternate means to identify your installs or events.
-Please navigate to the [Custom SDK Settings](http://support.mobileapptracking.com/entries/23738686-Customize-SDK-Settings) page for more information.
-
-### Event Items
-
-While an event is like your receipt for a purchase, the event items are the individual items you purchased.
-Event items allow you to define multiple items for a single event. The “trackAction” method can include this event item data.
-
-The method "trackActionWithEventItem" allows you to pass in an array of mappings of item, unit price, quantity and revenue
-strings, which we call an “event item” that is associated with the event.
 
 It contains these default values so you may omit these parameters in the tracking call if you are not using them.
 
@@ -361,9 +225,9 @@ __Adobe AIR__
 
 [http://get.adobe.com/air/](http://get.adobe.com/air/)
 
-__Adobe Flex SDK__
+__Apache Flex SDK__
 
-[http://www.adobe.com/devnet/flex/flex-sdk-download.html](http://www.adobe.com/devnet/flex/flex-sdk-download.html)
+[http://flex.apache.org](http://flex.apache.org)
 
 __Android SDK__
 
