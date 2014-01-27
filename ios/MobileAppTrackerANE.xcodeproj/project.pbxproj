@@ -1,0 +1,308 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		42DC93F7185B730300C838DC /* MobileAppTracker-2.7.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 42DC93F6185B730300C838DC /* MobileAppTracker-2.7.a */; };
+		96318CCA16020DC10075B93E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96318CC916020DC10075B93E /* Foundation.framework */; };
+		96318CD116020DC10075B93E /* MobileAppTrackerANE.m in Sources */ = {isa = PBXBuildFile; fileRef = 96318CD016020DC10075B93E /* MobileAppTrackerANE.m */; };
+		F86BA3801682889000916B89 /* FRETypeConversionHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = F86BA37F1682889000916B89 /* FRETypeConversionHelper.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		96318CC416020DC10075B93E /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/${PRODUCT_NAME}";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		42DC93F6185B730300C838DC /* MobileAppTracker-2.7.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "MobileAppTracker-2.7.a"; path = "MobileAppTrackingANE/MobileAppTracker-2.7.a"; sourceTree = "<group>"; };
+		96318CC616020DC10075B93E /* libMobileAppTrackerANE.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMobileAppTrackerANE.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		96318CC916020DC10075B93E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		96318CCD16020DC10075B93E /* MobileAppTrackingANE-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MobileAppTrackingANE-Prefix.pch"; sourceTree = "<group>"; };
+		96318CD016020DC10075B93E /* MobileAppTrackerANE.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MobileAppTrackerANE.m; sourceTree = "<group>"; };
+		96318CF116020E4F0075B93E /* FlashRuntimeExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlashRuntimeExtensions.h; sourceTree = "<group>"; };
+		F86BA37E1682889000916B89 /* FRETypeConversionHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FRETypeConversionHelper.h; sourceTree = "<group>"; };
+		F86BA37F1682889000916B89 /* FRETypeConversionHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FRETypeConversionHelper.m; sourceTree = "<group>"; };
+		F86BA393168BB32700916B89 /* MobileAppTracker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MobileAppTracker.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		96318CC316020DC10075B93E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				96318CCA16020DC10075B93E /* Foundation.framework in Frameworks */,
+				42DC93F7185B730300C838DC /* MobileAppTracker-2.7.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		96318CBB16020DC10075B93E = {
+			isa = PBXGroup;
+			children = (
+				96318CCB16020DC10075B93E /* MobileAppTrackerANE */,
+				96318CC816020DC10075B93E /* Frameworks */,
+				96318CC716020DC10075B93E /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		96318CC716020DC10075B93E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				96318CC616020DC10075B93E /* libMobileAppTrackerANE.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		96318CC816020DC10075B93E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				42DC93F6185B730300C838DC /* MobileAppTracker-2.7.a */,
+				96318CC916020DC10075B93E /* Foundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		96318CCB16020DC10075B93E /* MobileAppTrackerANE */ = {
+			isa = PBXGroup;
+			children = (
+				96318CF116020E4F0075B93E /* FlashRuntimeExtensions.h */,
+				F86BA37E1682889000916B89 /* FRETypeConversionHelper.h */,
+				F86BA37F1682889000916B89 /* FRETypeConversionHelper.m */,
+				F86BA393168BB32700916B89 /* MobileAppTracker.h */,
+				96318CD016020DC10075B93E /* MobileAppTrackerANE.m */,
+				96318CCC16020DC10075B93E /* Supporting Files */,
+			);
+			name = MobileAppTrackerANE;
+			path = MobileAppTrackingANE;
+			sourceTree = "<group>";
+		};
+		96318CCC16020DC10075B93E /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				96318CCD16020DC10075B93E /* MobileAppTrackingANE-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		96318CC516020DC10075B93E /* MobileAppTrackerANE */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 96318CEB16020DC10075B93E /* Build configuration list for PBXNativeTarget "MobileAppTrackerANE" */;
+			buildPhases = (
+				96318CC216020DC10075B93E /* Sources */,
+				96318CC316020DC10075B93E /* Frameworks */,
+				96318CC416020DC10075B93E /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MobileAppTrackerANE;
+			productName = MobileAppTrackingANE;
+			productReference = 96318CC616020DC10075B93E /* libMobileAppTrackerANE.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		96318CBD16020DC10075B93E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0460;
+				ORGANIZATIONNAME = "";
+			};
+			buildConfigurationList = 96318CC016020DC10075B93E /* Build configuration list for PBXProject "MobileAppTrackerANE" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 96318CBB16020DC10075B93E;
+			productRefGroup = 96318CC716020DC10075B93E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				96318CC516020DC10075B93E /* MobileAppTrackerANE */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		96318CC216020DC10075B93E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				96318CD116020DC10075B93E /* MobileAppTrackerANE.m in Sources */,
+				F86BA3801682889000916B89 /* FRETypeConversionHelper.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		96318CE916020DC10075B93E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.2;
+				MACH_O_TYPE = staticlib;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				STRIP_INSTALLED_PRODUCT = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		96318CEA16020DC10075B93E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEAD_CODE_STRIPPING = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.2;
+				MACH_O_TYPE = staticlib;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				STRIP_INSTALLED_PRODUCT = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		96318CEC16020DC10075B93E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					armv7,
+					i386,
+				);
+				DSTROOT = /tmp/MobileAppTrackingANE.dst;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/MobileAppTrackingANE\"",
+					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/MobileAppTracker_iOS_ios3_v1-12\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "MobileAppTrackingANE/MobileAppTrackingANE-Prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.2;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\\\"$(SRCROOT)/MobileAppTrackingANE\\\"",
+					"/Users/johnb/src/sdk/sdk-air/ios/MobileAppTrackingANE",
+				);
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = "armv7 i386";
+			};
+			name = Debug;
+		};
+		96318CED16020DC10075B93E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					armv7,
+					i386,
+				);
+				DSTROOT = /tmp/MobileAppTrackingANE.dst;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/MobileAppTrackingANE\"",
+					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/MobileAppTracker_iOS_ios3_v1-12\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "MobileAppTrackingANE/MobileAppTrackingANE-Prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.2;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\\\"$(SRCROOT)/MobileAppTrackingANE\\\"",
+					"/Users/johnb/src/sdk/sdk-air/ios/MobileAppTrackingANE",
+				);
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = "armv7 i386";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		96318CC016020DC10075B93E /* Build configuration list for PBXProject "MobileAppTrackerANE" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				96318CE916020DC10075B93E /* Debug */,
+				96318CEA16020DC10075B93E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		96318CEB16020DC10075B93E /* Build configuration list for PBXNativeTarget "MobileAppTrackerANE" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				96318CEC16020DC10075B93E /* Debug */,
+				96318CED16020DC10075B93E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 96318CBD16020DC10075B93E /* Project object */;
+}

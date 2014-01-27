@@ -1,0 +1,11 @@
+name = MobileAppTrackerANE
+
+flex.sdk = <replace_with_flex_home_path>
+adt.ext = 
+compc.ext = 
+
+ios.sdkversion = iphoneos
+ios.sim.sdkversion = iphonesimulator
+
+android.platform = <replace_with_android_sdk_path>/platforms/android-17
+android.platformtools = <replace_with_android_sdk_path>/platform-tools

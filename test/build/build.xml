@@ -1,0 +1,119 @@
+<?xml version="1.0" ?>
+
+<!-- Build the AIR application -->
+<project name="MATANETestApp" default="all">
+    
+    <!-- Build Config -->
+    <property file="build.config"/>
+
+    <!-- SDK properties -->
+    <property name="SDK_HOME" value="${sdk.home}"/>
+	<property name="MXMLC.JAR" value="${SDK_HOME}/lib/mxmlc.jar"/>
+	<property name="COMPC.JAR" value="${SDK_HOME}/lib/compc.jar"/>
+	<property name="ADL" value="${SDK_HOME}/bin/adl"/>
+    <property name="ADT.JAR" value="${SDK_HOME}/lib/adt.jar"/>
+    <property name="ADT.BIN" value="${SDK_HOME}/lib/adt"/>
+
+    <!-- Project properties -->
+    <property name="APP_ROOT_DIR" value=".."/>
+    <property name="APP_NAME" value="${name}"/>
+    <property name="APP_ROOT_FILE" value="${APP_NAME}.swf"/>
+	<property name="APP_SOURCE_DIR" value="${APP_ROOT_DIR}/src"/>
+    <property name="MAIN_SOURCE" value="${APP_SOURCE_DIR}/${APP_NAME}.mxml"/>
+    <property name="APP_SOURCE_DESCRIPTOR" value="${APP_SOURCE_DIR}/${APP_NAME}-app.xml"/>
+    <property name="APP_DESCRIPTOR" value="${APP_NAME}-app.xml"/>
+	<property name="NATIVE_EXTENSIONS_DIR" value="../anes"/>
+	<property name="OUTPUT" value="../bin"/>
+    
+    <!-- Target that calls all other targets -->
+    <target name="all" depends="clean,swf,copy-resources,android,ios" description="Full build of extension">
+        <echo level="verbose">MAT AIR Test App Created!</echo>
+    </target>
+    
+    <!-- Remove Output Folder -->
+    <target name="clean" description="Clean the output and temp folders">
+        <echo level="verbose">Cleaning ANE output and temp folders...</echo>
+        <delete dir="${OUTPUT}"/>
+    </target>
+    
+    <!-- Create SWF -->
+	<target name="swf">
+	        <java jar="${MXMLC.JAR}" fork="true" failonerror="true">
+	        <arg value="+flexlib=${SDK_HOME}/frameworks"/>
+	        <arg value="+configname=airmobile"/>
+	        <arg value="-file-specs=${MAIN_SOURCE}"/>
+	        <arg value="-load-config+=extlibs.config"/>
+            <arg value="-load-config+=libs.config"/>
+	        <arg value="-swf-version=18"/>
+	        <arg value="-output=${OUTPUT}/${APP_ROOT_FILE}"/>
+	    </java>
+		<copy filtering="true" file="${APP_SOURCE_DESCRIPTOR}" tofile="${OUTPUT}/${APP_DESCRIPTOR}" overwrite="true" />
+		<replace file="${OUTPUT}/${APP_DESCRIPTOR}">
+			<replacefilter token="[This value will be overwritten by Flash Builder in the output app.xml]" value="${APP_ROOT_FILE}"/>
+		</replace>
+	</target>
+    
+    <!-- Copy Resources -->
+	<target name="copy-resources">
+    	<!-- copy icons -->
+    	<mkdir dir="${OUTPUT}/assets"/>
+    	<copy todir="${OUTPUT}/assets">
+    		<fileset dir="${APP_SOURCE_DIR}/assets">
+    			<include name="*"/>
+    		</fileset>
+		</copy>
+        <copy file="./DebugHostInfo.xml" tofile="${OUTPUT}/DebugHostInfo.xml" overwrite="true" />
+    </target>
+    
+    <!-- Build Android -->
+	<target name="android">
+	 	<exec executable="${sdk.home}/bin/adt${bin.ext}" failonerror="true" dir="${OUTPUT}">
+			<arg value="-package"/>
+			<arg value="-target"/>
+			<arg value="apk"/>
+			<arg value="-airDownloadURL"/>
+			<arg value="http://www.amazon.com/gp/mas/dl/android/com.adobe.air"/>
+			<arg value="-storetype"/>
+			<arg value="pkcs12"/>
+			<arg value="-keystore"/>
+			<arg value="${keystore.file}"/>
+			<arg value="-storepass"/>
+			<arg value="${keystore.password}"/>
+			<arg value="${APP_NAME}.apk"/>
+			<arg value="${APP_DESCRIPTOR}"/>
+			<arg value="${APP_NAME}.swf"/>
+	 		<arg value="assets" />
+			<arg value="-extdir"/>
+			<arg value="${NATIVE_EXTENSIONS_DIR}/" />
+	     </exec>
+	</target>
+
+    <!-- Build iOS -->
+	<target name="ios">
+        <exec executable="${sdk.home}/bin/adt${bin.ext}" failonerror="true" dir="${OUTPUT}">
+            <arg value="-package"/>
+            <arg value="-target"/>
+            <arg value="ipa-debug-interpreter-simulator" />
+            <!--<arg value="ipa-debug"/>-->
+            <arg value="-storetype"/>
+            <arg value="pkcs12"/>
+            <arg value="-keystore"/>
+            <arg value="${keystore.file}"/>
+            <arg value="-storepass"/>
+            <arg value="${keystore.password}"/>
+            <!--<arg value="-provisioning-profile"/>
+            <arg value="${pprofile.file}"/>-->
+            <arg value="${APP_NAME}.ipa"/>
+            <arg value="${APP_DESCRIPTOR}"/>
+            <arg value="DebugHostInfo.xml"/>
+            <arg value="${APP_NAME}.swf"/>
+            <arg value="assets" />
+            <arg value="-extdir"/>
+            <arg value="${NATIVE_EXTENSIONS_DIR}/" />
+            <arg value="-platformsdk" />
+            <!--<arg value="/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS6.1.sdk/" />-->
+            <arg value="/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator6.1.sdk/" />
+          </exec>
+    </target>
+    
+</project>
