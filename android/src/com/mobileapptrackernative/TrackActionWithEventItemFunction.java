@@ -68,20 +68,15 @@ public class TrackActionWithEventItemFunction implements FREFunction {
                     refId = passedArgs[4].getAsString();
                 }
                 if (passedArgs[7] != null) {
-                    receiptData = passedArgs[7].getAsString();
+                    receiptData = passedArgs[6].getAsString();
                 }
                 if (passedArgs[8] != null) {
-                    receiptSignature = passedArgs[8].getAsString();
+                    receiptSignature = passedArgs[7].getAsString();
                 }
 
                 Log.i(MATExtensionContext.TAG, "Call " + NAME + " on event: " + event);
                 MATExtensionContext mec = (MATExtensionContext)context;
-                if (refId.length() > 0) {
-                    mec.mat.setRefId(refId);
-                }
-                mec.mat.setRevenue(revenue);
-                mec.mat.setCurrencyCode(currency);
-                mec.mat.trackAction(event, eventItems, receiptData, receiptSignature);
+                mec.mat.trackAction(event, eventItems, revenue, currency, refId, receiptData, receiptSignature);
                 
                 return FREObject.newObject(true);
             } catch (Exception e) {

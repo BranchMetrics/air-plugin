@@ -60,8 +60,8 @@
         <copy file="../temp/ios/build/Release-universal/lib${name}.a" tofile="../temp/ios/lib${name}.a" overwrite="true" />
         <copy file="../temp/ios/build/Release-universal/lib${name}.a" tofile="../temp/iossim/lib${name}.a" overwrite="true" />
         
-		<copy file="../ios/MobileAppTrackingANE/MobileAppTracker-2.7.a" tofile="../temp/ios/MobileAppTracker-2.7.a"/>
-		<copy file="../ios/MobileAppTrackingANE/MobileAppTracker-2.7.a" tofile="../temp/iossim/MobileAppTracker-2.7.a"/>
+		<copy file="../ios/MobileAppTrackingANE/MobileAppTracker-3.0.3.a" tofile="../temp/ios/MobileAppTracker-3.0.3.a"/>
+		<copy file="../ios/MobileAppTrackingANE/MobileAppTracker-3.0.3.a" tofile="../temp/iossim/MobileAppTracker-3.0.3.a"/>
         
         <echo level="verbose">Deleting temp iOS build folder...</echo>
 		<delete dir="../temp/ios/build"/>
@@ -77,12 +77,12 @@
             <classpath>
                 <pathelement location="${android.platform}/android.jar"/>
                 <pathelement location="${flex.sdk}/lib/android/FlashRuntimeExtensions.jar"/>
-                <pathelement location="../android/libs/MobileAppTracker-2.7.jar"/>
+                <pathelement location="../android/libs/MobileAppTracker-3.0.3.jar"/>
             </classpath>
         </javac>
         
         <mkdir dir="../android/temp/zip"/>
-        <unzip src="../android/libs/MobileAppTracker-2.7.jar" dest="../android/temp/zip"/>
+        <unzip src="../android/libs/MobileAppTracker-3.0.3.jar" dest="../android/temp/zip"/>
         <copy todir="../android/temp/classes/com" overwrite="true">
 			<fileset dir="../android/temp/zip/com" >
                 <include name="**/*"/>

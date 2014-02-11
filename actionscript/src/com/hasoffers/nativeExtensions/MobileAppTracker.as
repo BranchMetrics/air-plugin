@@ -79,20 +79,20 @@ package com.hasoffers.nativeExtensions
 				throw new Error("Error when instantiating MobileAppTracker native extension." );
 			}
 		}
-
-		public function trackInstall(refId:String=null):void
+		
+		public function trackSession(refId:String=null):void
 		{
-			trace("MATAS.trackInstall()");
-			extContext.call(NativeMethods.trackInstall, refId);
+			trace("MATAS.trackSession(" + refId + ")");
+			extContext.call(NativeMethods.trackSession, refId);
 		}
 
-		public function trackAction(event:String, revenue:Number=0, currency:String="USD", refId:String=null, isEventId:Boolean=false):void
+		public function trackAction(event:String, revenue:Number=0, currency:String="USD", refId:String=null):void
 		{
-			trace("MATAS.trackAction(" + event + ", " + revenue.toString() + ", " + currency + ", " + refId + ", " + isEventId + ")");
-			extContext.call(NativeMethods.trackAction, event, revenue, currency, refId, isEventId);
+			trace("MATAS.trackAction(" + event + ", " + revenue.toString() + ", " + currency + ", " + refId + ")");
+			extContext.call(NativeMethods.trackAction, event, revenue, currency, refId);
 		}
 
-		public function trackActionWithEventItem(event:String, eventItems:Array, revenue:Number=0, currency:String="USD", refId:String=null, isEventId:Boolean=false, transactionState:int=0, receipt:String=null, receiptSignature:String=null):void
+		public function trackActionWithEventItem(event:String, eventItems:Array, revenue:Number=0, currency:String="USD", refId:String=null, transactionState:int=-1, receipt:String=null, receiptSignature:String=null):void
 		{
 			trace("MATAS.trackActionWithEventItem(" + event + ")");
 			
@@ -114,19 +114,19 @@ package com.hasoffers.nativeExtensions
 			
 			trace("MATAS.trackActionWithEventItem: arrItems = " + arrItems);
 
-			extContext.call(NativeMethods.trackActionWithEventItem, event, arrItems, revenue, currency, refId, isEventId, transactionState, receipt, receiptSignature);
-		}
-
-		public function trackUpdate(refId:String=null):void
-		{
-			trace("MATAS.trackUpdate(refId:String=null)");
-			extContext.call(NativeMethods.trackUpdate, refId);
+			extContext.call(NativeMethods.trackActionWithEventItem, event, arrItems, revenue, currency, refId, transactionState, receipt, receiptSignature);
 		}
 
 		public function startAppToAppTracking(targetAppId:String, advertiserId:String, offerId:String, publisherId:String, shouldRedirect:Boolean):void
 		{
 			trace("MATAS.startAppToAppTracking()");
 			extContext.call(NativeMethods.startAppToAppTracking, targetAppId, advertiserId, offerId, publisherId, shouldRedirect);
+		}
+		
+		public function setAge(age:int):void
+		{
+			trace("MATAS.setAge(" + age + ")");
+			extContext.call(NativeMethods.setAge, age);
 		}
 
 		public function setAllowDuplicates(allowDuplicates:Boolean):void
@@ -135,10 +135,22 @@ package com.hasoffers.nativeExtensions
 			extContext.call(NativeMethods.setAllowDuplicates, allowDuplicates);
 		}
 
-		public function setAppleAdvertisingIdentifier(appleAdvertisingIdentifier:String):void
+		public function setAppAdTracking(enable:Boolean):void
 		{
-			trace("MATAS.setAppleAdvertisingIdentifier(" + appleAdvertisingIdentifier + ")");
-			extContext.call(NativeMethods.setAppleAdvertisingIdentifier, appleAdvertisingIdentifier);
+			trace("MATAS.setAppAdTracking(" + enable + ")");
+			extContext.call(NativeMethods.setAppAdTracking, enable);
+		}
+		
+		public function setAppleAdvertisingIdentifier(appleAdvertisingIdentifier:String, advertisingTrackingEnabled:Boolean):void
+		{
+			trace("MATAS.setAppleAdvertisingIdentifier(" + appleAdvertisingIdentifier + ", " + advertisingTrackingEnabled + ")");
+			extContext.call(NativeMethods.setAppleAdvertisingIdentifier, appleAdvertisingIdentifier, advertisingTrackingEnabled);
+		}
+		
+		public function setAppleVendorIdentifier(appleVendorId:String):void
+		{
+			trace("MATAS.setAppleVendorIdentifier(" + appleVendorId + ")");
+			extContext.call(NativeMethods.setAppleVendorIdentifier, appleVendorId);
 		}
 
 		public function setCurrencyCode(currencyCode:String):void
@@ -153,16 +165,75 @@ package com.hasoffers.nativeExtensions
 			extContext.call(NativeMethods.setDebugMode, enable);
 		}
 		
-		public function setAppAdTracking(enable:Boolean):void
+		public function setDelegate(enable:Boolean):void
 		{
-			trace("MATAS.setAppAdTracking(" + enable + ")");
-			extContext.call(NativeMethods.setAppAdTracking, enable);
+			trace("MATAS.setDelegate(" + enable + ")");
+			extContext.call(NativeMethods.setDelegate, enable);
+		}
+		
+		public function setEventAttribute1(attribute1:String):void
+		{
+			extContext.call(NativeMethods.setEventAttribute, 1, attribute1);
+		}
+		
+		public function setEventAttribute2(attribute2:String):void
+		{
+			extContext.call(NativeMethods.setEventAttribute, 2, attribute2);
+		}
+		
+		public function setEventAttribute3(attribute3:String):void
+		{
+			extContext.call(NativeMethods.setEventAttribute, 3, attribute3);
+		}
+		
+		public function setEventAttribute4(attribute4:String):void
+		{
+			extContext.call(NativeMethods.setEventAttribute, 4, attribute4);
+		}
+		
+		public function setEventAttribute5(attribute5:String):void
+		{
+			extContext.call(NativeMethods.setEventAttribute, 5, attribute5);
+		}
+		
+		public function setExistingUser(existingUser:Boolean):void
+		{
+			extContext.call(NativeMethods.setExistingUser, existingUser);
+		}
+		
+		public function setFacebookUserId(facebookUserId:String):void
+		{
+			trace("MATAS.setFacebookUserId(" + facebookUserId + ")");
+			extContext.call(NativeMethods.setFacebookUserId, facebookUserId);
+		}
+		
+		public function setGender(gender:int):void
+		{
+			trace("MATAS.setGender(" + gender + ")");
+			extContext.call(NativeMethods.setGender, gender);
+		}
+		
+		public function setGoogleAdvertisingId(googleAid:String):void
+		{
+			extContext.call(NativeMethods.setGoogleAdvertisingId, googleAid);
 		}
 
+		public function setGoogleUserId(googleUserId:String):void
+		{
+			trace("MATAS.setGoogleUserId(" + googleUserId + ")");
+			extContext.call(NativeMethods.setGoogleUserId, googleUserId);
+		}
+		
 		public function setJailbroken(isJailbroken:Boolean):void
 		{
 			trace("MATAS.setJailbroken(" + isJailbroken + ")");
 			extContext.call(NativeMethods.setJailbroken, isJailbroken);
+		}
+		
+		public function setLocation(latitude:Number,longitude:Number,altitude:Number):void
+		{
+			trace("MATAS.setLocation(" + latitude + ", " + longitude + ", " + altitude + ")");
+			extContext.call(NativeMethods.setLocation, latitude, longitude, altitude);
 		}
 
 		public function setPackageName(packageName:String):void
@@ -176,11 +247,17 @@ package com.hasoffers.nativeExtensions
 			trace("MATAS.setRedirectUrl(" + redirectUrl + ")");
 			extContext.call(NativeMethods.setRedirectUrl, redirectUrl);
 		}
-
-		public function setUseCookieTracking(useCookieTracking:Boolean):void
+		
+		public function setShouldAutoDetectJailbroken(shouldAutoDetect:Boolean):void
 		{
-			trace("MATAS.setUseCookieTracking(" + useCookieTracking + ")");
-			extContext.call(NativeMethods.setUseCookieTracking, useCookieTracking);
+			trace("MATAS.setShouldAutoDetectJailbroken(" + shouldAutoDetect + ")");
+			extContext.call(NativeMethods.setShouldAutoDetectJailbroken, shouldAutoDetect);
+		}
+		
+		public function setShouldAutoGenerateAppleVendorIdentifier(shouldAutoGenerate:Boolean):void
+		{
+			trace("MATAS.setShouldAutoGenerateAppleVendorIdentifier(" + shouldAutoGenerate + ")");
+			extContext.call(NativeMethods.setShouldAutoGenerateAppleVendorIdentifier, shouldAutoGenerate);
 		}
 
 		public function setSiteId(siteId:String):void
@@ -194,17 +271,23 @@ package com.hasoffers.nativeExtensions
 			trace("MATAS.setTRUSTeId(" + tpid + ")");
 			extContext.call(NativeMethods.setTRUSTeId, tpid);
 		}
-
-		public function setAppleVendorIdentifier(appleVendorId:String):void
+		
+		public function setTwitterUserId(twitterUserId:String):void
 		{
-			trace("MATAS.setAppleVendorIdentifier(" + appleVendorId + ")");
-			extContext.call(NativeMethods.setAppleVendorIdentifier, appleVendorId);
+			trace("MATAS.setTwitterUserId(" + twitterUserId + ")");
+			extContext.call(NativeMethods.setTwitterUserId, twitterUserId);
 		}
-
-		public function setUIID(uiid:String):void
+		
+		public function setUseCookieTracking(useCookieTracking:Boolean):void
 		{
-			trace("MATAS.setUIID(" + uiid + ")");
-			extContext.call(NativeMethods.setUIID, uiid);
+			trace("MATAS.setUseCookieTracking(" + useCookieTracking + ")");
+			extContext.call(NativeMethods.setUseCookieTracking, useCookieTracking);
+		}
+		
+		public function setUserEmail(userEmail:String):void
+		{
+			trace("MATAS.setUserEmail(" + userEmail + ")");
+			extContext.call(NativeMethods.setUserEmail, userEmail);
 		}
 
 		public function setUserId(userId:String):void
@@ -212,89 +295,11 @@ package com.hasoffers.nativeExtensions
 			trace("MATAS.setUserId(" + userId + ")");
 			extContext.call(NativeMethods.setUserId, userId);
 		}
-
-		public function setFacebookUserId(facebookUserId:String):void
-		{
-			trace("MATAS.setFacebookUserId(" + facebookUserId + ")");
-			extContext.call(NativeMethods.setFacebookUserId, facebookUserId);
-		}
-
-		public function setTwitterUserId(twitterUserId:String):void
-		{
-			trace("MATAS.setTwitterUserId(" + twitterUserId + ")");
-			extContext.call(NativeMethods.setTwitterUserId, twitterUserId);
-		}
-
-		public function setGoogleUserId(googleUserId:String):void
-		{
-			trace("MATAS.setGoogleUserId(" + googleUserId + ")");
-			extContext.call(NativeMethods.setGoogleUserId, googleUserId);
-		}
-
-		public function setODIN1(odin1:String):void
-		{
-			trace("MATAS.setODIN1(" + odin1 + ")");
-			extContext.call(NativeMethods.setODIN1, odin1);
-		}
 		
-		public function setOpenUDID(openUDID:String):void
+		public function setUserName(userName:String):void
 		{
-			trace("MATAS.setOpenUDID(" + openUDID + ")");
-			extContext.call(NativeMethods.setOpenUDID, openUDID);
-		}
-		
-		public function setMACAddress(mac:String):void
-		{
-			trace("MATAS.setMACAddress(" + mac + ")");
-			extContext.call(NativeMethods.setMACAddress, mac);
-		}
-
-		public function setShouldAutoDetectJailbroken(shouldAutoDetect:Boolean):void
-		{
-			trace("MATAS.setShouldAutoDetectJailbroken(" + shouldAutoDetect + ")");
-			extContext.call(NativeMethods.setShouldAutoDetectJailbroken, shouldAutoDetect);
-		}
-
-		public function setShouldAutoGenerateAppleAdvertisingIdentifier(shouldAutoGenerate:Boolean):void
-		{
-			trace("MATAS.setShouldAutoGenerateAppleAdvertisingIdentifier(" + shouldAutoGenerate + ")");
-			extContext.call(NativeMethods.setShouldAutoGenerateAppleAdvertisingIdentifier, shouldAutoGenerate);
-		}
-		
-		public function setShouldAutoGenerateAppleVendorIdentifier(shouldAutoGenerate:Boolean):void
-		{
-			trace("MATAS.setShouldAutoGenerateAppleVendorIdentifier(" + shouldAutoGenerate + ")");
-			extContext.call(NativeMethods.setShouldAutoGenerateAppleVendorIdentifier, shouldAutoGenerate);
-		}
-
-		public function setDelegate(enable:Boolean):void
-		{
-			trace("MATAS.setDelegate(" + enable + ")");
-			extContext.call(NativeMethods.setDelegate, enable);
-		}
-
-		public function getSDKDataParameters():String
-		{
-			trace("MATAS.getSDKDataParameters()");
-			return extContext.call(NativeMethods.getSDKDataParameters) as String;
-		}
-		
-		public function setAge(age:int):void
-		{
-			trace("MATAS.setAge(" + age + ")");
-			extContext.call(NativeMethods.setAge, age);
-		}
-		
-		public function setGender(gender:int):void
-		{
-			trace("MATAS.setGender(" + gender + ")");
-			extContext.call(NativeMethods.setGender, gender);
-		}
-		
-		public function setLocation(latitude:Number,longitude:Number,altitude:Number):void
-		{
-			trace("MATAS.setLocation(" + latitude + ", " + longitude + ", " + altitude + ")");
-			extContext.call(NativeMethods.setLocation, latitude, longitude, altitude);
+			trace("MATAS.setUserName(" + userName + ")");
+			extContext.call(NativeMethods.setUserName, userName);
 		}
 		
 		public function getReferrer():String

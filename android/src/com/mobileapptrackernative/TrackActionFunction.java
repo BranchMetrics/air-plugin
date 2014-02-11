@@ -11,7 +11,7 @@ public class TrackActionFunction implements FREFunction {
 
     @Override
     public FREObject call(FREContext context, FREObject[] passedArgs) {
-        if (passedArgs.length == 5) {
+        if (passedArgs.length >= 4) {
             try {
                 String event = "";
                 double revenue = 0;

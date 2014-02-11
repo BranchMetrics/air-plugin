@@ -14,7 +14,7 @@ public class GetReferrerFunction implements FREFunction {
         try {
             Log.i(MATExtensionContext.TAG, "Call " + NAME);
             MATExtensionContext mec = (MATExtensionContext)context;
-            return FREObject.newObject(mec.mat.getReferrer());
+            return FREObject.newObject(mec.mat.getInstallReferrer());
         } catch (Exception e) {
             Log.d(MATExtensionContext.TAG, "ERROR: " + e);
             e.printStackTrace();

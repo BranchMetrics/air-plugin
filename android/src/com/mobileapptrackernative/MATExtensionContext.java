@@ -20,23 +20,28 @@ public class MATExtensionContext extends FREContext {
         Map<String, FREFunction> functionMap = new HashMap<String, FREFunction>();
 
         functionMap.put(InitFunction.NAME, new InitFunction());
-        functionMap.put(TrackInstallFunction.NAME, new TrackInstallFunction());
+        functionMap.put(TrackSessionFunction.NAME, new TrackSessionFunction());
         functionMap.put(TrackActionFunction.NAME, new TrackActionFunction());
         functionMap.put(TrackActionWithEventItemFunction.NAME, new TrackActionWithEventItemFunction());
-        functionMap.put(TrackUpdateFunction.NAME,  new TrackUpdateFunction());
 
         functionMap.put(GetReferrerFunction.NAME, new GetReferrerFunction());
 
         functionMap.put(SetAllowDuplicatesFunction.NAME, new SetAllowDuplicatesFunction());
+        functionMap.put(SetAppAdTrackingFunction.NAME, new SetAppAdTrackingFunction());
         functionMap.put(SetCurrencyCodeFunction.NAME, new SetCurrencyCodeFunction());
         functionMap.put(SetDebugModeFunction.NAME, new SetDebugModeFunction());
+        functionMap.put(SetExistingUserFunction.NAME, new SetExistingUserFunction());
+        functionMap.put(SetEventAttributeFunction.NAME, new SetEventAttributeFunction());
         functionMap.put(SetFacebookUserIdFunction.NAME, new SetFacebookUserIdFunction());
+        functionMap.put(SetGoogleAdvertisingIdFunction.NAME, new SetGoogleAdvertisingIdFunction());
         functionMap.put(SetGoogleUserIdFunction.NAME, new SetGoogleUserIdFunction());
         functionMap.put(SetPackageNameFunction.NAME, new SetPackageNameFunction());
         functionMap.put(SetSiteIdFunction.NAME, new SetSiteIdFunction());
         functionMap.put(SetTRUSTeIdFunction.NAME,  new SetTRUSTeIdFunction());
         functionMap.put(SetTwitterUserIdFunction.NAME, new SetTwitterUserIdFunction());
+        functionMap.put(SetUserEmailFunction.NAME, new SetUserEmailFunction());
         functionMap.put(SetUserIdFunction.NAME,  new SetUserIdFunction());
+        functionMap.put(SetUserNameFunction.NAME, new SetUserNameFunction());
 
         functionMap.put(SetAgeFunction.NAME,  new SetAgeFunction());
         functionMap.put(SetGenderFunction.NAME,  new SetGenderFunction());
@@ -47,19 +52,13 @@ public class MATExtensionContext extends FREContext {
         // iOS functions that are no-op on Android
         functionMap.put(iOSNoOpFunction.DELEGATE, new iOSNoOpFunction());
         functionMap.put(iOSNoOpFunction.JAILBROKEN, new iOSNoOpFunction());
-        functionMap.put(iOSNoOpFunction.MAC, new iOSNoOpFunction());
-        functionMap.put(iOSNoOpFunction.ODIN1, new iOSNoOpFunction());
-        functionMap.put(iOSNoOpFunction.OPEN_UDID, new iOSNoOpFunction());
         functionMap.put(iOSNoOpFunction.REDIRECT_URL, new iOSNoOpFunction());
-        functionMap.put(iOSNoOpFunction.UIID, new iOSNoOpFunction());
         
         functionMap.put(iOSNoOpFunction.GEN_JAILBROKEN, new iOSNoOpFunction());
-        functionMap.put(iOSNoOpFunction.GEN_ADVERTISER, new iOSNoOpFunction());
         functionMap.put(iOSNoOpFunction.GEN_VENDOR, new iOSNoOpFunction());
         
         functionMap.put(iOSNoOpFunction.GET_PARAMS, new iOSNoOpFunction());
-        
-        functionMap.put(iOSNoOpFunction.SET_APP_AD_TRACKING, new iOSNoOpFunction());
+
         functionMap.put(iOSNoOpFunction.SET_ADVERTISER, new iOSNoOpFunction());
         functionMap.put(iOSNoOpFunction.SET_VENDOR, new iOSNoOpFunction());
         
