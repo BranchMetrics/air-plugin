@@ -1,0 +1,273 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		F802601018CFB0F700BE82F4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F802600F18CFB0F700BE82F4 /* Foundation.framework */; };
+		F802601518CFB0F700BE82F4 /* IFAANE.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F802601418CFB0F700BE82F4 /* IFAANE.h */; };
+		F802601718CFB0F700BE82F4 /* IFAANE.m in Sources */ = {isa = PBXBuildFile; fileRef = F802601618CFB0F700BE82F4 /* IFAANE.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		F802600A18CFB0F700BE82F4 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+				F802601518CFB0F700BE82F4 /* IFAANE.h in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		F802600C18CFB0F700BE82F4 /* libIFAANE.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libIFAANE.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		F802600F18CFB0F700BE82F4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		F802601318CFB0F700BE82F4 /* IFAANE-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "IFAANE-Prefix.pch"; sourceTree = "<group>"; };
+		F802601418CFB0F700BE82F4 /* IFAANE.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IFAANE.h; sourceTree = "<group>"; };
+		F802601618CFB0F700BE82F4 /* IFAANE.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IFAANE.m; sourceTree = "<group>"; };
+		F802601D18CFB0F700BE82F4 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		F802602018CFB0F700BE82F4 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		F802603518CFB10800BE82F4 /* FlashRuntimeExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlashRuntimeExtensions.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F802600918CFB0F700BE82F4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F802601018CFB0F700BE82F4 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		F802600318CFB0F700BE82F4 = {
+			isa = PBXGroup;
+			children = (
+				F802601118CFB0F700BE82F4 /* IFAANE */,
+				F802600E18CFB0F700BE82F4 /* Frameworks */,
+				F802600D18CFB0F700BE82F4 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		F802600D18CFB0F700BE82F4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F802600C18CFB0F700BE82F4 /* libIFAANE.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F802600E18CFB0F700BE82F4 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F802600F18CFB0F700BE82F4 /* Foundation.framework */,
+				F802601D18CFB0F700BE82F4 /* XCTest.framework */,
+				F802602018CFB0F700BE82F4 /* UIKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F802601118CFB0F700BE82F4 /* IFAANE */ = {
+			isa = PBXGroup;
+			children = (
+				F802603518CFB10800BE82F4 /* FlashRuntimeExtensions.h */,
+				F802601418CFB0F700BE82F4 /* IFAANE.h */,
+				F802601618CFB0F700BE82F4 /* IFAANE.m */,
+				F802601218CFB0F700BE82F4 /* Supporting Files */,
+			);
+			path = IFAANE;
+			sourceTree = "<group>";
+		};
+		F802601218CFB0F700BE82F4 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				F802601318CFB0F700BE82F4 /* IFAANE-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F802600B18CFB0F700BE82F4 /* IFAANE */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F802602F18CFB0F700BE82F4 /* Build configuration list for PBXNativeTarget "IFAANE" */;
+			buildPhases = (
+				F802600818CFB0F700BE82F4 /* Sources */,
+				F802600918CFB0F700BE82F4 /* Frameworks */,
+				F802600A18CFB0F700BE82F4 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = IFAANE;
+			productName = IFAANE;
+			productReference = F802600C18CFB0F700BE82F4 /* libIFAANE.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F802600418CFB0F700BE82F4 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0510;
+				ORGANIZATIONNAME = "HasOffers Inc";
+			};
+			buildConfigurationList = F802600718CFB0F700BE82F4 /* Build configuration list for PBXProject "IFAANE" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = F802600318CFB0F700BE82F4;
+			productRefGroup = F802600D18CFB0F700BE82F4 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F802600B18CFB0F700BE82F4 /* IFAANE */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F802600818CFB0F700BE82F4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F802601718CFB0F700BE82F4 /* IFAANE.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		F802602D18CFB0F700BE82F4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				VALID_ARCHS = "arm64 armv7 armv7s i386 x86_64";
+			};
+			name = Debug;
+		};
+		F802602E18CFB0F700BE82F4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+				VALID_ARCHS = "arm64 armv7 armv7s i386 x86_64";
+			};
+			name = Release;
+		};
+		F802603018CFB0F700BE82F4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/IFAANE.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "IFAANE/IFAANE-Prefix.pch";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		F802603118CFB0F700BE82F4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/IFAANE.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "IFAANE/IFAANE-Prefix.pch";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F802600718CFB0F700BE82F4 /* Build configuration list for PBXProject "IFAANE" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F802602D18CFB0F700BE82F4 /* Debug */,
+				F802602E18CFB0F700BE82F4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F802602F18CFB0F700BE82F4 /* Build configuration list for PBXNativeTarget "IFAANE" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F802603018CFB0F700BE82F4 /* Debug */,
+				F802603118CFB0F700BE82F4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F802600418CFB0F700BE82F4 /* Project object */;
+}

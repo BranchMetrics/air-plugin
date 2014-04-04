@@ -19,7 +19,7 @@ public class SetAppAdTrackingFunction implements FREFunction {
 
             Log.i(MATExtensionContext.TAG, "Call " + NAME);
             MATExtensionContext mec = (MATExtensionContext)context;
-            mec.mat.setLimitAdTrackingEnabled(!adTrackingEnabled);
+            mec.mat.setAppAdTrackingEnabled(adTrackingEnabled);
 
             return FREObject.newObject(true);
         } catch (Exception e) {

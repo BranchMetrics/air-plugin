@@ -60,11 +60,11 @@
         <copy file="../temp/ios/build/Release-universal/lib${name}.a" tofile="../temp/ios/lib${name}.a" overwrite="true" />
         <copy file="../temp/ios/build/Release-universal/lib${name}.a" tofile="../temp/iossim/lib${name}.a" overwrite="true" />
         
-		<copy file="../ios/MobileAppTrackingANE/MobileAppTracker-3.0.3.a" tofile="../temp/ios/MobileAppTracker-3.0.3.a"/>
-		<copy file="../ios/MobileAppTrackingANE/MobileAppTracker-3.0.3.a" tofile="../temp/iossim/MobileAppTracker-3.0.3.a"/>
+        <copy file="../ios/MobileAppTrackingANE/MobileAppTracker-3.1.3.a" tofile="../temp/ios/MobileAppTracker-3.1.3.a"/>
+        <copy file="../ios/MobileAppTrackingANE/MobileAppTracker-3.1.3.a" tofile="../temp/iossim/MobileAppTracker-3.1.3.a"/>
         
         <echo level="verbose">Deleting temp iOS build folder...</echo>
-		<delete dir="../temp/ios/build"/>
+        <delete dir="../temp/ios/build"/>
     </target>
     
     <!-- Android -->
@@ -77,17 +77,17 @@
             <classpath>
                 <pathelement location="${android.platform}/android.jar"/>
                 <pathelement location="${flex.sdk}/lib/android/FlashRuntimeExtensions.jar"/>
-                <pathelement location="../android/libs/MobileAppTracker-3.0.3.jar"/>
+                <pathelement location="../android/libs/MobileAppTracker-3.1.jar"/>
             </classpath>
         </javac>
         
         <mkdir dir="../android/temp/zip"/>
-        <unzip src="../android/libs/MobileAppTracker-3.0.3.jar" dest="../android/temp/zip"/>
+        <unzip src="../android/libs/MobileAppTracker-3.1.jar" dest="../android/temp/zip"/>
         <copy todir="../android/temp/classes/com" overwrite="true">
-			<fileset dir="../android/temp/zip/com" >
+            <fileset dir="../android/temp/zip/com" >
                 <include name="**/*"/>
-			</fileset>
-		</copy>
+            </fileset>
+        </copy>
         
         <mkdir dir="../temp/android/"/>
         <jar basedir="../android/temp/classes" destfile="../temp/android/lib${name}.jar"/>
@@ -110,7 +110,7 @@
         <exec executable="${flex.sdk}/bin/compc${compc.ext}" failonerror="true">
             <arg line='-source-path ../actionscript/src'/>
             <arg line='-output ../temp/swc/MATAS.swc'/>
-            <arg line='-swf-version=18'/>
+            <arg line='-swf-version=23'/>
             <arg line='-external-library-path+="${flex.sdk}/frameworks/libs/air/airglobal.swc"'/>
             <arg line='-include-classes ${classlist}'/>
         </exec>
@@ -131,15 +131,15 @@
     <!-- Package -->
     <target name="package" description="Create the extension package">
         <echo level="verbose">Creating MAT AIR Native Extension package (.ane)...</echo>
-		<exec executable="${flex.sdk}/bin/adt${adt.ext}" failonerror="true" dir="../temp">
-			<arg value="-package"/>
-			<arg value="-target"/>
-			<arg value="ane"/>
-			<arg value="../dist/${name}.ane"/>
-			<arg value="../build/extension.xml"/>
-			<arg line="-swc swc/MATAS.swc"/>
+        <exec executable="${flex.sdk}/bin/adt${adt.ext}" failonerror="true" dir="../temp">
+            <arg value="-package"/>
+            <arg value="-target"/>
+            <arg value="ane"/>
+            <arg value="../dist/${name}.ane"/>
+            <arg value="../build/extension.xml"/>
+            <arg line="-swc swc/MATAS.swc"/>
+            <arg line="-platform Android-ARM -C android/ ."/>
             <arg line="-platform iPhone-ARM -C ios/ . -platformoptions ../build/platformios.xml"/>
-			<arg line="-platform Android-ARM -C android/ ."/>
             <arg line="-platform iPhone-x86 -C iossim/ . -platformoptions ../build/platformios.xml"/>
             <arg line="-platform default -C default/ . "/>
         </exec>

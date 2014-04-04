@@ -1,0 +1,271 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		F84CB1FE18EDEE6200605B01 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F84CB1FD18EDEE6200605B01 /* Foundation.framework */; };
+		F84CB20318EDEE6200605B01 /* GAIDANE.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F84CB20218EDEE6200605B01 /* GAIDANE.h */; };
+		F84CB20518EDEE6200605B01 /* GAIDANE.m in Sources */ = {isa = PBXBuildFile; fileRef = F84CB20418EDEE6200605B01 /* GAIDANE.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		F84CB1F818EDEE6200605B01 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+				F84CB20318EDEE6200605B01 /* GAIDANE.h in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		F84CB1FA18EDEE6200605B01 /* libGAIDANE.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libGAIDANE.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		F84CB1FD18EDEE6200605B01 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		F84CB20118EDEE6200605B01 /* GAIDANE-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GAIDANE-Prefix.pch"; sourceTree = "<group>"; };
+		F84CB20218EDEE6200605B01 /* GAIDANE.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GAIDANE.h; sourceTree = "<group>"; };
+		F84CB20418EDEE6200605B01 /* GAIDANE.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GAIDANE.m; sourceTree = "<group>"; };
+		F84CB20B18EDEE6200605B01 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		F84CB20E18EDEE6200605B01 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		F84CB22318EDEEF300605B01 /* FlashRuntimeExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlashRuntimeExtensions.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F84CB1F718EDEE6200605B01 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F84CB1FE18EDEE6200605B01 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		F84CB1F118EDEE6200605B01 = {
+			isa = PBXGroup;
+			children = (
+				F84CB1FF18EDEE6200605B01 /* GAIDANE */,
+				F84CB1FC18EDEE6200605B01 /* Frameworks */,
+				F84CB1FB18EDEE6200605B01 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		F84CB1FB18EDEE6200605B01 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F84CB1FA18EDEE6200605B01 /* libGAIDANE.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F84CB1FC18EDEE6200605B01 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F84CB1FD18EDEE6200605B01 /* Foundation.framework */,
+				F84CB20B18EDEE6200605B01 /* XCTest.framework */,
+				F84CB20E18EDEE6200605B01 /* UIKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F84CB1FF18EDEE6200605B01 /* GAIDANE */ = {
+			isa = PBXGroup;
+			children = (
+				F84CB22318EDEEF300605B01 /* FlashRuntimeExtensions.h */,
+				F84CB20218EDEE6200605B01 /* GAIDANE.h */,
+				F84CB20418EDEE6200605B01 /* GAIDANE.m */,
+				F84CB20018EDEE6200605B01 /* Supporting Files */,
+			);
+			path = GAIDANE;
+			sourceTree = "<group>";
+		};
+		F84CB20018EDEE6200605B01 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				F84CB20118EDEE6200605B01 /* GAIDANE-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F84CB1F918EDEE6200605B01 /* GAIDANE */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F84CB21D18EDEE6200605B01 /* Build configuration list for PBXNativeTarget "GAIDANE" */;
+			buildPhases = (
+				F84CB1F618EDEE6200605B01 /* Sources */,
+				F84CB1F718EDEE6200605B01 /* Frameworks */,
+				F84CB1F818EDEE6200605B01 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = GAIDANE;
+			productName = GAIDANE;
+			productReference = F84CB1FA18EDEE6200605B01 /* libGAIDANE.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F84CB1F218EDEE6200605B01 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0510;
+				ORGANIZATIONNAME = "HasOffers Inc";
+			};
+			buildConfigurationList = F84CB1F518EDEE6200605B01 /* Build configuration list for PBXProject "GAIDANE" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = F84CB1F118EDEE6200605B01;
+			productRefGroup = F84CB1FB18EDEE6200605B01 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F84CB1F918EDEE6200605B01 /* GAIDANE */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F84CB1F618EDEE6200605B01 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F84CB20518EDEE6200605B01 /* GAIDANE.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		F84CB21B18EDEE6200605B01 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		F84CB21C18EDEE6200605B01 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		F84CB21E18EDEE6200605B01 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/GAIDANE.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "GAIDANE/GAIDANE-Prefix.pch";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		F84CB21F18EDEE6200605B01 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/GAIDANE.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "GAIDANE/GAIDANE-Prefix.pch";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F84CB1F518EDEE6200605B01 /* Build configuration list for PBXProject "GAIDANE" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F84CB21B18EDEE6200605B01 /* Debug */,
+				F84CB21C18EDEE6200605B01 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F84CB21D18EDEE6200605B01 /* Build configuration list for PBXNativeTarget "GAIDANE" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F84CB21E18EDEE6200605B01 /* Debug */,
+				F84CB21F18EDEE6200605B01 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F84CB1F218EDEE6200605B01 /* Project object */;
+}

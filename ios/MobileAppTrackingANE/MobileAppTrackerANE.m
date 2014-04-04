@@ -56,9 +56,20 @@ static FREContext matFREContext;
     
     errorURLString = nil == error ? @"" : errorURLString;
     
-    NSString *strError = [NSString stringWithFormat:@"{\"code\":\"%d\",\"localizedDescription\":\"%@\",\"failedURL\":\"%@\"}", errorCode, errorDescr, errorURLString];
+    NSString *strError = [NSString stringWithFormat:@"{\"code\":\"%ld\",\"localizedDescription\":\"%@\",\"failedURL\":\"%@\"}", (long)errorCode, errorDescr, errorURLString];
     
     const char *level = [strError UTF8String];
+    
+    FREDispatchStatusEventAsync(matFREContext, (const uint8_t *)code, (const uint8_t *)level);
+}
+
+- (void)mobileAppTrackerEnqueuedActionWithReferenceId:(NSString *)referenceId
+{
+    DLog(@"MATSDKDelegate: mobileAppTrackerEnqueuedActionWithReferenceId:");
+    //DLog(@"MATSDKDelegate: referenceId = %@", referenceId);
+    
+    const char *code = "enqueued";
+    const char *level = [referenceId UTF8String];
     
     FREDispatchStatusEventAsync(matFREContext, (const uint8_t *)code, (const uint8_t *)level);
 }
@@ -77,8 +88,8 @@ DEFINE_ANE_FUNCTION(initNativeCode)
     NSString *conversionKey = nil;
     MAT_FREGetObjectAsString(argv[1], &conversionKey);
     
-    [MobileAppTracker startTrackerWithMATAdvertiserId:advId
-                                     MATConversionKey:conversionKey];
+    [MobileAppTracker initializeWithMATAdvertiserId:advId
+                                   MATConversionKey:conversionKey];
     [MobileAppTracker setPluginName:@"air"];
     
     DLog(@"initNativeCode end");
@@ -86,26 +97,20 @@ DEFINE_ANE_FUNCTION(initNativeCode)
     return NULL;
 }
 
-DEFINE_ANE_FUNCTION(TrackSessionFunction)
+DEFINE_ANE_FUNCTION(MeasureSessionFunction)
 {
-    DLog(@"TrackSessionFunction start");
+    DLog(@"MeasureSessionFunction start");
     
-    NSString *refId = nil;
-    FREResult result =
-    MAT_FREGetObjectAsString(argv[0], &refId);
+    [MobileAppTracker measureSession];
     
-    DLog(@"result = %d, refId = %@", result, refId);
-    
-    [MobileAppTracker trackSessionWithReferenceId:refId];
-    
-    DLog(@"TrackSessionFunction end");
+    DLog(@"MeasureSessionFunction end");
     
     return NULL;
 }
 
-DEFINE_ANE_FUNCTION(TrackActionWithEventItemFunction)
+DEFINE_ANE_FUNCTION(MeasureActionWithEventItemsFunction)
 {
-    DLog(@"TrackActionWithEventItemFunction start");
+    DLog(@"MeasureActionWithEventItemsFunction start");
     
     NSString *event = nil;
     FREResult result;
@@ -189,22 +194,22 @@ DEFINE_ANE_FUNCTION(TrackActionWithEventItemFunction)
         }
     }
     
-    [MobileAppTracker trackActionForEventIdOrName:event
-                                       eventItems:eventItems
-                                      referenceId:refId
-                                    revenueAmount:revenue
-                                     currencyCode:currencyCode
-                                 transactionState:transactionState
-                                          receipt:receipt];
+    [MobileAppTracker measureAction:event
+                         eventItems:eventItems
+                        referenceId:refId
+                      revenueAmount:revenue
+                       currencyCode:currencyCode
+                   transactionState:transactionState
+                            receipt:receipt];
     
-    DLog(@"TrackPurchaseActionFunction end");
+    DLog(@"MeasurePurchaseActionFunction end");
     
     return NULL;
 }
 
-DEFINE_ANE_FUNCTION(TrackActionFunction)
+DEFINE_ANE_FUNCTION(MeasureActionFunction)
 {
-    DLog(@"TrackActionFunction");
+    DLog(@"MeasureActionFunction");
     
     NSString *event = nil;
     MAT_FREGetObjectAsString(argv[0], &event);
@@ -218,10 +223,10 @@ DEFINE_ANE_FUNCTION(TrackActionFunction)
     NSString *refId = nil;
     MAT_FREGetObjectAsString(argv[3], &refId);
     
-    [MobileAppTracker trackActionForEventIdOrName:event
-                                      referenceId:refId
-                                    revenueAmount:revenue
-                                     currencyCode:currencyCode];
+    [MobileAppTracker measureAction:event
+                        referenceId:refId
+                      revenueAmount:revenue
+                       currencyCode:currencyCode];
     
     return NULL;
 }
@@ -246,7 +251,7 @@ DEFINE_ANE_FUNCTION(StartAppToAppTrackingFunction)
     FREGetObjectAsBool(argv[4], &bRedirect);
     BOOL shouldRedirect = 1 == bRedirect;
     
-    [MobileAppTracker setTracking:targetAppId advertiserId:advertiserId offerId:offerId publisherId:publisherId redirect:shouldRedirect];
+    [MobileAppTracker startAppToAppTracking:targetAppId advertiserId:advertiserId offerId:offerId publisherId:publisherId redirect:shouldRedirect];
     
     return NULL;
 }
@@ -538,6 +543,19 @@ DEFINE_ANE_FUNCTION(SetExistingUserFunction)
     return NULL;
 }
 
+DEFINE_ANE_FUNCTION(SetPayingUserFunction)
+{
+    DLog(@"SetPayingUserFunction");
+    
+    uint32_t isPaying;
+    FREGetObjectAsBool(argv[0], &isPaying);
+    BOOL payingUser = 1 == isPaying;
+    
+    [MobileAppTracker setPayingUser:payingUser];
+    
+    return NULL;
+}
+
 DEFINE_ANE_FUNCTION(SetAppleAdvertisingIdentifierFunction)
 {
     DLog(@"SetAppleAdvertisingIdentifierFunction");
@@ -626,6 +644,52 @@ DEFINE_ANE_FUNCTION(SetEventAttributeFunction)
     return NULL;
 }
 
+DEFINE_ANE_FUNCTION(GetMatIdFunction)
+{
+    NSString *matId = [MobileAppTracker matId];
+    
+    // Convert Obj-C string to C UTF8String
+    const char *strMatId = [matId UTF8String];
+    
+    // Prepare for AS3
+    FREObject retMatId = nil;
+    FRENewObjectFromUTF8((unsigned int)strlen(strMatId) + 1, (const uint8_t*)strMatId, &retMatId);
+    
+    // Return data back to ActionScript
+    return retMatId;
+}
+
+DEFINE_ANE_FUNCTION(GetOpenLogIdFunction)
+{
+    NSString *openLogId = [MobileAppTracker openLogId];
+    
+    // Convert Obj-C string to C UTF8String
+    const char *strOpenLogId = [openLogId UTF8String];
+    
+    // Prepare for AS3
+    FREObject retOpenLogId = nil;
+    
+    if(strOpenLogId)
+    {
+        FRENewObjectFromUTF8((unsigned int)strlen(strOpenLogId) + 1, (const uint8_t*)strOpenLogId, &retOpenLogId);
+    }
+    
+    // Return data back to ActionScript
+    return retOpenLogId;
+}
+
+DEFINE_ANE_FUNCTION(GetIsPayingUserFunction)
+{
+    BOOL payingUser = [MobileAppTracker isPayingUser];
+    
+    // Prepare for AS3
+    FREObject retPayingUser = nil;
+    FRENewObjectFromBool(payingUser, &retPayingUser);
+    
+    // Return data back to ActionScript
+    return retPayingUser;
+}
+
 DEFINE_ANE_FUNCTION(GetReferrerFunction)
 {
     // Dummy Function for Android -- not applicable in iOS
@@ -649,9 +713,9 @@ void MATExtContextInitializer(void* extData, const uint8_t* ctxType, FREContext 
         
         MAP_FUNCTION(startAppToAppTracking,                     NULL, StartAppToAppTrackingFunction),
         
-        MAP_FUNCTION(trackSession,                              NULL, TrackSessionFunction),
-        MAP_FUNCTION(trackAction,                               NULL, TrackActionFunction),
-        MAP_FUNCTION(trackActionWithEventItem,                  NULL, TrackActionWithEventItemFunction),
+        MAP_FUNCTION(measureSession,                              NULL, MeasureSessionFunction),
+        MAP_FUNCTION(measureAction,                               NULL, MeasureActionFunction),
+        MAP_FUNCTION(measureActionWithEventItems,                 NULL, MeasureActionWithEventItemsFunction),
         
         MAP_FUNCTION(setAllowDuplicates,                        NULL, SetAllowDuplicatesFunction),
         MAP_FUNCTION(setCurrencyCode,                           NULL, SetCurrencyCodeFunction),
@@ -672,6 +736,7 @@ void MATExtContextInitializer(void* extData, const uint8_t* ctxType, FREContext 
         MAP_FUNCTION(setFacebookUserId,                         NULL, SetFacebookUserIdFunction),
         MAP_FUNCTION(setTwitterUserId,                          NULL, SetTwitterUserIdFunction),
         MAP_FUNCTION(setGoogleUserId,                           NULL, SetGoogleUserIdFunction),
+        MAP_FUNCTION(setPayingUser,                             NULL, SetPayingUserFunction),
         
         MAP_FUNCTION(setAge,                                    NULL, SetAgeFunction),
         MAP_FUNCTION(setGender,                                 NULL, SetGenderFunction),
@@ -683,6 +748,10 @@ void MATExtContextInitializer(void* extData, const uint8_t* ctxType, FREContext 
         MAP_FUNCTION(setAppleVendorIdentifier,                      NULL, SetAppleVendorIdentifierFunction),
         
         MAP_FUNCTION(setShouldAutoGenerateAppleVendorIdentifier,    NULL, SetShouldAutoGenerateAppleVendorIdentifierFunction),
+        
+        MAP_FUNCTION(getMatId,                                      NULL, GetMatIdFunction),
+        MAP_FUNCTION(getOpenLogId,                                  NULL, GetOpenLogIdFunction),
+        MAP_FUNCTION(getIsPayingUser,                               NULL, GetIsPayingUserFunction),
         
         MAP_FUNCTION(getReferrer,                                   NULL, GetReferrerFunction),
         MAP_FUNCTION(setGoogleAdvertisingId,                        NULL, SetGoogleAdvertisingIdFunction)

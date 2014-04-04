@@ -1,6 +1,5 @@
 package com.hasoffers.nativeExtensions
 {
-
 	import flash.events.EventDispatcher;
 	import flash.events.StatusEvent;
 

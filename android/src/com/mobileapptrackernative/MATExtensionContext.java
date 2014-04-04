@@ -20,10 +20,13 @@ public class MATExtensionContext extends FREContext {
         Map<String, FREFunction> functionMap = new HashMap<String, FREFunction>();
 
         functionMap.put(InitFunction.NAME, new InitFunction());
-        functionMap.put(TrackSessionFunction.NAME, new TrackSessionFunction());
-        functionMap.put(TrackActionFunction.NAME, new TrackActionFunction());
-        functionMap.put(TrackActionWithEventItemFunction.NAME, new TrackActionWithEventItemFunction());
+        functionMap.put(MeasureSessionFunction.NAME, new MeasureSessionFunction());
+        functionMap.put(MeasureActionFunction.NAME, new MeasureActionFunction());
+        functionMap.put(MeasureActionWithEventItemsFunction.NAME, new MeasureActionWithEventItemsFunction());
 
+        functionMap.put(GetIsPayingUserFunction.NAME, new GetIsPayingUserFunction());
+        functionMap.put(GetMatIdFunction.NAME, new GetMatIdFunction());
+        functionMap.put(GetOpenLogIdFunction.NAME, new GetOpenLogIdFunction());
         functionMap.put(GetReferrerFunction.NAME, new GetReferrerFunction());
 
         functionMap.put(SetAllowDuplicatesFunction.NAME, new SetAllowDuplicatesFunction());
@@ -36,6 +39,7 @@ public class MATExtensionContext extends FREContext {
         functionMap.put(SetGoogleAdvertisingIdFunction.NAME, new SetGoogleAdvertisingIdFunction());
         functionMap.put(SetGoogleUserIdFunction.NAME, new SetGoogleUserIdFunction());
         functionMap.put(SetPackageNameFunction.NAME, new SetPackageNameFunction());
+        functionMap.put(SetPayingUserFunction.NAME, new SetPayingUserFunction());
         functionMap.put(SetSiteIdFunction.NAME, new SetSiteIdFunction());
         functionMap.put(SetTRUSTeIdFunction.NAME,  new SetTRUSTeIdFunction());
         functionMap.put(SetTwitterUserIdFunction.NAME, new SetTwitterUserIdFunction());

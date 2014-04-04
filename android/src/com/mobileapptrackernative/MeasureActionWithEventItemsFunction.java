@@ -10,8 +10,8 @@ import com.adobe.fre.FREFunction;
 import com.adobe.fre.FREObject;
 import com.mobileapptracker.MATEventItem;
 
-public class TrackActionWithEventItemFunction implements FREFunction {
-    public static final String NAME = "trackActionWithEventItem";
+public class MeasureActionWithEventItemsFunction implements FREFunction {
+    public static final String NAME = "measureActionWithEventItems";
 
     @Override
     public FREObject call(FREContext context, FREObject[] passedArgs) {
@@ -76,7 +76,7 @@ public class TrackActionWithEventItemFunction implements FREFunction {
 
                 Log.i(MATExtensionContext.TAG, "Call " + NAME + " on event: " + event);
                 MATExtensionContext mec = (MATExtensionContext)context;
-                mec.mat.trackAction(event, eventItems, revenue, currency, refId, receiptData, receiptSignature);
+                mec.mat.measureAction(event, eventItems, revenue, currency, refId, receiptData, receiptSignature);
                 
                 return FREObject.newObject(true);
             } catch (Exception e) {

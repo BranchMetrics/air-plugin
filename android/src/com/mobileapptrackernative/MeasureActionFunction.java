@@ -6,8 +6,8 @@ import com.adobe.fre.FREContext;
 import com.adobe.fre.FREFunction;
 import com.adobe.fre.FREObject;
 
-public class TrackActionFunction implements FREFunction {
-    public static final String NAME = "trackAction";
+public class MeasureActionFunction implements FREFunction {
+    public static final String NAME = "measureAction";
 
     @Override
     public FREObject call(FREContext context, FREObject[] passedArgs) {
@@ -33,13 +33,13 @@ public class TrackActionFunction implements FREFunction {
                 Log.i(MATExtensionContext.TAG, "Call " + NAME + " on event: " + event + ", revenue: " + revenue + ", currency: " + currency + ", ref id: " + refId);
                 MATExtensionContext mec = (MATExtensionContext)context;
                 if (refId.length() > 0) {
-                    mec.mat.trackAction(event, revenue, currency, refId);
+                    mec.mat.measureAction(event, revenue, currency, refId);
                 } else if (currency.length() > 0) {
-                    mec.mat.trackAction(event, revenue, currency);
+                    mec.mat.measureAction(event, revenue, currency);
                 } else if (revenue != 0) {
-                    mec.mat.trackAction(event, revenue);
+                    mec.mat.measureAction(event, revenue, null);
                 } else {
-                    mec.mat.trackAction(event);
+                    mec.mat.measureAction(event);
                 }
                 return FREObject.newObject(true);
             } catch (Exception e) {

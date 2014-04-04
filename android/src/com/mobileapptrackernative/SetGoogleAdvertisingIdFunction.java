@@ -16,10 +16,15 @@ public class SetGoogleAdvertisingIdFunction implements FREFunction {
             if (passedArgs[0] != null) {
                 googleAdId = passedArgs[0].getAsString();
             }
+            
+            boolean limitAdTracking = false;
+            if (passedArgs[1] != null) {
+                limitAdTracking = passedArgs[1].getAsBool();
+            }
 
             Log.i(MATExtensionContext.TAG, "Call " + NAME);
             MATExtensionContext mec = (MATExtensionContext)context;
-            mec.mat.setGoogleAdvertisingId(googleAdId);
+            mec.mat.setGoogleAdvertisingId(googleAdId, limitAdTracking);
 
             return FREObject.newObject(true);
         } catch (Exception e) {
