@@ -25,6 +25,16 @@ package com.hasoffers.nativeExtensions
         internal static const setAppAdTracking              : String = "setAppAdTracking";
         internal static const setCurrencyCode               : String = "setCurrencyCode";
         internal static const setEventAttribute             : String = "setEventAttribute";
+        
+        internal static const setEventContentType           : String = "setEventContentType";
+        internal static const setEventContentId             : String = "setEventContentId";
+        internal static const setEventDate1                 : String = "setEventDate1";
+        internal static const setEventDate2                 : String = "setEventDate2";
+        internal static const setEventLevel                 : String = "setEventLevel";
+        internal static const setEventQuantity              : String = "setEventQuantity";
+        internal static const setEventRating                : String = "setEventRating";
+        internal static const setEventSearchString          : String = "setEventSearchString";
+        
         internal static const setExistingUser               : String = "setExistingUser";
         internal static const setFacebookUserId             : String = "setFacebookUserId";
         internal static const setGender                     : String = "setGender";

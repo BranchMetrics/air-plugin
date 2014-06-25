@@ -22,14 +22,21 @@ static FREContext ifaFREContext;
 
 DEFINE_ANE_FUNCTION(GetAppleAdvertisingIdentifier)
 {
-    NSString *ifa = [[[ASIdentifierManager sharedManager] advertisingIdentifier] UUIDString];
-    
-    // Convert Obj-C string to C UTF8String
-    const char *strIFA = [ifa UTF8String];
-    
-    // Prepare for AS3
+    // return value for AS3
     FREObject retIFA = nil;
-    FRENewObjectFromUTF8((uint32_t) strlen(strIFA) + 1, (const uint8_t*)strIFA, &retIFA);
+    
+    if ([ASIdentifierManager class])
+    {
+        NSString *ifa = [[[ASIdentifierManager sharedManager] advertisingIdentifier] UUIDString];
+        
+        // Convert Obj-C string to C UTF8String
+        const char *strIFA = [ifa UTF8String];
+        
+        if (strIFA)
+        {
+            FRENewObjectFromUTF8((uint32_t) strlen(strIFA) + 1, (const uint8_t*)strIFA, &retIFA);
+        }
+    }
     
     // Return data back to ActionScript
     return retIFA;
@@ -37,9 +44,14 @@ DEFINE_ANE_FUNCTION(GetAppleAdvertisingIdentifier)
 
 DEFINE_ANE_FUNCTION(IsAdvertisingTrackingEnabled)
 {
-    BOOL enabled = [[ASIdentifierManager sharedManager] isAdvertisingTrackingEnabled];
+    BOOL enabled = NO;
     
-    // Prepare for AS3
+    if ([ASIdentifierManager class])
+    {
+        enabled = [[ASIdentifierManager sharedManager] isAdvertisingTrackingEnabled];
+    }
+    
+    // return value for AS3
     FREObject retEnabled = nil;
     FRENewObjectFromBool(enabled, &retEnabled);
     

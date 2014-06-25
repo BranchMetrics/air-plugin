@@ -13,7 +13,7 @@
             
             import flash.utils.Dictionary;
             
-
+            
             public var mat:MobileAppTracker;
             public var gaid:GAID;
             public var ifa:IFA;
@@ -143,6 +143,16 @@
                 mat.setEventAttribute3("test_attribute3");
                 mat.setEventAttribute4("test_attribute4");
                 mat.setEventAttribute5("test_attribute5");
+                
+                mat.setEventContentId("testContentId");
+                mat.setEventContentType("testContentType");
+                mat.setEventDate1(new Date().toUTCString());
+                mat.setEventDate2(new Date().toUTCString());
+                mat.setEventLevel(3);
+                mat.setEventQuantity(2);
+                mat.setEventRating(4.5);
+                mat.setEventSearchString("testSearchString");
+                
                 mat.setExistingUser(false);
                 mat.setFacebookUserId("temp_facebook_user_id");
                 mat.setGender(0);

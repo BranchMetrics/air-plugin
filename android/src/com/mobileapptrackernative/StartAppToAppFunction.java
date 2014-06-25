@@ -37,7 +37,7 @@ public class StartAppToAppFunction implements FREFunction {
 
                 Log.i(MATExtensionContext.TAG, "Call " + NAME);
                 MATExtensionContext mec = (MATExtensionContext)context;
-                mec.mat.setTracking(publisherAdvertiserId, targetPackageName, publisherId, offerId, doRedirect);
+                mec.mat.startAppToAppTracking(publisherAdvertiserId, targetPackageName, publisherId, offerId, doRedirect);
 
                 return FREObject.newObject(true);
             } catch (Exception e) {

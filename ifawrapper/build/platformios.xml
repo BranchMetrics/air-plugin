@@ -3,6 +3,6 @@
     <sdkVersion>7.1</sdkVersion>
     <linkerOptions>
         <option>-ios_version_min 5.0</option>
-        <option>-framework AdSupport</option>
+        <option>-weak_framework AdSupport</option>
     </linkerOptions>
 </platform>

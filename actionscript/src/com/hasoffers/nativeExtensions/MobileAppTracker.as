@@ -171,31 +171,85 @@ package com.hasoffers.nativeExtensions
         
         public function setEventAttribute1(attribute1:String):void
         {
+            trace("MATAS.setEventAttribute1(" + attribute1 + ")");
             extContext.call(NativeMethods.setEventAttribute, 1, attribute1);
         }
         
         public function setEventAttribute2(attribute2:String):void
         {
+            trace("MATAS.setEventAttribute2(" + attribute2 + ")");
             extContext.call(NativeMethods.setEventAttribute, 2, attribute2);
         }
         
         public function setEventAttribute3(attribute3:String):void
         {
+            trace("MATAS.setEventAttribute3(" + attribute3 + ")");
             extContext.call(NativeMethods.setEventAttribute, 3, attribute3);
         }
         
         public function setEventAttribute4(attribute4:String):void
         {
+            trace("MATAS.setEventAttribute4(" + attribute4 + ")");
             extContext.call(NativeMethods.setEventAttribute, 4, attribute4);
         }
         
         public function setEventAttribute5(attribute5:String):void
         {
+            trace("MATAS.setEventAttribute5(" + attribute5 + ")");
             extContext.call(NativeMethods.setEventAttribute, 5, attribute5);
+        }
+        
+        public function setEventContentId(contentId:String):void
+        {
+            trace("MATAS.setEventContentId(" + contentId + ")");
+            extContext.call(NativeMethods.setEventContentId, contentId);
+        }
+        
+        public function setEventContentType(contentType:String):void
+        {
+            trace("MATAS.setEventContentType(" + contentType + ")");
+            extContext.call(NativeMethods.setEventContentType, contentType);
+        }
+        
+        public function setEventDate1(dateString:String):void
+        {
+            trace("MATAS.setEventDate1(" + dateString + ")");
+            extContext.call(NativeMethods.setEventDate1, dateString);
+        }
+        
+        public function setEventDate2(dateString:String):void
+        {
+            trace("MATAS.setEventDate2(" + dateString + ")");
+            extContext.call(NativeMethods.setEventDate2, dateString);
+        }
+        
+        public function setEventLevel(level:int):void
+        {
+            trace("MATAS.setEventLevel(" + level + ")");
+            extContext.call(NativeMethods.setEventLevel, level);
+        }
+        
+        public function setEventQuantity(quantity:int):void
+        {
+            trace("MATAS.setEventQuantity(" + quantity + ")");
+            extContext.call(NativeMethods.setEventQuantity, quantity);
+        }
+        
+        public function setEventRating(rating:Number):void
+        {
+            trace("MATAS.setEventRating(" + rating + ")");
+            extContext.call(NativeMethods.setEventRating, rating);
+        }
+        
+        public function setEventSearchString(searchString:String):void
+        {
+            trace("MATAS.setEventSearchString(" + searchString + ")");
+            extContext.call(NativeMethods.setEventSearchString, searchString);
         }
         
         public function setExistingUser(existingUser:Boolean):void
         {
+            trace("MATAS.setExistingUser(" + existingUser + ")");
             extContext.call(NativeMethods.setExistingUser, existingUser);
         }
         

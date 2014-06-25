@@ -10,6 +10,7 @@
 		F802601018CFB0F700BE82F4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F802600F18CFB0F700BE82F4 /* Foundation.framework */; };
 		F802601518CFB0F700BE82F4 /* IFAANE.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F802601418CFB0F700BE82F4 /* IFAANE.h */; };
 		F802601718CFB0F700BE82F4 /* IFAANE.m in Sources */ = {isa = PBXBuildFile; fileRef = F802601618CFB0F700BE82F4 /* IFAANE.m */; };
+		F851639E195B78D000501378 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F851639D195B78D000501378 /* AdSupport.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -34,6 +35,7 @@
 		F802601D18CFB0F700BE82F4 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		F802602018CFB0F700BE82F4 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		F802603518CFB10800BE82F4 /* FlashRuntimeExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlashRuntimeExtensions.h; sourceTree = "<group>"; };
+		F851639D195B78D000501378 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,6 +43,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F851639E195B78D000501378 /* AdSupport.framework in Frameworks */,
 				F802601018CFB0F700BE82F4 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -68,6 +71,7 @@
 		F802600E18CFB0F700BE82F4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F851639D195B78D000501378 /* AdSupport.framework */,
 				F802600F18CFB0F700BE82F4 /* Foundation.framework */,
 				F802601D18CFB0F700BE82F4 /* XCTest.framework */,
 				F802602018CFB0F700BE82F4 /* UIKit.framework */,
