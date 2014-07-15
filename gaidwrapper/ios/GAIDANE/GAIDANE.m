@@ -33,7 +33,7 @@ DEFINE_ANE_FUNCTION(GetGoogleAdvertisingId)
 
 void GAIDExtContextInitializer(void* extData, const uint8_t* ctxType, FREContext ctx, uint32_t* numFunctionsToSet, const FRENamedFunction** functionsToSet)
 {
-    DLog(@"GAIDExtContextInitializer");
+    DLog(@"GAIDANE.GAIDExtContextInitializer");
     
     static FRENamedFunction functions[] = {
         MAP_FUNCTION(getGoogleAdvertisingId,            NULL, GetGoogleAdvertisingId)
@@ -45,21 +45,21 @@ void GAIDExtContextInitializer(void* extData, const uint8_t* ctxType, FREContext
 
 void GAIDExtContextFinalizer(FREContext ctx)
 {
-    DLog(@"GAIDExtContextFinalizer");
+    DLog(@"GAIDANE.GAIDExtContextFinalizer");
     return;
 }
 
-void ExtInitializer(void** extDataToSet, FREContextInitializer* ctxInitializerToSet, FREContextFinalizer* ctxFinalizerToSet)
+void GAIDExtInitializer(void** extDataToSet, FREContextInitializer* ctxInitializerToSet, FREContextFinalizer* ctxFinalizerToSet)
 {
-    DLog(@"GAIDANE.ExtInitializer");
+    DLog(@"GAIDANE.GAIDExtInitializer");
     
     *extDataToSet = NULL;
     *ctxInitializerToSet = &GAIDExtContextInitializer;
     *ctxFinalizerToSet = &GAIDExtContextFinalizer;
 }
 
-void ExtFinalizer(void * extData)
+void GAIDExtFinalizer(void * extData)
 {
-    DLog(@"GAIDANE.ExtFinalizer");
+    DLog(@"GAIDANE.GAIDExtFinalizer");
     return;
 }

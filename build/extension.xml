@@ -1,6 +1,6 @@
 <extension xmlns="http://ns.adobe.com/air/extension/4.0">
     <id>com.hasoffers.MobileAppTracker</id>
-    <versionNumber>3.1.3</versionNumber>
+    <versionNumber>3.2.5</versionNumber>
 
     <platforms>
         <platform name="Android-ARM">
@@ -12,15 +12,15 @@
         <platform name="iPhone-ARM">
             <applicationDeployment>
                 <nativeLibrary>libMobileAppTrackerANE.a</nativeLibrary>
-                <initializer>ExtInitializer</initializer>
-                <finalizer>ExtFinalizer</finalizer>
+                <initializer>MATExtInitializer</initializer>
+                <finalizer>MATExtFinalizer</finalizer>
             </applicationDeployment>
         </platform>
         <platform name="iPhone-x86">
             <applicationDeployment>
                 <nativeLibrary>libMobileAppTrackerANE.a</nativeLibrary>
-                <initializer>ExtInitializer</initializer>
-                <finalizer>ExtFinalizer</finalizer>
+                <initializer>MATExtInitializer</initializer>
+                <finalizer>MATExtFinalizer</finalizer>
             </applicationDeployment>
         </platform>
         <platform name="default">

@@ -63,7 +63,7 @@ DEFINE_ANE_FUNCTION(IsAdvertisingTrackingEnabled)
 
 void IFAExtContextInitializer(void* extData, const uint8_t* ctxType, FREContext ctx, uint32_t* numFunctionsToSet, const FRENamedFunction** functionsToSet)
 {
-    DLog(@"IFAExtContextInitializer");
+    DLog(@"IFAANE.IFAExtContextInitializer");
     
     static FRENamedFunction functions[] = {
         MAP_FUNCTION(getAppleAdvertisingIdentifier,            NULL, GetAppleAdvertisingIdentifier),
@@ -78,21 +78,21 @@ void IFAExtContextInitializer(void* extData, const uint8_t* ctxType, FREContext 
 
 void IFAExtContextFinalizer(FREContext ctx)
 {
-    DLog(@"IFAExtContextFinalizer");
+    DLog(@"IFAANE.IFAExtContextFinalizer");
     return;
 }
 
-void ExtInitializer(void** extDataToSet, FREContextInitializer* ctxInitializerToSet, FREContextFinalizer* ctxFinalizerToSet)
+void IFAExtInitializer(void** extDataToSet, FREContextInitializer* ctxInitializerToSet, FREContextFinalizer* ctxFinalizerToSet)
 {
-    DLog(@"IFAANE.ExtInitializer");
+    DLog(@"IFAANE.IFAExtInitializer");
     
     *extDataToSet = NULL;
     *ctxInitializerToSet = &IFAExtContextInitializer;
     *ctxFinalizerToSet = &IFAExtContextFinalizer;
 }
 
-void ExtFinalizer(void * extData)
+void IFAExtFinalizer(void * extData)
 {
-    DLog(@"IFAANE.ExtFinalizer");
+    DLog(@"IFAANE.IFAExtFinalizer");
     return;
 }

@@ -6,15 +6,15 @@
         <platform name="iPhone-ARM">
             <applicationDeployment>
                 <nativeLibrary>libIFAANE.a</nativeLibrary>
-                <initializer>ExtInitializer</initializer>
-                <finalizer>ExtFinalizer</finalizer>
+                <initializer>IFAExtInitializer</initializer>
+                <finalizer>IFAExtFinalizer</finalizer>
             </applicationDeployment>
         </platform>
         <platform name="iPhone-x86">
             <applicationDeployment>
                 <nativeLibrary>libIFAANE.a</nativeLibrary>
-                <initializer>ExtInitializer</initializer>
-                <finalizer>ExtFinalizer</finalizer>
+                <initializer>IFAExtInitializer</initializer>
+                <finalizer>IFAExtFinalizer</finalizer>
             </applicationDeployment>
         </platform>
         <platform name="default">

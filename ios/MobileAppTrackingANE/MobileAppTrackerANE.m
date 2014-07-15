@@ -824,7 +824,7 @@ DEFINE_ANE_FUNCTION(SetGoogleAdvertisingIdFunction)
 
 void MATExtContextInitializer(void* extData, const uint8_t* ctxType, FREContext ctx, uint32_t* numFunctionsToSet, const FRENamedFunction** functionsToSet)
 {
-    DLog(@"MATExtContextInitializer");
+    DLog(@"MobileAppTrackingANE.MATExtContextInitializer");
     
     static FRENamedFunction functions[] = {
         MAP_FUNCTION(initNativeCode,                                NULL, initNativeCode),
@@ -892,21 +892,21 @@ void MATExtContextInitializer(void* extData, const uint8_t* ctxType, FREContext 
 
 void MATExtContextFinalizer(FREContext ctx)
 {
-    DLog(@"MATExtContextFinalizer");
+    DLog(@"MobileAppTrackingANE.MATExtContextFinalizer");
     return;
 }
 
-void ExtInitializer(void** extDataToSet, FREContextInitializer* ctxInitializerToSet, FREContextFinalizer* ctxFinalizerToSet)
+void MATExtInitializer(void** extDataToSet, FREContextInitializer* ctxInitializerToSet, FREContextFinalizer* ctxFinalizerToSet)
 {
-    DLog(@"MobileAppTrackingANE.ExtInitializer");
+    DLog(@"MobileAppTrackingANE.MATExtInitializer");
     
     *extDataToSet = NULL;
     *ctxInitializerToSet = &MATExtContextInitializer;
     *ctxFinalizerToSet = &MATExtContextFinalizer;
 }
 
-void ExtFinalizer(void * extData)
+void MATExtFinalizer(void * extData)
 {
-    DLog(@"MobileAppTrackingANE.ExtFinalizer");
+    DLog(@"MobileAppTrackingANE.MATExtFinalizer");
     return;
 }

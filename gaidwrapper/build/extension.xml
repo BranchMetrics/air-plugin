@@ -12,15 +12,15 @@
         <platform name="iPhone-ARM">
             <applicationDeployment>
                 <nativeLibrary>libGAIDANE.a</nativeLibrary>
-                <initializer>ExtInitializer</initializer>
-                <finalizer>ExtFinalizer</finalizer>
+                <initializer>GAIDExtInitializer</initializer>
+                <finalizer>GAIDExtFinalizer</finalizer>
             </applicationDeployment>
         </platform>
         <platform name="iPhone-x86">
             <applicationDeployment>
                 <nativeLibrary>libGAIDANE.a</nativeLibrary>
-                <initializer>ExtInitializer</initializer>
-                <finalizer>ExtFinalizer</finalizer>
+                <initializer>GAIDExtInitializer</initializer>
+                <finalizer>GAIDExtFinalizer</finalizer>
             </applicationDeployment>
         </platform>
         <platform name="default">
