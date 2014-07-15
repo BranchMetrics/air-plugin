@@ -67,10 +67,10 @@ public class MeasureActionWithEventItemsFunction implements FREFunction {
                 if (passedArgs[4] != null) {
                     refId = passedArgs[4].getAsString();
                 }
-                if (passedArgs[7] != null) {
+                if (passedArgs[6] != null) {
                     receiptData = passedArgs[6].getAsString();
                 }
-                if (passedArgs[8] != null) {
+                if (passedArgs[7] != null) {
                     receiptSignature = passedArgs[7].getAsString();
                 }
 

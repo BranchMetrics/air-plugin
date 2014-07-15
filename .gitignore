@@ -8,3 +8,9 @@ test_flashbuilder4.6/bin-debug
 *.xcworkspace
 !default.xcworkspace
 xcuserdata/
+
+
+# OS X
+.DS_Store
+.pid_file
+.sass-cache

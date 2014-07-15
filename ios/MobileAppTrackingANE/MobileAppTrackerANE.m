@@ -76,6 +76,29 @@ static FREContext matFREContext;
 
 @end
 
+#pragma mark - Date Helper Methods
+
+// refer http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/Date.html#toUTCString()
+// example: Wed Apr 23 19:30:07 2014 UTC
+static const char * MAT_DATE_TIME_FORMAT = "EEE MMM dd HH:mm:ss yyyy ZZZ";
+
+NSDateFormatter* dateFormatter()
+{
+    static NSDateFormatter* sharedDateFormatter = nil;
+    
+    if(nil == sharedDateFormatter)
+    {
+        sharedDateFormatter = [[NSDateFormatter alloc] init];
+        NSLocale *enUSPOSIXLocale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];
+        
+        [sharedDateFormatter setLocale:enUSPOSIXLocale];
+        [sharedDateFormatter setDateFormat:[NSString stringWithUTF8String:MAT_DATE_TIME_FORMAT]];
+        [sharedDateFormatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+    }
+    
+    return sharedDateFormatter;
+}
+
 #pragma mark - AIR iPhone Native Extension Methods
 
 DEFINE_ANE_FUNCTION(initNativeCode)
@@ -327,7 +350,6 @@ DEFINE_ANE_FUNCTION(SetSiteIdFunction)
     DLog(@"SetSiteIdFunction");
     
     NSString *siteId = nil;
-    //FREResult result =
     MAT_FREGetObjectAsString(argv[0], &siteId);
     
     [MobileAppTracker setSiteId:siteId];
@@ -353,7 +375,6 @@ DEFINE_ANE_FUNCTION(SetRedirectUrlFunction)
     DLog(@"SetRedirectUrlFunction");
     
     NSString *redirectUrl = nil;
-    //FREResult result =
     MAT_FREGetObjectAsString(argv[0], &redirectUrl);
     
     [MobileAppTracker setRedirectUrl:redirectUrl];
@@ -366,7 +387,6 @@ DEFINE_ANE_FUNCTION(SetCurrencyCodeFunction)
     DLog(@"SetCurrencyCodeFunction");
     
     NSString *currencyCode = nil;
-    //FREResult result =
     MAT_FREGetObjectAsString(argv[0], &currencyCode);
     
     [MobileAppTracker setCurrencyCode:currencyCode];
@@ -379,7 +399,6 @@ DEFINE_ANE_FUNCTION(SetUserEmailFunction)
     DLog(@"SetUserEmailFunction");
     
     NSString *userEmail = nil;
-    //FREResult result =
     MAT_FREGetObjectAsString(argv[0], &userEmail);
     
     [MobileAppTracker setUserEmail:userEmail];
@@ -392,7 +411,6 @@ DEFINE_ANE_FUNCTION(SetUserIdFunction)
     DLog(@"SetUserIdFunction");
     
     NSString *userId = nil;
-    //FREResult result =
     MAT_FREGetObjectAsString(argv[0], &userId);
     
     [MobileAppTracker setUserId:userId];
@@ -405,7 +423,6 @@ DEFINE_ANE_FUNCTION(SetUserNameFunction)
     DLog(@"SetUserNameFunction");
     
     NSString *userName = nil;
-    //FREResult result =
     MAT_FREGetObjectAsString(argv[0], &userName);
     
     [MobileAppTracker setUserName:userName];
@@ -467,7 +484,6 @@ DEFINE_ANE_FUNCTION(SetPackageNameFunction)
     DLog(@"SetPackageNameFunction");
     
     NSString *pkgName = nil;
-    //FREResult result =
     MAT_FREGetObjectAsString(argv[0], &pkgName);
     
     [MobileAppTracker setPackageName:pkgName];
@@ -522,7 +538,6 @@ DEFINE_ANE_FUNCTION(SetTRUSTeIdFunction)
     DLog(@"SetTRUSTeIdFunction");
     
     NSString *trusteId = nil;
-    //FREResult result =
     MAT_FREGetObjectAsString(argv[0], &trusteId);
     
     [MobileAppTracker setTRUSTeId:trusteId];
@@ -561,7 +576,6 @@ DEFINE_ANE_FUNCTION(SetAppleAdvertisingIdentifierFunction)
     DLog(@"SetAppleAdvertisingIdentifierFunction");
     
     NSString *aId = nil;
-    //FREResult result =
     MAT_FREGetObjectAsString(argv[0], &aId);
     
     NSUUID *appleAdvId = [[NSUUID alloc] initWithUUIDString:aId];
@@ -580,7 +594,6 @@ DEFINE_ANE_FUNCTION(SetAppleVendorIdentifierFunction)
     DLog(@"SetAppleVendorIdentifierFunction");
     
     NSString *vId = nil;
-    //FREResult result =
     MAT_FREGetObjectAsString(argv[0], &vId);
     
     NSUUID *appleVendorId = [[NSUUID alloc] initWithUUIDString:vId];
@@ -618,7 +631,6 @@ DEFINE_ANE_FUNCTION(SetEventAttributeFunction)
     FREGetObjectAsUint32(argv[0], &attrNum);
     
     NSString *attrVal = nil;
-    //FREResult result =
     MAT_FREGetObjectAsString(argv[1], &attrVal);
     
     switch (attrNum) {
@@ -644,8 +656,110 @@ DEFINE_ANE_FUNCTION(SetEventAttributeFunction)
     return NULL;
 }
 
+DEFINE_ANE_FUNCTION(SetEventContentTypeFunction)
+{
+    DLog(@"SetEventContentTypeFunction");
+    
+    NSString *contType = nil;
+    MAT_FREGetObjectAsString(argv[0], &contType);
+    
+    [MobileAppTracker setEventContentType:contType];
+    
+    return NULL;
+}
+
+DEFINE_ANE_FUNCTION(SetEventContentIdFunction)
+{
+    DLog(@"SetEventContentIdFunction");
+    
+    NSString *contId = nil;
+    MAT_FREGetObjectAsString(argv[0], &contId);
+    
+    [MobileAppTracker setEventContentId:contId];
+    
+    return NULL;
+}
+
+DEFINE_ANE_FUNCTION(SetEventDate1Function)
+{
+    DLog(@"SetEventDate1Function");
+    
+    NSString *dateString = nil;
+    MAT_FREGetObjectAsString(argv[0], &dateString);
+    
+    NSDate* date = [dateFormatter() dateFromString:dateString];
+    
+    [MobileAppTracker setEventDate1:date];
+    
+    return NULL;
+}
+
+DEFINE_ANE_FUNCTION(SetEventDate2Function)
+{
+    DLog(@"SetEventDate1Function");
+    
+    NSString *dateString = nil;
+    MAT_FREGetObjectAsString(argv[0], &dateString);
+    
+    NSDate* date = [dateFormatter() dateFromString:dateString];
+    
+    [MobileAppTracker setEventDate2:date];
+    
+    return NULL;
+}
+
+DEFINE_ANE_FUNCTION(SetEventLevelFunction)
+{
+    DLog(@"SetEventLevelFunction");
+    
+    int32_t level;
+    FREGetObjectAsInt32(argv[0], &level);
+    
+    [MobileAppTracker setEventLevel:level];
+    
+    return NULL;
+}
+
+DEFINE_ANE_FUNCTION(SetEventQuantityFunction)
+{
+    DLog(@"SetEventQuantityFunction");
+    
+    int32_t quantity;
+    FREGetObjectAsInt32(argv[0], &quantity);
+    
+    [MobileAppTracker setEventQuantity:quantity];
+    
+    return NULL;
+}
+
+DEFINE_ANE_FUNCTION(SetEventRatingFunction)
+{
+    DLog(@"SetEventRatingFunction");
+    
+    double rating;
+    FREGetObjectAsDouble(argv[0], &rating);
+    
+    [MobileAppTracker setEventRating:rating];
+    
+    return NULL;
+}
+
+DEFINE_ANE_FUNCTION(SetEventSearchStringFunction)
+{
+    DLog(@"SetEventSearchStringFunction");
+    
+    NSString *searchString = nil;
+    MAT_FREGetObjectAsString(argv[0], &searchString);
+    
+    [MobileAppTracker setEventSearchString:searchString];
+    
+    return NULL;
+}
+
 DEFINE_ANE_FUNCTION(GetMatIdFunction)
 {
+    DLog(@"GetMatIdFunction");
+    
     NSString *matId = [MobileAppTracker matId];
     
     // Convert Obj-C string to C UTF8String
@@ -661,6 +775,8 @@ DEFINE_ANE_FUNCTION(GetMatIdFunction)
 
 DEFINE_ANE_FUNCTION(GetOpenLogIdFunction)
 {
+    DLog(@"GetOpenLogIdFunction");
+    
     NSString *openLogId = [MobileAppTracker openLogId];
     
     // Convert Obj-C string to C UTF8String
@@ -680,6 +796,8 @@ DEFINE_ANE_FUNCTION(GetOpenLogIdFunction)
 
 DEFINE_ANE_FUNCTION(GetIsPayingUserFunction)
 {
+    DLog(@"GetIsPayingUserFunction");
+    
     BOOL payingUser = [MobileAppTracker isPayingUser];
     
     // Prepare for AS3
@@ -709,40 +827,49 @@ void MATExtContextInitializer(void* extData, const uint8_t* ctxType, FREContext 
     DLog(@"MATExtContextInitializer");
     
     static FRENamedFunction functions[] = {
-        MAP_FUNCTION(initNativeCode,                            NULL, initNativeCode),
+        MAP_FUNCTION(initNativeCode,                                NULL, initNativeCode),
         
-        MAP_FUNCTION(startAppToAppTracking,                     NULL, StartAppToAppTrackingFunction),
+        MAP_FUNCTION(startAppToAppTracking,                         NULL, StartAppToAppTrackingFunction),
         
-        MAP_FUNCTION(measureSession,                              NULL, MeasureSessionFunction),
-        MAP_FUNCTION(measureAction,                               NULL, MeasureActionFunction),
-        MAP_FUNCTION(measureActionWithEventItems,                 NULL, MeasureActionWithEventItemsFunction),
+        MAP_FUNCTION(measureSession,                                NULL, MeasureSessionFunction),
+        MAP_FUNCTION(measureAction,                                 NULL, MeasureActionFunction),
+        MAP_FUNCTION(measureActionWithEventItems,                   NULL, MeasureActionWithEventItemsFunction),
         
-        MAP_FUNCTION(setAllowDuplicates,                        NULL, SetAllowDuplicatesFunction),
-        MAP_FUNCTION(setCurrencyCode,                           NULL, SetCurrencyCodeFunction),
-        MAP_FUNCTION(setDebugMode,                              NULL, SetDebugModeFunction),
-        MAP_FUNCTION(setDelegate,                               NULL, SetDelegateFunction),
-        MAP_FUNCTION(setAppAdTracking,                          NULL, SetAppAdTrackingFunction),
-        MAP_FUNCTION(setExistingUser,                           NULL, SetExistingUserFunction),
-        MAP_FUNCTION(setJailbroken,                             NULL, SetJailbrokenFunction),
-        MAP_FUNCTION(setPackageName,                            NULL, SetPackageNameFunction),
-        MAP_FUNCTION(setRedirectUrl,                            NULL, SetRedirectUrlFunction),
-        MAP_FUNCTION(setShouldAutoDetectJailbroken,             NULL, SetShouldAutoDetectJailbrokenFunction),
-        MAP_FUNCTION(setSiteId,                                 NULL, SetSiteIdFunction),
-        MAP_FUNCTION(setTRUSTeId,                               NULL, SetTRUSTeIdFunction),
-        MAP_FUNCTION(setUseCookieTracking,                      NULL, SetUseCookieTrackingFunction),
-        MAP_FUNCTION(setUserEmail,                              NULL, SetUserEmailFunction),
-        MAP_FUNCTION(setUserId,                                 NULL, SetUserIdFunction),
-        MAP_FUNCTION(setUserName,                               NULL, SetUserNameFunction),
-        MAP_FUNCTION(setFacebookUserId,                         NULL, SetFacebookUserIdFunction),
-        MAP_FUNCTION(setTwitterUserId,                          NULL, SetTwitterUserIdFunction),
-        MAP_FUNCTION(setGoogleUserId,                           NULL, SetGoogleUserIdFunction),
-        MAP_FUNCTION(setPayingUser,                             NULL, SetPayingUserFunction),
+        MAP_FUNCTION(setAllowDuplicates,                            NULL, SetAllowDuplicatesFunction),
+        MAP_FUNCTION(setCurrencyCode,                               NULL, SetCurrencyCodeFunction),
+        MAP_FUNCTION(setDebugMode,                                  NULL, SetDebugModeFunction),
+        MAP_FUNCTION(setDelegate,                                   NULL, SetDelegateFunction),
+        MAP_FUNCTION(setAppAdTracking,                              NULL, SetAppAdTrackingFunction),
+        MAP_FUNCTION(setExistingUser,                               NULL, SetExistingUserFunction),
+        MAP_FUNCTION(setJailbroken,                                 NULL, SetJailbrokenFunction),
+        MAP_FUNCTION(setPackageName,                                NULL, SetPackageNameFunction),
+        MAP_FUNCTION(setRedirectUrl,                                NULL, SetRedirectUrlFunction),
+        MAP_FUNCTION(setShouldAutoDetectJailbroken,                 NULL, SetShouldAutoDetectJailbrokenFunction),
+        MAP_FUNCTION(setSiteId,                                     NULL, SetSiteIdFunction),
+        MAP_FUNCTION(setTRUSTeId,                                   NULL, SetTRUSTeIdFunction),
+        MAP_FUNCTION(setUseCookieTracking,                          NULL, SetUseCookieTrackingFunction),
+        MAP_FUNCTION(setUserEmail,                                  NULL, SetUserEmailFunction),
+        MAP_FUNCTION(setUserId,                                     NULL, SetUserIdFunction),
+        MAP_FUNCTION(setUserName,                                   NULL, SetUserNameFunction),
+        MAP_FUNCTION(setFacebookUserId,                             NULL, SetFacebookUserIdFunction),
+        MAP_FUNCTION(setTwitterUserId,                              NULL, SetTwitterUserIdFunction),
+        MAP_FUNCTION(setGoogleUserId,                               NULL, SetGoogleUserIdFunction),
+        MAP_FUNCTION(setPayingUser,                                 NULL, SetPayingUserFunction),
         
-        MAP_FUNCTION(setAge,                                    NULL, SetAgeFunction),
-        MAP_FUNCTION(setGender,                                 NULL, SetGenderFunction),
-        MAP_FUNCTION(setLocation,                               NULL, SetLocationFunction),
+        MAP_FUNCTION(setAge,                                        NULL, SetAgeFunction),
+        MAP_FUNCTION(setGender,                                     NULL, SetGenderFunction),
+        MAP_FUNCTION(setLocation,                                   NULL, SetLocationFunction),
         
         MAP_FUNCTION(setEventAttribute,                             NULL, SetEventAttributeFunction),
+        
+        MAP_FUNCTION(setEventContentType,                           NULL, SetEventContentTypeFunction),
+        MAP_FUNCTION(setEventContentId,                             NULL, SetEventContentIdFunction),
+        MAP_FUNCTION(setEventDate1,                                 NULL, SetEventDate1Function),
+        MAP_FUNCTION(setEventDate2,                                 NULL, SetEventDate2Function),
+        MAP_FUNCTION(setEventLevel,                                 NULL, SetEventLevelFunction),
+        MAP_FUNCTION(setEventQuantity,                              NULL, SetEventQuantityFunction),
+        MAP_FUNCTION(setEventRating,                                NULL, SetEventRatingFunction),
+        MAP_FUNCTION(setEventSearchString,                          NULL, SetEventSearchStringFunction),
         
         MAP_FUNCTION(setAppleAdvertisingIdentifier,                 NULL, SetAppleAdvertisingIdentifierFunction),
         MAP_FUNCTION(setAppleVendorIdentifier,                      NULL, SetAppleVendorIdentifierFunction),

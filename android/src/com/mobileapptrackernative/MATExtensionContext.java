@@ -35,6 +35,16 @@ public class MATExtensionContext extends FREContext {
         functionMap.put(SetDebugModeFunction.NAME, new SetDebugModeFunction());
         functionMap.put(SetExistingUserFunction.NAME, new SetExistingUserFunction());
         functionMap.put(SetEventAttributeFunction.NAME, new SetEventAttributeFunction());
+        
+        functionMap.put(SetEventContentIdFunction.NAME, new SetEventContentIdFunction());
+        functionMap.put(SetEventContentTypeFunction.NAME, new SetEventContentTypeFunction());
+        functionMap.put(SetEventDate1Function.NAME, new SetEventDate1Function());
+        functionMap.put(SetEventDate2Function.NAME, new SetEventDate2Function());
+        functionMap.put(SetEventLevelFunction.NAME, new SetEventLevelFunction());
+        functionMap.put(SetEventQuantityFunction.NAME, new SetEventQuantityFunction());
+        functionMap.put(SetEventRatingFunction.NAME, new SetEventRatingFunction());
+        functionMap.put(SetEventSearchStringFunction.NAME, new SetEventSearchStringFunction());
+        
         functionMap.put(SetFacebookUserIdFunction.NAME, new SetFacebookUserIdFunction());
         functionMap.put(SetGoogleAdvertisingIdFunction.NAME, new SetGoogleAdvertisingIdFunction());
         functionMap.put(SetGoogleUserIdFunction.NAME, new SetGoogleUserIdFunction());
