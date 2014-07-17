@@ -7,7 +7,7 @@ package com.hasoffers.nativeExtensions.GAID
 	[RemoteClass(alias="com.hasoffers.nativeExtensions.GAID.GAID")]
 	public class GAID extends EventDispatcher
 	{
-		// If the AIR application creates multiple IFA objects,
+		// If the AIR application creates multiple GAID objects,
 		// all the objects share one instance of the ExtensionContext class.
 
 		private static var extId:String = "com.hasoffers.GAID";

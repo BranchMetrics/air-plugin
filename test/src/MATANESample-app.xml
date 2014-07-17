@@ -273,7 +273,7 @@
         <requestedDisplayResolution>high</requestedDisplayResolution>
     </iPhone>
     
-<extensions>
+    <extensions>
         <extensionID>com.hasoffers.MobileAppTracker</extensionID>
         <extensionID>com.hasoffers.GAID</extensionID>
         <extensionID>com.hasoffers.IFA</extensionID>

@@ -70,7 +70,7 @@
          <exec executable="${sdk.home}/bin/adt${bin.ext}" failonerror="true" dir="${OUTPUT}">
             <arg value="-package"/>
             <arg value="-target"/>
-            <arg value="apk-debug"/>
+            <arg value="apk"/>
             <arg value="-airDownloadURL"/>
             <arg value="http://www.amazon.com/gp/mas/dl/android/com.adobe.air"/>
             <arg value="-storetype"/>
