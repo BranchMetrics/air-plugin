@@ -1,0 +1,20 @@
+#the name of your project
+name = MATANESample
+
+#update all paths in this file
+flex.sdk = <replace_with_flex_home_path>
+
+#change to .exe if you are using windows
+bin.ext = 
+ 
+# The location of the .p12 certificate file
+keystore.file = <replace_with_file_path_for_ios_p12_certificate>
+
+# The password of the .p12 certificate file
+keystore.password = <replace_with_password_for_ios_p12_certificate>
+
+# The location of the mobile provisioning profile file
+pprofile.file = <replace_with_file_path_for_ios_mobile_provisioning_profile>
+
+# The location of the iOS SDK
+ios.platform.sdk = <replace_with_ios_sdk_path>
