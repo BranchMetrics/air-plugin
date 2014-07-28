@@ -1,6 +1,7 @@
 bin/
 gen/
 actionscript/bin
+android/.settings/**
 android/bin
 android/gen
 test/bin-debug
@@ -9,3 +10,6 @@ test_flashbuilder4.6/bin-debug
 !default.xcworkspace
 xcuserdata/
 build.config
+
+# OS X
+.DS_Store
