@@ -2,7 +2,7 @@
 
 Please see the Quick Start guide here:
 
-[AIR Quick Start](http://support.mobileapptracking.com/entries/25699545)
+[AIR Quick Start](https://developers.mobileapptracking.com/adobe-air-plugin/)
 
 ### Building the ANE
 

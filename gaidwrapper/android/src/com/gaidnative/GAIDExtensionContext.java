@@ -53,6 +53,8 @@ public class GAIDExtensionContext extends FREContext {
                     // Google Play services is not available entirely.
                 } catch (GooglePlayServicesRepairableException e) {
                     // Encountered a recoverable error connecting to Google Play services.
+                } catch (NullPointerException e) {
+                    // getId() sometimes returns null
                 }
             }
         }).start();

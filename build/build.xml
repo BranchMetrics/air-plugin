@@ -77,12 +77,12 @@
             <classpath>
                 <pathelement location="${android.platform}/android.jar"/>
                 <pathelement location="${flex.sdk}/lib/android/FlashRuntimeExtensions.jar"/>
-                <pathelement location="../android/libs/MobileAppTracker-3.2.jar"/>
+                <pathelement location="../android/libs/MobileAppTracker-3.3.3.jar"/>
             </classpath>
         </javac>
         
         <mkdir dir="../android/temp/zip"/>
-        <unzip src="../android/libs/MobileAppTracker-3.2.jar" dest="../android/temp/zip"/>
+        <unzip src="../android/libs/MobileAppTracker-3.3.3.jar" dest="../android/temp/zip"/>
         <copy todir="../android/temp/classes/com" overwrite="true">
             <fileset dir="../android/temp/zip/com" >
                 <include name="**/*"/>

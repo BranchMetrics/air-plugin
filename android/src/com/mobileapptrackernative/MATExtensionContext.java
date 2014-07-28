@@ -61,8 +61,6 @@ public class MATExtensionContext extends FREContext {
         functionMap.put(SetGenderFunction.NAME,  new SetGenderFunction());
         functionMap.put(SetLocationFunction.NAME,  new SetLocationFunction());
         
-        functionMap.put(StartAppToAppFunction.NAME, new StartAppToAppFunction());
-
         // iOS functions that are no-op on Android
         functionMap.put(iOSNoOpFunction.DELEGATE, new iOSNoOpFunction());
         functionMap.put(iOSNoOpFunction.JAILBROKEN, new iOSNoOpFunction());

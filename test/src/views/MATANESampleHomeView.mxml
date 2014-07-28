@@ -87,10 +87,7 @@
             
             protected function measureAction_clickHandler(event:MouseEvent):void
             {
-                mat.setEventAttribute1("test_attribute1");
-                mat.setEventAttribute3("test_attribute3");
-                mat.setEventAttribute5("test_attribute5");
-                mat.measureAction("evt123", 0.42, null, "ref111");
+                mat.measureAction("evt123", 0.42, "USD", "ref111");
             }
             
             protected function measureActionWithEventItems_clickHandler(event:MouseEvent):void
