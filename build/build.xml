@@ -60,9 +60,6 @@
         <copy file="../temp/ios/build/Release-universal/lib${name}.a" tofile="../temp/ios/lib${name}.a" overwrite="true" />
         <copy file="../temp/ios/build/Release-universal/lib${name}.a" tofile="../temp/iossim/lib${name}.a" overwrite="true" />
         
-        <copy file="../ios/MobileAppTrackingANE/MobileAppTracker-3.4.1.a" tofile="../temp/ios/MobileAppTracker-3.4.1.a"/>
-        <copy file="../ios/MobileAppTrackingANE/MobileAppTracker-3.4.1.a" tofile="../temp/iossim/MobileAppTracker-3.4.1.a"/>
-        
         <echo level="verbose">Deleting temp iOS build folder...</echo>
         <delete dir="../temp/ios/build"/>
     </target>
