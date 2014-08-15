@@ -30,6 +30,7 @@ public class MATExtensionContext extends FREContext {
         functionMap.put(GetReferrerFunction.NAME, new GetReferrerFunction());
 
         functionMap.put(SetAllowDuplicatesFunction.NAME, new SetAllowDuplicatesFunction());
+        functionMap.put(SetAndroidIdFunction.NAME, new SetAndroidIdFunction());
         functionMap.put(SetAppAdTrackingFunction.NAME, new SetAppAdTrackingFunction());
         functionMap.put(SetCurrencyCodeFunction.NAME, new SetCurrencyCodeFunction());
         functionMap.put(SetDebugModeFunction.NAME, new SetDebugModeFunction());

@@ -133,6 +133,12 @@ package com.hasoffers.nativeExtensions
             extContext.call(NativeMethods.setAllowDuplicates, allowDuplicates);
         }
 
+        public function setAndroidId(enable:Boolean):void
+        {
+            trace("MATAS.setAndroidId(" + enable + ")");
+            extContext.call(NativeMethods.setAndroidId, enable);
+        }
+
         public function setAppAdTracking(enable:Boolean):void
         {
             trace("MATAS.setAppAdTracking(" + enable + ")");

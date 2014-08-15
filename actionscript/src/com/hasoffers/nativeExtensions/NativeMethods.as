@@ -22,6 +22,7 @@ package com.hasoffers.nativeExtensions
         
         // Setter methods to override default values
         internal static const setAge                        : String = "setAge";
+        internal static const setAndroidId                  : String = "setAndroidId";
         internal static const setAppAdTracking              : String = "setAppAdTracking";
         internal static const setCurrencyCode               : String = "setCurrencyCode";
         internal static const setEventAttribute             : String = "setEventAttribute";

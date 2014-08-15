@@ -820,6 +820,12 @@ DEFINE_ANE_FUNCTION(SetGoogleAdvertisingIdFunction)
     return NULL;
 }
 
+DEFINE_ANE_FUNCTION(SetAndroidIdFunction)
+{
+    // Dummy Function for Android -- not applicable in iOS
+    return NULL;
+}
+
 #pragma mark - Extension Context Setup Methods
 
 void MATExtContextInitializer(void* extData, const uint8_t* ctxType, FREContext ctx, uint32_t* numFunctionsToSet, const FRENamedFunction** functionsToSet)
@@ -881,7 +887,8 @@ void MATExtContextInitializer(void* extData, const uint8_t* ctxType, FREContext 
         MAP_FUNCTION(getIsPayingUser,                               NULL, GetIsPayingUserFunction),
         
         MAP_FUNCTION(getReferrer,                                   NULL, GetReferrerFunction),
-        MAP_FUNCTION(setGoogleAdvertisingId,                        NULL, SetGoogleAdvertisingIdFunction)
+        MAP_FUNCTION(setGoogleAdvertisingId,                        NULL, SetGoogleAdvertisingIdFunction),
+        MAP_FUNCTION(setAndroidId,                                  NULL, SetAndroidIdFunction)
     };
     
     *numFunctionsToSet = sizeof( functions ) / sizeof( FRENamedFunction );
