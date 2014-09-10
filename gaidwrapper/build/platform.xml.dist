@@ -1,0 +1,11 @@
+<platform xmlns="http://ns.adobe.com/air/extension/<replace_with_air_sdk_version>">
+    <packagedDependencies>
+        <packagedDependency>google-play-services.jar</packagedDependency>
+    </packagedDependencies>
+    <packagedResources>
+        <packagedResource>
+            <packageName>com.google.android.gms</packageName>
+            <folderName>google-play-services-res</folderName>
+        </packagedResource>
+    </packagedResources>
+</platform>

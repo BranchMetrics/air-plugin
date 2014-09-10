@@ -10,4 +10,6 @@ ios.sim.sdkversion = iphonesimulator
 android.platform = <replace_with_android_sdk_path>/platforms/android-19
 android.platformtools = <replace_with_android_sdk_path>/platform-tools
 
+swf.version = <replace_with_swf_version>
+
 gplayservices.libs = <replace_with_google_play_services_lib_path>

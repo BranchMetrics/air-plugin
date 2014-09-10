@@ -1,0 +1,30 @@
+<extension xmlns="http://ns.adobe.com/air/extension/<replace_with_air_sdk_version>">
+    <id>com.hasoffers.GAID</id>
+    <versionNumber>3.1</versionNumber>
+
+    <platforms>
+        <platform name="Android-ARM">
+            <applicationDeployment>
+                <nativeLibrary>libGAIDANE.jar</nativeLibrary>
+                <initializer>com.gaidnative.GAIDExtension</initializer>
+            </applicationDeployment>
+        </platform>
+        <platform name="iPhone-ARM">
+            <applicationDeployment>
+                <nativeLibrary>libGAIDANE.a</nativeLibrary>
+                <initializer>GAIDExtInitializer</initializer>
+                <finalizer>GAIDExtFinalizer</finalizer>
+            </applicationDeployment>
+        </platform>
+        <platform name="iPhone-x86">
+            <applicationDeployment>
+                <nativeLibrary>libGAIDANE.a</nativeLibrary>
+                <initializer>GAIDExtInitializer</initializer>
+                <finalizer>GAIDExtFinalizer</finalizer>
+            </applicationDeployment>
+        </platform>
+        <platform name="default">
+            <applicationDeployment/>
+        </platform>
+    </platforms>
+</extension>

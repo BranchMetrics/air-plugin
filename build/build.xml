@@ -107,7 +107,7 @@
         <exec executable="${flex.sdk}/bin/compc${compc.ext}" failonerror="true">
             <arg line='-source-path ../actionscript/src'/>
             <arg line='-output ../temp/swc/MATAS.swc'/>
-            <arg line='-swf-version=23'/>
+            <arg line='-swf-version=${swf.version}'/>
             <arg line='-external-library-path+="${flex.sdk}/frameworks/libs/air/airglobal.swc"'/>
             <arg line='-include-classes ${classlist}'/>
         </exec>
