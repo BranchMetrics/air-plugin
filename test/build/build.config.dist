@@ -18,3 +18,6 @@ pprofile.file = <replace_with_file_path_for_ios_mobile_provisioning_profile>
 
 # The location of the iOS SDK
 ios.platform.sdk = <replace_with_ios_sdk_path>
+
+# Adobe Flash SWF version
+swf.version = <replace_with_swf_version>

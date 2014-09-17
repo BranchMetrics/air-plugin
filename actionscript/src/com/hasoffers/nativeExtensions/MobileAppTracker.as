@@ -273,6 +273,7 @@ package com.hasoffers.nativeExtensions
         
         public function setGoogleAdvertisingId(googleAid:String, limitAdTracking:Boolean):void
         {
+            trace("MATAS.setGoogleAdvertisingId(" + googleAid + ", " + limitAdTracking + ")");
             extContext.call(NativeMethods.setGoogleAdvertisingId, googleAid, limitAdTracking);
         }
 

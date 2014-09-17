@@ -43,8 +43,7 @@
             <arg value="+configname=airmobile"/>
             <arg value="-file-specs=${MAIN_SOURCE}"/>
             <arg value="-load-config+=extlibs.config"/>
-            <arg value="-load-config+=libs.config"/>
-            <arg value="-swf-version=23"/>
+            <arg value="-swf-version=${swf.version}"/>
             <arg value="-output=${OUTPUT}/${APP_ROOT_FILE}"/>
         </java>
         <copy filtering="true" file="${APP_SOURCE_DESCRIPTOR}" tofile="${OUTPUT}/${APP_DESCRIPTOR}" overwrite="true" />
