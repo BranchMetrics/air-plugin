@@ -1,8 +1,8 @@
 <platform xmlns="http://ns.adobe.com/air/extension/<replace_with_air_sdk_version>">
     <description>iPhone platform description</description>
-    <sdkVersion>7.1</sdkVersion>
+    <sdkVersion>8.0</sdkVersion>
     <linkerOptions>
-        <option>-ios_version_min 5.0</option>
+        <option>-ios_version_min 5.1.1</option>
         <option>-framework CoreTelephony</option>
         <option>-framework iAd</option>
         <option>-framework MobileCoreServices</option>
