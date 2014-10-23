@@ -10,7 +10,7 @@
 		96318CCA16020DC10075B93E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96318CC916020DC10075B93E /* Foundation.framework */; };
 		96318CD116020DC10075B93E /* MobileAppTrackerANE.m in Sources */ = {isa = PBXBuildFile; fileRef = 96318CD016020DC10075B93E /* MobileAppTrackerANE.m */; };
 		F86BA3801682889000916B89 /* FRETypeConversionHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = F86BA37F1682889000916B89 /* FRETypeConversionHelper.m */; };
-		F898D3581995536400724219 /* MobileAppTracker-3.5.2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F898D3571995536400724219 /* MobileAppTracker-3.5.2.a */; };
+		F898D3581995536400724219 /* MobileAppTracker-3.5.3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F898D3571995536400724219 /* MobileAppTracker-3.5.3.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -34,7 +34,7 @@
 		F86BA37E1682889000916B89 /* FRETypeConversionHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FRETypeConversionHelper.h; sourceTree = "<group>"; };
 		F86BA37F1682889000916B89 /* FRETypeConversionHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FRETypeConversionHelper.m; sourceTree = "<group>"; };
 		F86BA393168BB32700916B89 /* MobileAppTracker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MobileAppTracker.h; sourceTree = "<group>"; };
-		F898D3571995536400724219 /* MobileAppTracker-3.5.2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "MobileAppTracker-3.5.2.a"; path = "MobileAppTrackingANE/MobileAppTracker-3.5.2.a"; sourceTree = "<group>"; };
+		F898D3571995536400724219 /* MobileAppTracker-3.5.3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "MobileAppTracker-3.5.3.a"; path = "MobileAppTrackingANE/MobileAppTracker-3.5.3.a"; sourceTree = "<group>"; };
 		F8F560F718BE8D8600D2F3D3 /* MATEventItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MATEventItem.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -44,7 +44,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				96318CCA16020DC10075B93E /* Foundation.framework in Frameworks */,
-				F898D3581995536400724219 /* MobileAppTracker-3.5.2.a in Frameworks */,
+				F898D3581995536400724219 /* MobileAppTracker-3.5.3.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -71,7 +71,7 @@
 		96318CC816020DC10075B93E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				F898D3571995536400724219 /* MobileAppTracker-3.5.2.a */,
+				F898D3571995536400724219 /* MobileAppTracker-3.5.3.a */,
 				96318CC916020DC10075B93E /* Foundation.framework */,
 			);
 			name = Frameworks;
