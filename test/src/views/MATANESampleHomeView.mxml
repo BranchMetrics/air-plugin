@@ -7,11 +7,14 @@
 
     <fx:Script>
         <![CDATA[
-            import com.hasoffers.nativeExtensions.IFA.IFA;
             import com.hasoffers.nativeExtensions.MobileAppTracker;
             import com.hasoffers.nativeExtensions.GAID.GAID;
+            import com.hasoffers.nativeExtensions.IFA.IFA;
             
             import flash.utils.Dictionary;
+            
+            import mx.events.FlexEvent;
+            
             
             
             public var mat:MobileAppTracker;
@@ -40,6 +43,20 @@
                 
                 trace("MATANESampleHomeView.init() end");
             }
+            
+            protected function preInit(event:FlexEvent):void
+            {
+                NativeApplication.nativeApplication.addEventListener(InvokeEvent.INVOKE, onInvoke);
+            }
+            
+            private function onInvoke(event:InvokeEvent):void
+            {
+                trace("MATANESampleHomeView onInvoke: " + event.arguments);
+                
+                // Note: handle the invoke event
+                // url               = event.arguments[0]
+                // sourceApplication = event.arguments[1]
+            }
 
             protected function startMAT_clickHandler(event:MouseEvent):void
             {
@@ -57,12 +74,18 @@
                 {
                     gaid.getGoogleAdvertisingId(receivedGAIDCallback);
                 }
+                
+                mat.checkForDeferredDeeplink(750); // 750 ms
             }
 
             private function receivedGAIDCallback(responseJson:String):void
             {
-                var gaidDecoded:Object = JSON.parse(responseJson);
-                mat.setGoogleAdvertisingId(gaidDecoded.gaid, gaidDecoded.isLAT);
+                var idDecoded:Object = JSON.parse(responseJson);
+                if (idDecoded.hasOwnProperty("gaid")) {
+                    mat.setGoogleAdvertisingId(idDecoded.gaid, idDecoded.isLAT);
+                } else {
+                    mat.setAndroidId(idDecoded.androidId);
+                }
             }
 
             protected function debugMode_clickHandler(event:MouseEvent):void
@@ -151,6 +174,7 @@
                 mat.setEventSearchString("testSearchString");
                 
                 mat.setExistingUser(false);
+                mat.setFacebookEventLogging(true, false);
                 mat.setFacebookUserId("temp_facebook_user_id");
                 mat.setGender(0);
                 mat.setGoogleAdvertisingId("1234567890", true);
@@ -190,7 +214,7 @@
     </fx:Script>
     
     <s:Scroller width="100%" height="100%">
-        <s:Group width="100%" height="100%" initialize="init()" >
+        <s:Group width="100%" height="100%" initialize="init()" preinitialize="preInit(event)">
             <s:Button label="Start MAT" click="startMAT_clickHandler(event)" horizontalCenter="0" width="80%" top="10" />
             <s:Button label="Enable Delegate" click="delegate_clickHandler(event)" horizontalCenter="0" width="80%" top="60" />
             <s:Button label="Enable Debug Mode" click="debugMode_clickHandler(event)" horizontalCenter="0" width="80%" top="110" />

@@ -78,6 +78,12 @@ package com.hasoffers.nativeExtensions
             }
         }
         
+        public function checkForDeferredDeeplink(timeout:Number):void
+        {
+            trace("MATAS.checkForDeferredDeeplink(" + timeout + ")");
+            extContext.call(NativeMethods.checkForDeferredDeeplink, timeout);
+        }
+        
         public function measureSession():void
         {
             trace("MATAS.measureSession()");
@@ -257,6 +263,12 @@ package com.hasoffers.nativeExtensions
         {
             trace("MATAS.setExistingUser(" + existingUser + ")");
             extContext.call(NativeMethods.setExistingUser, existingUser);
+        }
+        
+        public function setFacebookEventLogging(enable:Boolean, limitUsage:Boolean):void
+        {
+            trace("MATAS.setFacebookEventLogging(" + enable + ", " + limitUsage + ")");
+            extContext.call(NativeMethods.setFacebookEventLogging, enable, limitUsage);
         }
         
         public function setFacebookUserId(facebookUserId:String):void

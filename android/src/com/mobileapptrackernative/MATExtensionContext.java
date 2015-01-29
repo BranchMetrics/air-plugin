@@ -36,7 +36,6 @@ public class MATExtensionContext extends FREContext {
         functionMap.put(SetDebugModeFunction.NAME, new SetDebugModeFunction());
         functionMap.put(SetExistingUserFunction.NAME, new SetExistingUserFunction());
         functionMap.put(SetEventAttributeFunction.NAME, new SetEventAttributeFunction());
-        
         functionMap.put(SetEventContentIdFunction.NAME, new SetEventContentIdFunction());
         functionMap.put(SetEventContentTypeFunction.NAME, new SetEventContentTypeFunction());
         functionMap.put(SetEventDate1Function.NAME, new SetEventDate1Function());
@@ -45,7 +44,7 @@ public class MATExtensionContext extends FREContext {
         functionMap.put(SetEventQuantityFunction.NAME, new SetEventQuantityFunction());
         functionMap.put(SetEventRatingFunction.NAME, new SetEventRatingFunction());
         functionMap.put(SetEventSearchStringFunction.NAME, new SetEventSearchStringFunction());
-        
+        functionMap.put(SetFacebookEventLoggingFunction.NAME, new SetFacebookEventLoggingFunction());
         functionMap.put(SetFacebookUserIdFunction.NAME, new SetFacebookUserIdFunction());
         functionMap.put(SetGoogleAdvertisingIdFunction.NAME, new SetGoogleAdvertisingIdFunction());
         functionMap.put(SetGoogleUserIdFunction.NAME, new SetGoogleUserIdFunction());
@@ -57,10 +56,10 @@ public class MATExtensionContext extends FREContext {
         functionMap.put(SetUserEmailFunction.NAME, new SetUserEmailFunction());
         functionMap.put(SetUserIdFunction.NAME,  new SetUserIdFunction());
         functionMap.put(SetUserNameFunction.NAME, new SetUserNameFunction());
-
         functionMap.put(SetAgeFunction.NAME,  new SetAgeFunction());
         functionMap.put(SetGenderFunction.NAME,  new SetGenderFunction());
         functionMap.put(SetLocationFunction.NAME,  new SetLocationFunction());
+        functionMap.put(CheckForDeferredDeeplinkFunction.NAME, new CheckForDeferredDeeplinkFunction());
         
         // iOS functions that are no-op on Android
         functionMap.put(iOSNoOpFunction.DELEGATE, new iOSNoOpFunction());

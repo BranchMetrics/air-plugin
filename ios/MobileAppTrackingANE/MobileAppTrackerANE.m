@@ -101,9 +101,9 @@ NSDateFormatter* dateFormatter()
 
 #pragma mark - AIR iPhone Native Extension Methods
 
-DEFINE_ANE_FUNCTION(initNativeCode)
+DEFINE_ANE_FUNCTION(InitNativeCode)
 {
-    DLog(@"initNativeCode start");
+    DLog(@"InitNativeCode start");
     
     NSString *advId = nil;
     MAT_FREGetObjectAsString(argv[0], &advId);
@@ -116,6 +116,18 @@ DEFINE_ANE_FUNCTION(initNativeCode)
     [MobileAppTracker setPluginName:@"air"];
     
     DLog(@"initNativeCode end");
+    
+    return NULL;
+}
+
+DEFINE_ANE_FUNCTION(CheckForDeferredDeeplink)
+{
+    DLog(@"CheckForDeferredDeeplink");
+    
+    double_t millis;
+    FREGetObjectAsDouble(argv[0], &millis);
+    
+    [MobileAppTracker checkForDeferredDeeplinkWithTimeout:millis / 1000];
     
     return NULL;
 }
@@ -523,10 +535,10 @@ DEFINE_ANE_FUNCTION(SetLocationFunction)
     FREGetObjectAsDouble(argv[0], &lat);
     
     double_t lon;
-    FREGetObjectAsDouble(argv[0], &lon);
+    FREGetObjectAsDouble(argv[1], &lon);
     
     double_t alt;
-    FREGetObjectAsDouble(argv[0], &alt);
+    FREGetObjectAsDouble(argv[2], &alt);
     
     [MobileAppTracker setLatitude:lat longitude:lon altitude:alt];
     
@@ -554,6 +566,23 @@ DEFINE_ANE_FUNCTION(SetExistingUserFunction)
     BOOL existing = 1 == isExisting;
     
     [MobileAppTracker setExistingUser:existing];
+    
+    return NULL;
+}
+
+DEFINE_ANE_FUNCTION(SetFacebookEventLogging)
+{
+    DLog(@"SetFacebookEventLogging");
+    
+    uint32_t shouldEnable;
+    FREGetObjectAsBool(argv[0], &shouldEnable);
+    BOOL enable = 1 == shouldEnable;
+    
+    uint32_t shouldLimit;
+    FREGetObjectAsBool(argv[1], &shouldLimit);
+    BOOL limit = 1 == shouldLimit;
+    
+    [MobileAppTracker setFacebookEventLogging:enable limitEventAndDataUsage:limit];
     
     return NULL;
 }
@@ -833,7 +862,7 @@ void MATExtContextInitializer(void* extData, const uint8_t* ctxType, FREContext 
     DLog(@"MobileAppTrackingANE.MATExtContextInitializer");
     
     static FRENamedFunction functions[] = {
-        MAP_FUNCTION(initNativeCode,                                NULL, initNativeCode),
+        MAP_FUNCTION(initNativeCode,                                NULL, InitNativeCode),
         
         MAP_FUNCTION(startAppToAppTracking,                         NULL, StartAppToAppTrackingFunction),
         
@@ -847,6 +876,7 @@ void MATExtContextInitializer(void* extData, const uint8_t* ctxType, FREContext 
         MAP_FUNCTION(setDelegate,                                   NULL, SetDelegateFunction),
         MAP_FUNCTION(setAppAdTracking,                              NULL, SetAppAdTrackingFunction),
         MAP_FUNCTION(setExistingUser,                               NULL, SetExistingUserFunction),
+        MAP_FUNCTION(setFacebookEventLogging,                       NULL, SetFacebookEventLogging),
         MAP_FUNCTION(setJailbroken,                                 NULL, SetJailbrokenFunction),
         MAP_FUNCTION(setPackageName,                                NULL, SetPackageNameFunction),
         MAP_FUNCTION(setRedirectUrl,                                NULL, SetRedirectUrlFunction),
@@ -888,7 +918,9 @@ void MATExtContextInitializer(void* extData, const uint8_t* ctxType, FREContext 
         
         MAP_FUNCTION(getReferrer,                                   NULL, GetReferrerFunction),
         MAP_FUNCTION(setGoogleAdvertisingId,                        NULL, SetGoogleAdvertisingIdFunction),
-        MAP_FUNCTION(setAndroidId,                                  NULL, SetAndroidIdFunction)
+        MAP_FUNCTION(setAndroidId,                                  NULL, SetAndroidIdFunction),
+        
+        MAP_FUNCTION(checkForDeferredDeeplink,                      NULL, CheckForDeferredDeeplink)
     };
     
     *numFunctionsToSet = sizeof( functions ) / sizeof( FRENamedFunction );

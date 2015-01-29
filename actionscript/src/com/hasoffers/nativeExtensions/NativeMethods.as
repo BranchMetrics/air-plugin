@@ -5,6 +5,7 @@ package com.hasoffers.nativeExtensions
         // Main MAT initialization methods
         internal static const initNativeCode                : String = "initNativeCode";
         internal static const startAppToAppTracking         : String = "startAppToAppTracking";
+        internal static const checkForDeferredDeeplink      : String = "checkForDeferredDeeplink";
         
         // Measuring methods: install/update 
         internal static const measureSession                : String = "measureSession";
@@ -37,6 +38,7 @@ package com.hasoffers.nativeExtensions
         internal static const setEventSearchString          : String = "setEventSearchString";
         
         internal static const setExistingUser               : String = "setExistingUser";
+        internal static const setFacebookEventLogging       : String = "setFacebookEventLogging";
         internal static const setFacebookUserId             : String = "setFacebookUserId";
         internal static const setGender                     : String = "setGender";
         internal static const setGoogleAdvertisingId        : String = "setGoogleAdvertisingId";

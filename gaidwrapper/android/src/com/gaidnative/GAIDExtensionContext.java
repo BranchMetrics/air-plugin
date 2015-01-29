@@ -1,6 +1,5 @@
 package com.gaidnative;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,13 +7,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.provider.Settings.Secure;
 
 import com.adobe.fre.FREContext;
 import com.adobe.fre.FREFunction;
 import com.google.android.gms.ads.identifier.AdvertisingIdClient;
 import com.google.android.gms.ads.identifier.AdvertisingIdClient.Info;
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
-import com.google.android.gms.common.GooglePlayServicesRepairableException;
 
 public class GAIDExtensionContext extends FREContext {
     public static final String TAG = "GAIDANE";
@@ -46,15 +44,14 @@ public class GAIDExtensionContext extends FREContext {
                         e.printStackTrace();
                     }
                     dispatchStatusEventAsync("getGoogleAdvertisingId", gaidJson.toString());
-                } catch (IOException e) {
-                    // Unrecoverable error connecting to Google Play services (e.g.,
-                    // the old version of the service doesn't support getting AdvertisingId).
-                } catch (GooglePlayServicesNotAvailableException e) {
-                    // Google Play services is not available entirely.
-                } catch (GooglePlayServicesRepairableException e) {
-                    // Encountered a recoverable error connecting to Google Play services.
-                } catch (NullPointerException e) {
-                    // getId() sometimes returns null
+                } catch (Exception e) {
+                    JSONObject androidId = new JSONObject();
+                    try {
+                        androidId.put("androidId", Secure.getString(act.getContentResolver(), Secure.ANDROID_ID));
+                    } catch (JSONException e1) {
+                        e1.printStackTrace();
+                    }
+                    dispatchStatusEventAsync("getGoogleAdvertisingId", androidId.toString());
                 }
             }
         }).start();
