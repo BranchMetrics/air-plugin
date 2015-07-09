@@ -1,25 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:View xmlns:fx="http://ns.adobe.com/mxml/2009" title="MobileAppTracking ANE Test App"
         xmlns:s="library://ns.adobe.com/flex/spark" 
-        xmlns:MobileAppTracker="com.hasoffers.nativeExtensions.MobileAppTracker"
-        xmlns:GAID="com.hasoffers.nativeExtensions.GAID.GAID"
-        xmlns:IFA="com.hasoffers.nativeExtensions.IFA.IFA">
+        xmlns:MobileAppTracker="com.hasoffers.nativeExtensions.MobileAppTracker">
 
     <fx:Script>
         <![CDATA[
             import com.hasoffers.nativeExtensions.MobileAppTracker;
-            import com.hasoffers.nativeExtensions.GAID.GAID;
-            import com.hasoffers.nativeExtensions.IFA.IFA;
             
             import flash.utils.Dictionary;
             
             import mx.events.FlexEvent;
             
-            
-            
             public var mat:MobileAppTracker;
-            public var gaid:GAID;
-            public var ifa:IFA;
             
             public var isAndroidPlatform:Boolean;
             
@@ -34,12 +26,6 @@
                 
                 trace("MATANESampleHomeView.init(): getting MobileAppTracker singleton instance.");
                 mat = MobileAppTracker.instance;
-                
-                trace("MATANESampleHomeView.init(): getting GAID singleton instance.");
-                gaid = GAID.instance;
-                
-                trace("MATANESampleHomeView.init(): getting IFA singleton instance.");
-                ifa = IFA.instance;
                 
                 trace("MATANESampleHomeView.init() end");
             }
@@ -60,118 +46,117 @@
 
             protected function startMAT_clickHandler(event:MouseEvent):void
             {
+                trace("MATANESampleHomeView Start MAT clicked");
                 var matAdvertiserId:String = "877";
                 var matConversionKey:String = "8c14d6bbe466b65211e781d62e301eec";
                 var matPackageName:String = "com.hasoffers.airtestapp";
 
                 mat.init(matAdvertiserId, matConversionKey);
                 mat.setPackageName(matPackageName);
-                if (IFA.isSupported)
-                {
-                    mat.setAppleAdvertisingIdentifier(ifa.getAppleAdvertisingIdentifier(), ifa.isAdvertisingTrackingEnabled());
-                }
-                if (GAID.isSupported)
-                {
-                    gaid.getGoogleAdvertisingId(receivedGAIDCallback);
-                }
                 
                 mat.checkForDeferredDeeplink(750); // 750 ms
             }
 
-            private function receivedGAIDCallback(responseJson:String):void
-            {
-                var idDecoded:Object = JSON.parse(responseJson);
-                if (idDecoded.hasOwnProperty("gaid")) {
-                    mat.setGoogleAdvertisingId(idDecoded.gaid, idDecoded.isLAT);
-                } else {
-                    mat.setAndroidId(idDecoded.androidId);
-                }
-            }
-
             protected function debugMode_clickHandler(event:MouseEvent):void
             {
+                trace("MATANESampleHomeView Debug Mode clicked");
                 mat.setDebugMode(true);
             }
             
             protected function allowDuplicates_clickHandler(event:MouseEvent):void
             {
+                trace("MATANESampleHomeView Allow Duplicates clicked");
                 mat.setAllowDuplicates(true);
             }
             
             protected function delegate_clickHandler(event:MouseEvent):void
             {
+                trace("MATANESampleHomeView Set Delegate clicked");
                 mat.setDelegate(true);
             }
             
             protected function measureSession_clickHandler(event:MouseEvent):void
             {
+                trace("MATANESampleHomeView Measure Session clicked");
                 mat.measureSession();
             }
             
-            protected function measureAction_clickHandler(event:MouseEvent):void
+            protected function measureEvent_clickHandler(event:MouseEvent):void
             {
-                mat.measureAction("evt123", 0.42, "USD", "ref111");
+                trace("MATANESampleHomeView Measure Event clicked");
+                mat.measureEventName("evt123");
             }
             
-            protected function measureActionWithEventItems_clickHandler(event:MouseEvent):void
+            protected function measureEventWithEventItems_clickHandler(event:MouseEvent):void
             {
+                trace("MATANESampleHomeView Measure Event With Event Items clicked");
+                var matEvent:Dictionary = new Dictionary();
+                matEvent.name = "evt123";
+                matEvent.revenue = 0.42;
+                matEvent.currency = "USD";
+                matEvent.advertiserRefId = "ref111";
+                matEvent.attribute1 = "test_attribute1";
+                matEvent.attribute2 = "test_attribute2";
+                matEvent.attribute3 = "test_attribute3";
+                matEvent.attribute4 = "test_attribute4";
+                matEvent.attribute5 = "test_attribute5";
+
+                matEvent.contentId = "testContentId";
+                matEvent.contentType = "testContentType";
+                matEvent.date1 = new Date().toUTCString();
+                matEvent.date2 = new Date().toUTCString();
+                matEvent.level = 3;
+                matEvent.quantity = 2;
+                matEvent.rating = 4.5;
+                matEvent.searchString = "testSearchString";
+
                 var arrEvents:Array = new Array();
                 
                 var dict1:Dictionary = new Dictionary();
-                dict1["item"] = "item1";
-                dict1["unit_price"] = 1.11;
-                dict1["quantity"] = 1;
-                dict1["revenue"] = 1.11;
-                dict1["attribute1"] = "attr11";
-                dict1["attribute2"] = "attr12";
-                dict1["attribute3"] = "";
-                dict1["attribute4"] = null;
-                dict1["attribute5"] = "";
+                dict1.item = "item1";
+                dict1.unit_price = 1.11;
+                dict1.quantity = 1;
+                dict1.revenue = 1.11;
+                dict1.attribute1 = "attr11";
+                dict1.attribute2 = "attr12";
+                dict1.attribute3 = "";
+                dict1.attribute4 = null;
+                dict1.attribute5 = "";
                 
                 arrEvents.push(dict1);
                 
                 var dict2:Dictionary = new Dictionary();
-                dict2["item"] = "item1";
-                dict2["unit_price"] = 0.99;
-                dict2["quantity"] = 2;
-                dict2["revenue"] = 1.5;
-                dict2["attribute1"] = "attr21";
-                dict2["attribute2"] = null;
-                dict2["attribute3"] = "attr23";
-                dict2["attribute4"] = "";
-                dict2["attribute5"] = "attr25";
+                dict2.item = "item1";
+                dict2.unit_price = 0.99;
+                dict2.quantity = 2;
+                dict2.revenue = 1.5;
+                dict2.attribute1 = "attr21";
+                dict2.attribute2 = null;
+                dict2.attribute3 = "attr23";
+                dict2.attribute4 = "";
+                dict2.attribute5 = "attr25";
                 
                 arrEvents.push(dict2);
+
+                matEvent.eventItems = arrEvents;
                 
                 var storeReceipt:String = isAndroidPlatform ? null : getSampleiTunesIAPReceipt();
-                
-                mat.measureActionWithEventItems("eventWithItems123", arrEvents, 0.42, "AUD", "ref222", 0, storeReceipt, null);
+                matEvent.receipt = storeReceipt;
+
+                mat.measureEvent(matEvent);
             }
             
             protected function testSetterMethods_clickHandler(event:MouseEvent):void
             {
+                trace("MATANESampleHomeView Test Setters clicked");
                 mat.setAge(34);
                 mat.setAllowDuplicates(true);
                 mat.setAppAdTracking(true);
-                mat.setAppleAdvertisingIdentifier(ifa.getAppleAdvertisingIdentifier(), ifa.isAdvertisingTrackingEnabled());
+                mat.setAppleAdvertisingIdentifier("1234567890", true);
                 mat.setAppleVendorIdentifier("87654321-4321-4321-4321-210987654321");
                 mat.setCurrencyCode("CAD");
                 mat.setDebugMode(true);
                 mat.setDelegate(true);
-                mat.setEventAttribute1("test_attribute1");
-                mat.setEventAttribute2("test_attribute2");
-                mat.setEventAttribute3("test_attribute3");
-                mat.setEventAttribute4("test_attribute4");
-                mat.setEventAttribute5("test_attribute5");
-                
-                mat.setEventContentId("testContentId");
-                mat.setEventContentType("testContentType");
-                mat.setEventDate1(new Date().toUTCString());
-                mat.setEventDate2(new Date().toUTCString());
-                mat.setEventLevel(3);
-                mat.setEventQuantity(2);
-                mat.setEventRating(4.5);
-                mat.setEventSearchString("testSearchString");
                 
                 mat.setExistingUser(false);
                 mat.setFacebookEventLogging(true, false);
@@ -192,6 +177,7 @@
                 mat.setUserEmail("tempuser@tempcompany.com");
                 mat.setUserId("temp_user_id");
                 mat.setUserName("temp_user_name");
+                mat.setPhoneNumber("123-456-7890");
                 mat.setPayingUser(false);
             }
             
@@ -220,8 +206,8 @@
             <s:Button label="Enable Debug Mode" click="debugMode_clickHandler(event)" horizontalCenter="0" width="80%" top="110" />
             <s:Button label="Allow Duplicates" click="allowDuplicates_clickHandler(event)" horizontalCenter="0" width="80%" top="160" />
             <s:Button label="Measure session" click="measureSession_clickHandler(event)" horizontalCenter="0" width="80%" top="210" />
-            <s:Button label="Measure action" click="measureAction_clickHandler(event)" horizontalCenter="0" width="80%" top="260"/>
-            <s:Button label="Measure action with event item" click="measureActionWithEventItems_clickHandler(event)" horizontalCenter="0" width="80%" top="310"/>
+            <s:Button label="Measure event" click="measureEvent_clickHandler(event)" horizontalCenter="0" width="80%" top="260"/>
+            <s:Button label="Measure event with event item" click="measureEventWithEventItems_clickHandler(event)" horizontalCenter="0" width="80%" top="310"/>
             <s:Button label="Test Setter Methods" click="testSetterMethods_clickHandler(event)" horizontalCenter="0" width="80%" top="360"/>
             <s:Button label="Test Getter Methods" click="testGetterMethods_clickHandler(event)" horizontalCenter="0" width="80%" top="410"/>
         </s:Group>

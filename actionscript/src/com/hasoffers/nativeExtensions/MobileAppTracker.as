@@ -90,35 +90,56 @@ package com.hasoffers.nativeExtensions
             extContext.call(NativeMethods.measureSession);
         }
 
-        public function measureAction(event:String, revenue:Number=0, currency:String="USD", refId:String=null):void
+        public function measureEventName(event:String):void
         {
-            trace("MATAS.measureAction(" + event + ", " + revenue.toString() + ", " + currency + ", " + refId + ")");
-            extContext.call(NativeMethods.measureAction, event, revenue, currency, refId);
+            trace("MATAS.measureEventName(" + event + ")");
+            extContext.call(NativeMethods.measureEventName, event);
         }
 
-        public function measureActionWithEventItems(event:String, eventItems:Array, revenue:Number=0, currency:String="USD", refId:String=null, transactionState:int=-1, receipt:String=null, receiptSignature:String=null):void
+        public function measureEvent(event:Dictionary):void
         {
-            trace("MATAS.measureActionWithEventItems(" + event + ")");
-            
-            // an array to hold the event item param values
+            trace("MATAS.measureEvent(" + event + ")");
+
+            // Create array to hold the event item param values
             var arrItems:Array = new Array();
 
-            for each (var dictItem:Dictionary in eventItems)
+            for each (var dictItem:Dictionary in event["eventItems"])
             {
                 arrItems.push(new String(dictItem.item));
-                arrItems.push(dictItem.unit_price);
-                arrItems.push(dictItem.quantity);
-                arrItems.push(dictItem.revenue);
+                arrItems.push(dictItem.unit_price != null ? dictItem.unit_price : 0);
+                arrItems.push(dictItem.quantity != null ? dictItem.quantity : 0);
+                arrItems.push(dictItem.revenue != null ? dictItem.revenue : 0);
                 arrItems.push(new String(dictItem.attribute1));
                 arrItems.push(new String(dictItem.attribute2));
                 arrItems.push(new String(dictItem.attribute3));
                 arrItems.push(new String(dictItem.attribute4));
                 arrItems.push(new String(dictItem.attribute5));
             }
-            
-            trace("MATAS.measureActionWithEventItems: arrItems = " + arrItems);
 
-            extContext.call(NativeMethods.measureActionWithEventItems, event, arrItems, revenue, currency, refId, transactionState, receipt, receiptSignature);
+            trace("MATAS.measureEvent: arrItems = " + arrItems);
+
+            extContext.call(NativeMethods.measureEvent,
+                        new String(event.name),
+                        arrItems,
+                        event.revenue != null ? event.revenue : 0,
+                        new String(event.currency),
+                        new String(event.advertiserRefId),
+                        new String(event.receipt),
+                        new String(event.receiptSignature),
+                        new String(event.attribute1),
+                        new String(event.attribute2),
+                        new String(event.attribute3),
+                        new String(event.attribute4),
+                        new String(event.attribute5),
+                        new String(event.contentId),
+                        new String(event.contentType),
+                        new String(event.date1),
+                        new String(event.date2),
+                        event.level != null ? event.level : 0,
+                        event.quantity != null ? event.quantity : 0,
+                        event.rating != null ? event.rating : 0,
+                        new String(event.searchString)
+            );
         }
 
         public function startAppToAppTracking(targetAppId:String, advertiserId:String, offerId:String, publisherId:String, shouldRedirect:Boolean):void
@@ -179,84 +200,6 @@ package com.hasoffers.nativeExtensions
         {
             trace("MATAS.setDelegate(" + enable + ")");
             extContext.call(NativeMethods.setDelegate, enable);
-        }
-        
-        public function setEventAttribute1(attribute1:String):void
-        {
-            trace("MATAS.setEventAttribute1(" + attribute1 + ")");
-            extContext.call(NativeMethods.setEventAttribute, 1, attribute1);
-        }
-        
-        public function setEventAttribute2(attribute2:String):void
-        {
-            trace("MATAS.setEventAttribute2(" + attribute2 + ")");
-            extContext.call(NativeMethods.setEventAttribute, 2, attribute2);
-        }
-        
-        public function setEventAttribute3(attribute3:String):void
-        {
-            trace("MATAS.setEventAttribute3(" + attribute3 + ")");
-            extContext.call(NativeMethods.setEventAttribute, 3, attribute3);
-        }
-        
-        public function setEventAttribute4(attribute4:String):void
-        {
-            trace("MATAS.setEventAttribute4(" + attribute4 + ")");
-            extContext.call(NativeMethods.setEventAttribute, 4, attribute4);
-        }
-        
-        public function setEventAttribute5(attribute5:String):void
-        {
-            trace("MATAS.setEventAttribute5(" + attribute5 + ")");
-            extContext.call(NativeMethods.setEventAttribute, 5, attribute5);
-        }
-        
-        public function setEventContentId(contentId:String):void
-        {
-            trace("MATAS.setEventContentId(" + contentId + ")");
-            extContext.call(NativeMethods.setEventContentId, contentId);
-        }
-        
-        public function setEventContentType(contentType:String):void
-        {
-            trace("MATAS.setEventContentType(" + contentType + ")");
-            extContext.call(NativeMethods.setEventContentType, contentType);
-        }
-        
-        public function setEventDate1(dateString:String):void
-        {
-            trace("MATAS.setEventDate1(" + dateString + ")");
-            extContext.call(NativeMethods.setEventDate1, dateString);
-        }
-        
-        public function setEventDate2(dateString:String):void
-        {
-            trace("MATAS.setEventDate2(" + dateString + ")");
-            extContext.call(NativeMethods.setEventDate2, dateString);
-        }
-        
-        public function setEventLevel(level:int):void
-        {
-            trace("MATAS.setEventLevel(" + level + ")");
-            extContext.call(NativeMethods.setEventLevel, level);
-        }
-        
-        public function setEventQuantity(quantity:int):void
-        {
-            trace("MATAS.setEventQuantity(" + quantity + ")");
-            extContext.call(NativeMethods.setEventQuantity, quantity);
-        }
-        
-        public function setEventRating(rating:Number):void
-        {
-            trace("MATAS.setEventRating(" + rating + ")");
-            extContext.call(NativeMethods.setEventRating, rating);
-        }
-        
-        public function setEventSearchString(searchString:String):void
-        {
-            trace("MATAS.setEventSearchString(" + searchString + ")");
-            extContext.call(NativeMethods.setEventSearchString, searchString);
         }
         
         public function setExistingUser(existingUser:Boolean):void
@@ -371,6 +314,12 @@ package com.hasoffers.nativeExtensions
         {
             trace("MATAS.setUserName(" + userName + ")");
             extContext.call(NativeMethods.setUserName, userName);
+        }
+        
+        public function setPhoneNumber(phoneNumber:String):void
+        {
+            trace("MATAS.setPhoneNumber(" + phoneNumber + ")");
+            extContext.call(NativeMethods.setPhoneNumber, phoneNumber);
         }
         
         public function setPayingUser(payingUser:Boolean):void

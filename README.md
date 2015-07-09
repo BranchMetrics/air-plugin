@@ -20,8 +20,12 @@ __Android SDK__
 
 [http://developer.android.com/sdk/index.html](http://developer.android.com/sdk/index.html)
 
-In the /build/ folder, rename the build.config.dist file to build.config and set your system paths for flex.sdk, android.sdk and android.platformtools.
+__Google Play Services__
 
-In extension.xml.dist and platformios.xml.dist, change `<replace_with_air_sdk_version>` with your desired AIR SDK version and rename the files without .dist.
+[https://developers.google.com/android/guides/setup](https://developers.google.com/android/guides/setup)
+
+In the /build/ folder, rename the build.config.dist file to build.config and set your system paths for flex.sdk and android.sdk.
+
+In extension.xml, platformandroid.xml, and platformios.xml, change the AIR SDK version if needed.
 
 Then from /build/, run 'ant' which will create a MobileAppTrackerANE.ane file in the /dist/ folder.

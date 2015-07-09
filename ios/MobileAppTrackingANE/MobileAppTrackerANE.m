@@ -1,6 +1,7 @@
 #import "FlashRuntimeExtensions.h"
 #import "FRETypeConversionHelper.h"
 #import "MobileAppTracker.h"
+#import <AdSupport/AdSupport.h>
 #import <UIKit/UIKit.h>
 
 #define DEFINE_ANE_FUNCTION(fn) FREObject (fn)(FREContext context, void* functionData, uint32_t argc, FREObject argv[])
@@ -19,6 +20,14 @@ static FREContext matFREContext;
 
 @interface MATSDKDelegate : NSObject<MobileAppTrackerDelegate>
 // empty
+@end
+
+#pragma mark - MobileAppTracker Plugin Helper Category
+
+@interface MobileAppTracker (MATAIRPlugin)
+
++ (void)setPluginName:(NSString *)pluginName;
+
 @end
 
 @implementation MATSDKDelegate
@@ -114,8 +123,8 @@ DEFINE_ANE_FUNCTION(InitNativeCode)
     [MobileAppTracker initializeWithMATAdvertiserId:advId
                                    MATConversionKey:conversionKey];
     [MobileAppTracker setPluginName:@"air"];
-    
-    DLog(@"initNativeCode end");
+    [MobileAppTracker setAppleAdvertisingIdentifier:[[ASIdentifierManager sharedManager] advertisingIdentifier]
+                         advertisingTrackingEnabled:[[ASIdentifierManager sharedManager] isAdvertisingTrackingEnabled]];
     
     return NULL;
 }
@@ -138,38 +147,30 @@ DEFINE_ANE_FUNCTION(MeasureSessionFunction)
     
     [MobileAppTracker measureSession];
     
-    DLog(@"MeasureSessionFunction end");
+    return NULL;
+}
+
+DEFINE_ANE_FUNCTION(MeasureEventNameFunction)
+{
+    DLog("@MeasureEventNameFunction start");
+    
+    NSString *event = nil;
+    MAT_FREGetObjectAsString(argv[0], &event);
+    
+    [MobileAppTracker measureEventName:event];
     
     return NULL;
 }
 
-DEFINE_ANE_FUNCTION(MeasureActionWithEventItemsFunction)
+DEFINE_ANE_FUNCTION(MeasureEventFunction)
 {
-    DLog(@"MeasureActionWithEventItemsFunction start");
+    DLog("@MeasureEventFunction start");
     
     NSString *event = nil;
-    FREResult result;
-    result = MAT_FREGetObjectAsString(argv[0], &event);
-    
-    double revenue = 0;
-    result = FREGetObjectAsDouble(argv[2], &revenue);
-    
-    NSString *currencyCode = nil;
-    result = MAT_FREGetObjectAsString(argv[3], &currencyCode);
-    
-    NSString *refId = nil;
-    result = MAT_FREGetObjectAsString(argv[4], &refId);
-    
-    int32_t transactionState = 0;
-    result = FREGetObjectAsInt32(argv[5], &transactionState);
-    
-    NSString *strReceipt = nil;
-    result = MAT_FREGetObjectAsString(argv[6], &strReceipt);
-    NSData *receipt = [strReceipt dataUsingEncoding:NSUTF8StringEncoding];
+    MAT_FREGetObjectAsString(argv[0], &event);
     
     uint32_t arrayLength = 0;
     NSMutableArray *eventItems = [NSMutableArray array];
-    
     FREObject arrEventItems = argv[1];
     if (arrEventItems)
     {
@@ -229,39 +230,80 @@ DEFINE_ANE_FUNCTION(MeasureActionWithEventItemsFunction)
         }
     }
     
-    [MobileAppTracker measureAction:event
-                         eventItems:eventItems
-                        referenceId:refId
-                      revenueAmount:revenue
-                       currencyCode:currencyCode
-                   transactionState:transactionState
-                            receipt:receipt];
+    double revenue = 0;
+    FREGetObjectAsDouble(argv[2], &revenue);
     
-    DLog(@"MeasurePurchaseActionFunction end");
-    
-    return NULL;
-}
+    NSString *currencyCode = nil;
+    MAT_FREGetObjectAsString(argv[3], &currencyCode);
 
-DEFINE_ANE_FUNCTION(MeasureActionFunction)
-{
-    DLog(@"MeasureActionFunction");
-    
-    NSString *event = nil;
-    MAT_FREGetObjectAsString(argv[0], &event);
-    
-    double revenue;
-    FREGetObjectAsDouble(argv[1], &revenue);
-    
-    NSString* currencyCode = nil;
-    MAT_FREGetObjectAsString(argv[2], &currencyCode);
-    
     NSString *refId = nil;
-    MAT_FREGetObjectAsString(argv[3], &refId);
+    MAT_FREGetObjectAsString(argv[4], &refId);
     
-    [MobileAppTracker measureAction:event
-                        referenceId:refId
-                      revenueAmount:revenue
-                       currencyCode:currencyCode];
+    NSString *strReceipt = nil;
+    MAT_FREGetObjectAsString(argv[5], &strReceipt);
+    NSData *receipt = [strReceipt dataUsingEncoding:NSUTF8StringEncoding];
+    
+    NSString *attr1 = nil;
+    MAT_FREGetObjectAsString(argv[7], &attr1);
+    
+    NSString *attr2 = nil;
+    MAT_FREGetObjectAsString(argv[8], &attr2);
+    
+    NSString *attr3 = nil;
+    MAT_FREGetObjectAsString(argv[9], &attr3);
+    
+    NSString *attr4 = nil;
+    MAT_FREGetObjectAsString(argv[10], &attr4);
+    
+    NSString *attr5 = nil;
+    MAT_FREGetObjectAsString(argv[11], &attr5);
+    
+    NSString *contentId = nil;
+    MAT_FREGetObjectAsString(argv[12], &contentId);
+    
+    NSString *contentType = nil;
+    MAT_FREGetObjectAsString(argv[13], &contentType);
+    
+    NSString *dateString = nil;
+    MAT_FREGetObjectAsString(argv[14], &dateString);
+    NSDate* date1 = [dateFormatter() dateFromString:dateString];
+    
+    MAT_FREGetObjectAsString(argv[15], &dateString);
+    NSDate* date2 = [dateFormatter() dateFromString:dateString];
+    
+    int32_t level;
+    FREGetObjectAsInt32(argv[16], &level);
+    
+    int32_t quantity;
+    FREGetObjectAsInt32(argv[17], &quantity);
+    
+    double rating;
+    FREGetObjectAsDouble(argv[18], &rating);
+    
+    NSString *searchString = nil;
+    MAT_FREGetObjectAsString(argv[19], &searchString);
+    
+    MATEvent *matEvent = [MATEvent eventWithName:event];
+    matEvent.eventItems = eventItems;
+    matEvent.revenue = revenue;
+    matEvent.currencyCode = currencyCode;
+    matEvent.refId = refId;
+    matEvent.receipt = receipt;
+    matEvent.attribute1 = attr1;
+    matEvent.attribute2 = attr2;
+    matEvent.attribute3 = attr3;
+    matEvent.attribute4 = attr4;
+    matEvent.attribute5 = attr5;
+    matEvent.contentId = contentId;
+    matEvent.contentType = contentType;
+    matEvent.date1 = date1;
+    matEvent.date2 = date2;
+    matEvent.level = level;
+    matEvent.quantity = quantity;
+    matEvent.rating = rating;
+    matEvent.searchString = searchString;
+    
+    [MobileAppTracker measureEvent:matEvent];
     
     return NULL;
 }
@@ -402,6 +444,18 @@ DEFINE_ANE_FUNCTION(SetCurrencyCodeFunction)
     MAT_FREGetObjectAsString(argv[0], &currencyCode);
     
     [MobileAppTracker setCurrencyCode:currencyCode];
+    
+    return NULL;
+}
+
+DEFINE_ANE_FUNCTION(SetPhoneNumberFunction)
+{
+    DLog(@"SetPhoneNumberFunction");
+    
+    NSString *phoneNumber = nil;
+    MAT_FREGetObjectAsString(argv[0], &phoneNumber);
+    
+    [MobileAppTracker setPhoneNumber:phoneNumber];
     
     return NULL;
 }
@@ -652,139 +706,6 @@ DEFINE_ANE_FUNCTION(SetDelegateFunction)
     return NULL;
 }
 
-DEFINE_ANE_FUNCTION(SetEventAttributeFunction)
-{
-    DLog(@"SetEventAttributeFunction");
-    
-    uint32_t attrNum;
-    FREGetObjectAsUint32(argv[0], &attrNum);
-    
-    NSString *attrVal = nil;
-    MAT_FREGetObjectAsString(argv[1], &attrVal);
-    
-    switch (attrNum) {
-        case 1:
-            [MobileAppTracker setEventAttribute1:attrVal];
-            break;
-        case 2:
-            [MobileAppTracker setEventAttribute2:attrVal];
-            break;
-        case 3:
-            [MobileAppTracker setEventAttribute3:attrVal];
-            break;
-        case 4:
-            [MobileAppTracker setEventAttribute4:attrVal];
-            break;
-        case 5:
-            [MobileAppTracker setEventAttribute5:attrVal];
-            break;
-        default:
-            break;
-    }
-    
-    return NULL;
-}
-
-DEFINE_ANE_FUNCTION(SetEventContentTypeFunction)
-{
-    DLog(@"SetEventContentTypeFunction");
-    
-    NSString *contType = nil;
-    MAT_FREGetObjectAsString(argv[0], &contType);
-    
-    [MobileAppTracker setEventContentType:contType];
-    
-    return NULL;
-}
-
-DEFINE_ANE_FUNCTION(SetEventContentIdFunction)
-{
-    DLog(@"SetEventContentIdFunction");
-    
-    NSString *contId = nil;
-    MAT_FREGetObjectAsString(argv[0], &contId);
-    
-    [MobileAppTracker setEventContentId:contId];
-    
-    return NULL;
-}
-
-DEFINE_ANE_FUNCTION(SetEventDate1Function)
-{
-    DLog(@"SetEventDate1Function");
-    
-    NSString *dateString = nil;
-    MAT_FREGetObjectAsString(argv[0], &dateString);
-    
-    NSDate* date = [dateFormatter() dateFromString:dateString];
-    
-    [MobileAppTracker setEventDate1:date];
-    
-    return NULL;
-}
-
-DEFINE_ANE_FUNCTION(SetEventDate2Function)
-{
-    DLog(@"SetEventDate1Function");
-    
-    NSString *dateString = nil;
-    MAT_FREGetObjectAsString(argv[0], &dateString);
-    
-    NSDate* date = [dateFormatter() dateFromString:dateString];
-    
-    [MobileAppTracker setEventDate2:date];
-    
-    return NULL;
-}
-
-DEFINE_ANE_FUNCTION(SetEventLevelFunction)
-{
-    DLog(@"SetEventLevelFunction");
-    
-    int32_t level;
-    FREGetObjectAsInt32(argv[0], &level);
-    
-    [MobileAppTracker setEventLevel:level];
-    
-    return NULL;
-}
-
-DEFINE_ANE_FUNCTION(SetEventQuantityFunction)
-{
-    DLog(@"SetEventQuantityFunction");
-    
-    int32_t quantity;
-    FREGetObjectAsInt32(argv[0], &quantity);
-    
-    [MobileAppTracker setEventQuantity:quantity];
-    
-    return NULL;
-}
-
-DEFINE_ANE_FUNCTION(SetEventRatingFunction)
-{
-    DLog(@"SetEventRatingFunction");
-    
-    double rating;
-    FREGetObjectAsDouble(argv[0], &rating);
-    
-    [MobileAppTracker setEventRating:rating];
-    
-    return NULL;
-}
-
-DEFINE_ANE_FUNCTION(SetEventSearchStringFunction)
-{
-    DLog(@"SetEventSearchStringFunction");
-    
-    NSString *searchString = nil;
-    MAT_FREGetObjectAsString(argv[0], &searchString);
-    
-    [MobileAppTracker setEventSearchString:searchString];
-    
-    return NULL;
-}
-
 DEFINE_ANE_FUNCTION(GetMatIdFunction)
 {
     DLog(@"GetMatIdFunction");
@@ -867,8 +788,8 @@ void MATExtContextInitializer(void* extData, const uint8_t* ctxType, FREContext 
         MAP_FUNCTION(startAppToAppTracking,                         NULL, StartAppToAppTrackingFunction),
         
         MAP_FUNCTION(measureSession,                                NULL, MeasureSessionFunction),
-        MAP_FUNCTION(measureAction,                                 NULL, MeasureActionFunction),
-        MAP_FUNCTION(measureActionWithEventItems,                   NULL, MeasureActionWithEventItemsFunction),
+        MAP_FUNCTION(measureEvent,                                  NULL, MeasureEventFunction),
+        MAP_FUNCTION(measureEventName,                              NULL, MeasureEventNameFunction),
         
         MAP_FUNCTION(setAllowDuplicates,                            NULL, SetAllowDuplicatesFunction),
         MAP_FUNCTION(setCurrencyCode,                               NULL, SetCurrencyCodeFunction),
@@ -879,6 +800,7 @@ void MATExtContextInitializer(void* extData, const uint8_t* ctxType, FREContext 
         MAP_FUNCTION(setFacebookEventLogging,                       NULL, SetFacebookEventLogging),
         MAP_FUNCTION(setJailbroken,                                 NULL, SetJailbrokenFunction),
         MAP_FUNCTION(setPackageName,                                NULL, SetPackageNameFunction),
+        MAP_FUNCTION(setPhoneNumber,                                NULL, SetPhoneNumberFunction),
         MAP_FUNCTION(setRedirectUrl,                                NULL, SetRedirectUrlFunction),
         MAP_FUNCTION(setShouldAutoDetectJailbroken,                 NULL, SetShouldAutoDetectJailbrokenFunction),
         MAP_FUNCTION(setSiteId,                                     NULL, SetSiteIdFunction),
@@ -895,17 +817,6 @@ void MATExtContextInitializer(void* extData, const uint8_t* ctxType, FREContext 
         MAP_FUNCTION(setAge,                                        NULL, SetAgeFunction),
         MAP_FUNCTION(setGender,                                     NULL, SetGenderFunction),
         MAP_FUNCTION(setLocation,                                   NULL, SetLocationFunction),
-        
-        MAP_FUNCTION(setEventAttribute,                             NULL, SetEventAttributeFunction),
-        
-        MAP_FUNCTION(setEventContentType,                           NULL, SetEventContentTypeFunction),
-        MAP_FUNCTION(setEventContentId,                             NULL, SetEventContentIdFunction),
-        MAP_FUNCTION(setEventDate1,                                 NULL, SetEventDate1Function),
-        MAP_FUNCTION(setEventDate2,                                 NULL, SetEventDate2Function),
-        MAP_FUNCTION(setEventLevel,                                 NULL, SetEventLevelFunction),
-        MAP_FUNCTION(setEventQuantity,                              NULL, SetEventQuantityFunction),
-        MAP_FUNCTION(setEventRating,                                NULL, SetEventRatingFunction),
-        MAP_FUNCTION(setEventSearchString,                          NULL, SetEventSearchStringFunction),
         
         MAP_FUNCTION(setAppleAdvertisingIdentifier,                 NULL, SetAppleAdvertisingIdentifierFunction),
         MAP_FUNCTION(setAppleVendorIdentifier,                      NULL, SetAppleVendorIdentifierFunction),

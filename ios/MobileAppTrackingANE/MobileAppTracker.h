@@ -9,13 +9,17 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+#import "MATEvent.h"
 #import "MATEventItem.h"
+#import "MATPreloadData.h"
 
+//#define MAT_USE_LOCATION
 #ifdef MAT_USE_LOCATION
 #import <CoreLocation/CoreLocation.h>
+#import <CoreBluetooth/CoreBluetooth.h>
 #endif
 
-#define MATVERSION @"3.7"
+#define MATVERSION @"3.10.0"
 
 
 #pragma mark - enumerated types
@@ -49,14 +53,14 @@ typedef NS_ENUM(NSInteger, MATGender)
 
 /*!
  MobileAppTracker provides the methods to send events and actions to the
- HasOffers servers.
+ MobileAppTracking servers.
  */
 @interface MobileAppTracker : NSObject
 
 
 #pragma mark - Main Initializer
 
-/** @name Intitializing MobileAppTracker With Advertiser Information */
+/** @name Initializing MobileAppTracker With Advertiser Information */
 /*!
  Starts Mobile App Tracker with MAT Advertiser ID and MAT Conversion Key. Both values are required.
  @param aid the MAT Advertiser ID provided in Mobile App Tracking.
@@ -64,6 +68,15 @@ typedef NS_ENUM(NSInteger, MATGender)
  */
 + (void)initializeWithMATAdvertiserId:(NSString *)aid MATConversionKey:(NSString *)key;
 
+/** @name Initializing MobileAppTracker With Advertiser Information */
+/*!
+ Starts Mobile App Tracker with MAT Advertiser ID and MAT Conversion Key. All values are required.
+ @param aid the MAT Advertiser ID provided in Mobile App Tracking.
+ @param key the MAT Conversion Key provided in Mobile App Tracking.
+ @param name the package name used when setting up the app in Mobile App Tracking.
+ @param wearable should be set to YES when being initialized in a WatchKit extension, defaults to NO.
+ */
++ (void)initializeWithMATAdvertiserId:(NSString *)aid MATConversionKey:(NSString *)key MATPackageName:(NSString *)name wearable:(BOOL)wearable;
 
 #pragma mark - Delegate
 
@@ -90,21 +103,19 @@ typedef NS_ENUM(NSInteger, MATGender)
 
 /*!
  Specifies that the server responses should include debug information.
- 
  @warning This is only for testing. You must turn this off for release builds.
- 
- @param yesorno defaults to NO.
+ @param enable defaults to NO.
  */
-+ (void)setDebugMode:(BOOL)yesorno;
++ (void)setDebugMode:(BOOL)enable;
 
 /*!
  Set to YES to allow duplicate requests to be registered with the MAT server.
  
  @warning This is only for testing. You must turn this off for release builds.
  
- @param yesorno defaults to NO.
+ @param allow defaults to NO.
  */
-+ (void)setAllowDuplicateRequests:(BOOL)yesorno;
++ (void)setAllowDuplicateRequests:(BOOL)allow;
 
 
 #pragma mark - Behavior Flags
@@ -121,6 +132,19 @@ typedef NS_ENUM(NSInteger, MATGender)
  @param timeout If the deeplink value is not received within this timeout duration, then the deeplink will not be opened.
  */
 + (void)checkForDeferredDeeplinkWithTimeout:(NSTimeInterval)timeout;
+
+/*!
+ Enable automatic measurement of app store in-app-purchase events. When enabled, your code should not explicitly measure events for successful purchases related to StoreKit to avoid event duplication.
+ @param automate Automate IAP purchase event measurement. Defaults to NO.
+ */
++ (void)automateIapEventMeasurement:(BOOL)automate;
+
+/*!
+ * Set whether the MAT events should also be logged to the Facebook SDK. This flag is ignored if the Facebook SDK is not present.
+ * @param logging Whether to send MAT events to FB as well
+ * @param limit Whether data such as that generated through FBAppEvents and sent to Facebook should be restricted from being used for other than analytics and conversions.  Defaults to NO.  This value is stored on the device and persists across app launches.
+ */
++ (void)setFacebookEventLogging:(BOOL)logging limitEventAndDataUsage:(BOOL)limit;
 
 
 #pragma mark - Data Setters
@@ -158,9 +182,9 @@ typedef NS_ENUM(NSInteger, MATGender)
 
 /*!
  Sets the jailbroken device flag.
- @param yesorno The jailbroken device flag.
+ @param jailbroken The jailbroken device flag.
  */
-+ (void)setJailbroken:(BOOL)yesorno;
++ (void)setJailbroken:(BOOL)jailbroken;
 
 /*!
  Sets the package name (bundle identifier).
@@ -172,17 +196,17 @@ typedef NS_ENUM(NSInteger, MATGender)
 /*!
  Specifies if the sdk should auto detect if the iOS device is jailbroken.
  YES/NO
- @param yesorno YES will detect if the device is jailbroken, defaults to YES.
+ @param autoDetect YES will detect if the device is jailbroken, defaults to YES.
  */
-+ (void)setShouldAutoDetectJailbroken:(BOOL)yesorno;
++ (void)setShouldAutoDetectJailbroken:(BOOL)autoDetect;
 
 /*!
  Specifies if the sdk should pull the Apple Vendor Identifier from the device.
  YES/NO
  Note that setting to NO will clear any previously set value for the property.
- @param yesorno YES will set the Apple Vendor Identifier, defaults to YES.
+ @param autoGenerate YES will set the Apple Vendor Identifier, defaults to YES.
  */
-+ (void)setShouldAutoGenerateAppleVendorIdentifier:(BOOL)yesorno;
++ (void)setShouldAutoGenerateAppleVendorIdentifier:(BOOL)autoGenerate;
 
 /*!
  Sets the site ID.
@@ -197,7 +221,7 @@ typedef NS_ENUM(NSInteger, MATGender)
 + (void)setTRUSTeId:(NSString *)tpid;
 
 /*!
- Sets the user's email address.
+ Sets the MD5, SHA-1 and SHA-256 hash representations of the user's email address.
  @param userEmail The user's email address.
  */
 + (void)setUserEmail:(NSString *)userEmail;
@@ -209,10 +233,16 @@ typedef NS_ENUM(NSInteger, MATGender)
 + (void)setUserId:(NSString *)userId;
 
 /*!
- Sets the user's name.
+ Sets the MD5, SHA-1 and SHA-256 hash representations of the user's name.
  @param userName The user's name.
  */
 + (void)setUserName:(NSString *)userName;
+
+/*!
+ Sets the MD5, SHA-1 and SHA-256 hash representations of the user's phone number.
+ @param phoneNumber The user's phone number.
+ */
++ (void)setPhoneNumber:(NSString *)phoneNumber;
 
 /*!
  Set user's Facebook ID.
@@ -267,119 +297,17 @@ typedef NS_ENUM(NSInteger, MATGender)
 + (void)setAppAdTracking:(BOOL)enable;
 
 /*!
- Set the name of plugin used, if any. Not for general use.
- @param pluginName
- */
-+ (void)setPluginName:(NSString *)pluginName;
-
-/*!
  Set whether the user is generating revenue for the app or not.
- If measureAction is called with a non-zero revenue, this is automatically set to YES.
+ If measureEvent is called with a non-zero revenue, this is automatically set to YES.
  @param isPayingUser YES if the user is revenue-generating, NO if not
  */
 + (void)setPayingUser:(BOOL)isPayingUser;
 
-
-#pragma mark - Event-specific setters
-
 /*!
- Set the content type associated with the next action (e.g., @"shoes").
- Will be cleared after the next measurement call.
- @param content type
+ Sets publisher information for attribution.
+ @param preloadData Preload app attribution data
  */
-+ (void)setEventContentType:(NSString*)contentType;
-
-/*!
- Set the content ID associated with the next action (International Article Number
- (EAN) when applicable, or other product or content identifier).
- Will be cleared after the next measurement call.
- @param content ID
- */
-+ (void)setEventContentId:(NSString*)contentId;
-
-/*!
- Set the level associated with the next action (e.g., for a game).
- Will be cleared after the next measurement call.
- @param level
- */
-+ (void)setEventLevel:(NSInteger)level;
-
-/*!
- Set the quantity associated with the next action (e.g., number of items).
- Will be cleared after the next measurement call.
- @param quantity
- */
-+ (void)setEventQuantity:(NSInteger)quantity;
-
-/*!
- Set the search string associated with the next action.
- Will be cleared after the next measurement call.
- @param search string
- */
-+ (void)setEventSearchString:(NSString*)searchString;
-
-/*!
- Set the rating associated with the next action (e.g., a user rating an item).
- Will be cleared after the next measurement call.
- @param rating
- */
-+ (void)setEventRating:(CGFloat)rating;
-
-/*!
- Set the first date associated with the next action (e.g., user's check-in time).
- Will be cleared after the next measurement call.
- @param date
- */
-+ (void)setEventDate1:(NSDate*)date;
-
-/*!
- Set the second date associated with the next action (e.g., user's check-out time).
- Will be cleared after the next measurement call.
- @param date
- */
-+ (void)setEventDate2:(NSDate*)date;
-
-/*!
- Set the first attribute to be included in the next action.
- Will be cleared after the next measurement call.
- @param value
- */
-+ (void)setEventAttribute1:(NSString*)value;
-
-/*!
- Set the second attribute to be included in the next action.
- Will be cleared after the next measurement call.
- @param value
- */
-+ (void)setEventAttribute2:(NSString*)value;
-
-/*!
- Set the third attribute to be included in the next action.
- Will be cleared after the next measurement call.
- @param value
- */
-+ (void)setEventAttribute3:(NSString*)value;
-
-/*!
- Set the fourth attribute to be included in the next action.
- Will be cleared after the next measurement call.
- @param value
- */
-+ (void)setEventAttribute4:(NSString*)value;
-
-/*!
- Set the fifth attribute to be included in the next action.
- Will be cleared after the next measurement call.
- @param value
- */
-+ (void)setEventAttribute5:(NSString*)value;
-
-/*!
- * Set whether the MAT events should also be logged to the Facebook SDK. This flag is ignored if the Facebook SDK is not present.
- * @param logging Whether to send MAT events to FB as well
- * @param limit Whether data such as that generated through FBAppEvents and sent to Facebook should be restricted from being used for other than analytics and conversions.  Defaults to NO.  This value is stored on the device and persists across app launches.
- */
-+ (void)setFacebookEventLogging:(BOOL)logging limitEventAndDataUsage:(BOOL)limit;
++ (void)setPreloadData:(MATPreloadData *)preloadData;
 
 
 #pragma mark - Data Getters
@@ -425,6 +353,7 @@ typedef NS_ENUM(NSInteger, MATGender)
 
 #endif
 
+
 #pragma mark - Measuring Sessions
 
 /** @name Measuring Sessions */
@@ -435,6 +364,29 @@ typedef NS_ENUM(NSInteger, MATGender)
 + (void)measureSession;
 
 
+#pragma mark - Measuring Events
+
+/** @name Measuring Events */
+
+/*!
+ Record an event for an Event Name.
+ @param eventName The event name.
+ */
++ (void)measureEventName:(NSString *)eventName;
+
+/*!
+ Record an event by providing the equivalent Event ID defined on the MobileAppTracking dashboard.
+ @param eventId The event ID.
+ */
++ (void)measureEventId:(NSInteger)eventId;
+
+/*!
+ Record an event with a MATEvent.
+ @param event The MATEvent.
+ */
++ (void)measureEvent:(MATEvent *)event;
+
+
 #pragma mark - Measuring Actions
 
 /** @name Measuring Actions */
@@ -443,14 +395,14 @@ typedef NS_ENUM(NSInteger, MATGender)
  Record an Action for an Event Name.
  @param eventName The event name.
  */
-+ (void)measureAction:(NSString *)eventName;
++ (void)measureAction:(NSString *)eventName DEPRECATED_MSG_ATTRIBUTE("Use +(void)measureEventName:(NSString *)eventName");
 
 /*!
  Record an Action for an Event Name and reference ID.
  @param eventName The event name.
  @param refId The reference ID for an event, corresponds to advertiser_ref_id on the website.
  */
-+ (void)measureAction:(NSString *)eventName referenceId:(NSString *)refId;
++ (void)measureAction:(NSString *)eventName referenceId:(NSString *)refId DEPRECATED_MSG_ATTRIBUTE("Use +(void)measureEvent:(MATEvent *)event");
 
 
 /*!
@@ -461,7 +413,7 @@ typedef NS_ENUM(NSInteger, MATGender)
  */
 + (void)measureAction:(NSString *)eventName
         revenueAmount:(float)revenueAmount
-         currencyCode:(NSString *)currencyCode;
+         currencyCode:(NSString *)currencyCode DEPRECATED_MSG_ATTRIBUTE("Use +(void)measureEvent:(MATEvent *)event");
 
 /*!
  Record an Action for an Event Name and reference ID, revenue and currency.
@@ -473,20 +425,20 @@ typedef NS_ENUM(NSInteger, MATGender)
 + (void)measureAction:(NSString *)eventName
           referenceId:(NSString *)refId
         revenueAmount:(float)revenueAmount
-         currencyCode:(NSString *)currencyCode;
+         currencyCode:(NSString *)currencyCode DEPRECATED_MSG_ATTRIBUTE("Use +(void)measureEvent:(MATEvent *)event");
 
 /*!
  Record an Action for an Event ID.
  @param eventId The event ID.
  */
-+ (void)measureActionWithEventId:(NSInteger)eventId;
++ (void)measureActionWithEventId:(NSInteger)eventId DEPRECATED_MSG_ATTRIBUTE("Use +(void)measureEventId:(NSInteger)eventId");
 
 /*!
  Record an Action for an Event ID and reference id.
  @param eventId The event ID.
  @param refId The reference ID for an event, corresponds to advertiser_ref_id on the website.
  */
-+ (void)measureActionWithEventId:(NSInteger)eventId referenceId:(NSString *)refId;
++ (void)measureActionWithEventId:(NSInteger)eventId referenceId:(NSString *)refId DEPRECATED_MSG_ATTRIBUTE("Use +(void)measureEvent:(MATEvent *)event");
 
 /*!
  Record an Action for an Event ID, revenue and currency.
@@ -496,7 +448,7 @@ typedef NS_ENUM(NSInteger, MATGender)
  */
 + (void)measureActionWithEventId:(NSInteger)eventId
                    revenueAmount:(float)revenueAmount
-                    currencyCode:(NSString *)currencyCode;
+                    currencyCode:(NSString *)currencyCode DEPRECATED_MSG_ATTRIBUTE("Use +(void)measureEvent:(MATEvent *)event");
 
 /*!
  Record an Action for an Event ID and reference id, revenue and currency.
@@ -508,10 +460,10 @@ typedef NS_ENUM(NSInteger, MATGender)
 + (void)measureActionWithEventId:(NSInteger)eventId
                      referenceId:(NSString *)refId
                    revenueAmount:(float)revenueAmount
-                    currencyCode:(NSString *)currencyCode;
+                    currencyCode:(NSString *)currencyCode DEPRECATED_MSG_ATTRIBUTE("Use +(void)measureEvent:(MATEvent *)event");
 
 
-#pragma mark - Measuring Actions With Event Items
+#pragma mark - Measuring Actions With Event Items (DEPRECATED)
 
 /** @name Measuring Actions With Event Items */
 
@@ -520,7 +472,7 @@ typedef NS_ENUM(NSInteger, MATGender)
  @param eventName The event name.
  @param eventItems An array of MATEventItem objects
  */
-+ (void)measureAction:(NSString *)eventName eventItems:(NSArray *)eventItems;
++ (void)measureAction:(NSString *)eventName eventItems:(NSArray *)eventItems DEPRECATED_MSG_ATTRIBUTE("Use +(void)measureEvent:(MATEvent *)event");
 
 /*!
  Record an Action for an Event Name.
@@ -530,7 +482,7 @@ typedef NS_ENUM(NSInteger, MATGender)
  */
 + (void)measureAction:(NSString *)eventName
            eventItems:(NSArray *)eventItems
-          referenceId:(NSString *)refId;
+          referenceId:(NSString *)refId DEPRECATED_MSG_ATTRIBUTE("Use +(void)measureEvent:(MATEvent *)event");
 
 /*!
  Record an Action for an Event Name.
@@ -542,7 +494,7 @@ typedef NS_ENUM(NSInteger, MATGender)
 + (void)measureAction:(NSString *)eventName
            eventItems:(NSArray *)eventItems
         revenueAmount:(float)revenueAmount
-         currencyCode:(NSString *)currencyCode;
+         currencyCode:(NSString *)currencyCode DEPRECATED_MSG_ATTRIBUTE("Use +(void)measureEvent:(MATEvent *)event");
 
 /*!
  Record an Action for an Event Name.
@@ -556,7 +508,7 @@ typedef NS_ENUM(NSInteger, MATGender)
            eventItems:(NSArray *)eventItems
           referenceId:(NSString *)refId
         revenueAmount:(float)revenueAmount
-         currencyCode:(NSString *)currencyCode;
+         currencyCode:(NSString *)currencyCode DEPRECATED_MSG_ATTRIBUTE("Use +(void)measureEvent:(MATEvent *)event");
 
 /*!
  Record an Action for an Event Name.
@@ -572,7 +524,7 @@ typedef NS_ENUM(NSInteger, MATGender)
           referenceId:(NSString *)refId
         revenueAmount:(float)revenueAmount
          currencyCode:(NSString *)currencyCode
-     transactionState:(NSInteger)transactionState;
+     transactionState:(NSInteger)transactionState DEPRECATED_MSG_ATTRIBUTE("Use +(void)measureEvent:(MATEvent *)event");
 
 /*!
  Record an Action for an Event Name.
@@ -590,14 +542,14 @@ typedef NS_ENUM(NSInteger, MATGender)
         revenueAmount:(float)revenueAmount
          currencyCode:(NSString *)currencyCode
      transactionState:(NSInteger)transactionState
-              receipt:(NSData *)receipt;
+              receipt:(NSData *)receipt DEPRECATED_MSG_ATTRIBUTE("Use +(void)measureEvent:(MATEvent *)event");
 
 /*!
  Record an Action for an Event ID and a list of event items.
  @param eventId The event ID.
  @param eventItems An array of MATEventItem objects
  */
-+ (void)measureActionWithEventId:(NSInteger)eventId eventItems:(NSArray *)eventItems;
++ (void)measureActionWithEventId:(NSInteger)eventId eventItems:(NSArray *)eventItems DEPRECATED_MSG_ATTRIBUTE("Use +(void)measureEvent:(MATEvent *)event");
 
 /*!
  Record an Action for an Event ID.
@@ -607,7 +559,7 @@ typedef NS_ENUM(NSInteger, MATGender)
  */
 + (void)measureActionWithEventId:(NSInteger)eventId
                       eventItems:(NSArray *)eventItems
-                     referenceId:(NSString *)refId;
+                     referenceId:(NSString *)refId DEPRECATED_MSG_ATTRIBUTE("Use +(void)measureEvent:(MATEvent *)event");
 
 /*!
  Record an Action for an Event ID.
@@ -619,7 +571,7 @@ typedef NS_ENUM(NSInteger, MATGender)
 + (void)measureActionWithEventId:(NSInteger)eventId
                       eventItems:(NSArray *)eventItems
                    revenueAmount:(float)revenueAmount
-                    currencyCode:(NSString *)currencyCode;
+                    currencyCode:(NSString *)currencyCode DEPRECATED_MSG_ATTRIBUTE("Use +(void)measureEvent:(MATEvent *)event");
 
 /*!
  Record an Action for an Event ID.
@@ -633,7 +585,7 @@ typedef NS_ENUM(NSInteger, MATGender)
                       eventItems:(NSArray *)eventItems
                      referenceId:(NSString *)refId
                    revenueAmount:(float)revenueAmount
-                    currencyCode:(NSString *)currencyCode;
+                    currencyCode:(NSString *)currencyCode DEPRECATED_MSG_ATTRIBUTE("Use +(void)measureEvent:(MATEvent *)event");
 
 /*!
  Record an Action for an Event ID.
@@ -649,7 +601,7 @@ typedef NS_ENUM(NSInteger, MATGender)
                      referenceId:(NSString *)refId
                    revenueAmount:(float)revenueAmount
                     currencyCode:(NSString *)currencyCode
-                transactionState:(NSInteger)transactionState;
+                transactionState:(NSInteger)transactionState DEPRECATED_MSG_ATTRIBUTE("Use +(void)measureEvent:(MATEvent *)event");
 
 /*!
  Record an Action for an Event ID.
@@ -667,18 +619,18 @@ typedef NS_ENUM(NSInteger, MATGender)
                    revenueAmount:(float)revenueAmount
                     currencyCode:(NSString *)currencyCode
                 transactionState:(NSInteger)transactionState
-                         receipt:(NSData *)receipt;
+                         receipt:(NSData *)receipt DEPRECATED_MSG_ATTRIBUTE("Use +(void)measureEvent:(MATEvent *)event");
 
 
 #pragma mark - Cookie Tracking
 
 /** @name Cookie Tracking */
 /*!
- Sets whether or not to user cookie based tracking.
+ Sets whether or not to use cookie based tracking.
  Default: NO
- @param yesorno YES/NO for cookie based tracking.
+ @param enable YES/NO for cookie based tracking.
  */
-+ (void)setUseCookieTracking:(BOOL)yesorno;
++ (void)setUseCookieTracking:(BOOL)enable;
 
 
 #pragma mark - App-to-app Tracking
@@ -689,16 +641,16 @@ typedef NS_ENUM(NSInteger, MATGender)
  Sets a url to be used with app-to-app tracking so that
  the sdk can open the download (redirect) url. This is
  used in conjunction with the setTracking:advertiserId:offerId:publisherId:redirect: method.
- @param redirect_url The string name for the url.
+ @param redirectUrl The string name for the url.
  */
-+ (void)setRedirectUrl:(NSString *)redirectURL;
++ (void)setRedirectUrl:(NSString *)redirectUrl;
 
 /*!
  Start an app-to-app tracking session on the MAT server.
  @param targetAppPackageName The bundle identifier of the target app.
  @param targetAppAdvertiserId The MAT advertiser ID of the target app.
- @param offerId The MAT offer ID of the target app.
- @param publisherId The MAT publisher ID of the target app.
+ @param targetAdvertiserOfferId The MAT offer ID of the target app.
+ @param targetAdvertiserPublisherId The MAT publisher ID of the target app.
  @param shouldRedirect Should redirect to the download url if the tracking session was 
    successfully created. See setRedirectUrl:.
  */
@@ -716,8 +668,8 @@ typedef NS_ENUM(NSInteger, MATGender)
 /*!
  Record the URL and Source when an application is opened via a URL scheme.
  This typically occurs during OAUTH or when an app exits and is returned
- to via a URL. The data will be sent to the HasOffers server so that a
- Re-Engagement can be recorded.
+ to via a URL. The data will be sent to the HasOffers server when the next
+ measureXXX method is called so that a Re-Engagement can be recorded.
  @param urlString the url string used to open your app.
  @param sourceApplication the source used to open your app. For example, mobile safari.
  */
@@ -782,6 +734,12 @@ typedef NS_ENUM(NSInteger, MATGender)
 - (void)mobileAppTrackerDidFailWithError:(NSError *)error;
 
 /*!
+ Delegate method called when a deferred deeplink becomes available.
+ @param deeplink String representation of the deeplink url.
+ */
+- (void)mobileAppTrackerDidReceiveDeeplink:(NSString *)deeplink;
+
+/*!
  Delegate method called when an iAd is displayed and its parent view is faded in.
  */
 - (void)mobileAppTrackerDidDisplayiAd;
@@ -814,16 +772,28 @@ typedef NS_ENUM(NSInteger, MATGender)
 @optional
 
 /*!
- Delegate method called when a geofenced region is entered.
+ Delegate method called when an iBeacon region is entered.
  @param region The region that was entered.
  */
 - (void)mobileAppTrackerDidEnterRegion:(CLRegion*)region;
 
 /*!
- Delegate method called when a geofenced region is exited.
+ Delegate method called when an iBeacon region is exited.
  @param region The region that was exited.
  */
 - (void)mobileAppTrackerDidExitRegion:(CLRegion*)region;
+
+/*!
+ Delegate method called when the user changes location authorization status.
+ @param authStatus The new status.
+ */
+- (void)mobileAppTrackerChangedAuthStatusTo:(CLAuthorizationStatus)authStatus;
+
+/*!
+ Delegate method called when the device's Bluetooth settings change.
+ @param bluetoothState The new state.
+ */
+- (void)mobileAppTrackerChangedBluetoothStateTo:(CBCentralManagerState)bluetoothState;
 
 @end
 #endif

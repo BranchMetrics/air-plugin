@@ -11,8 +11,8 @@ package com.hasoffers.nativeExtensions
         internal static const measureSession                : String = "measureSession";
         
         // Measuring methods: events and eventItems
-        internal static const measureAction                 : String = "measureAction";
-        internal static const measureActionWithEventItems   : String = "measureActionWithEventItems";
+        internal static const measureEvent                  : String = "measureEvent";
+        internal static const measureEventName              : String = "measureEventName";
         
         // Methods to help debugging and testing
         internal static const setDebugMode                  : String = "setDebugMode";
@@ -26,16 +26,6 @@ package com.hasoffers.nativeExtensions
         internal static const setAndroidId                  : String = "setAndroidId";
         internal static const setAppAdTracking              : String = "setAppAdTracking";
         internal static const setCurrencyCode               : String = "setCurrencyCode";
-        internal static const setEventAttribute             : String = "setEventAttribute";
-        
-        internal static const setEventContentType           : String = "setEventContentType";
-        internal static const setEventContentId             : String = "setEventContentId";
-        internal static const setEventDate1                 : String = "setEventDate1";
-        internal static const setEventDate2                 : String = "setEventDate2";
-        internal static const setEventLevel                 : String = "setEventLevel";
-        internal static const setEventQuantity              : String = "setEventQuantity";
-        internal static const setEventRating                : String = "setEventRating";
-        internal static const setEventSearchString          : String = "setEventSearchString";
         
         internal static const setExistingUser               : String = "setExistingUser";
         internal static const setFacebookEventLogging       : String = "setFacebookEventLogging";
@@ -55,6 +45,7 @@ package com.hasoffers.nativeExtensions
         internal static const setUserEmail                  : String = "setUserEmail";
         internal static const setUserId                     : String = "setUserId";
         internal static const setUserName                   : String = "setUserName";
+        internal static const setPhoneNumber                : String = "setPhoneNumber";
         internal static const setPayingUser                 : String = "setPayingUser";
         
         // Getter Methods

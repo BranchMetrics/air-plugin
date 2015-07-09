@@ -7,10 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		329906BA1B4DF3C10059B5C5 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 329906B91B4DF3C10059B5C5 /* AdSupport.framework */; };
+		329906BC1B4DF6940059B5C5 /* MobileAppTracker-3.10.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 329906BB1B4DF6940059B5C5 /* MobileAppTracker-3.10.0.a */; };
 		96318CCA16020DC10075B93E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96318CC916020DC10075B93E /* Foundation.framework */; };
 		96318CD116020DC10075B93E /* MobileAppTrackerANE.m in Sources */ = {isa = PBXBuildFile; fileRef = 96318CD016020DC10075B93E /* MobileAppTrackerANE.m */; };
 		F86BA3801682889000916B89 /* FRETypeConversionHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = F86BA37F1682889000916B89 /* FRETypeConversionHelper.m */; };
-		F898D3581995536400724219 /* MobileAppTracker-3.7.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F898D3571995536400724219 /* MobileAppTracker-3.7.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -26,6 +27,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		329906B51B4DEB8B0059B5C5 /* MATEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MATEvent.h; sourceTree = "<group>"; };
+		329906B61B4DF22C0059B5C5 /* MATPreloadData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MATPreloadData.h; sourceTree = "<group>"; };
+		329906B91B4DF3C10059B5C5 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
+		329906BB1B4DF6940059B5C5 /* MobileAppTracker-3.10.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "MobileAppTracker-3.10.0.a"; path = "MobileAppTrackingANE/MobileAppTracker-3.10.0.a"; sourceTree = "<group>"; };
 		96318CC616020DC10075B93E /* libMobileAppTrackerANE.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMobileAppTrackerANE.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		96318CC916020DC10075B93E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		96318CCD16020DC10075B93E /* MobileAppTrackingANE-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MobileAppTrackingANE-Prefix.pch"; sourceTree = "<group>"; };
@@ -34,7 +39,6 @@
 		F86BA37E1682889000916B89 /* FRETypeConversionHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FRETypeConversionHelper.h; sourceTree = "<group>"; };
 		F86BA37F1682889000916B89 /* FRETypeConversionHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FRETypeConversionHelper.m; sourceTree = "<group>"; };
 		F86BA393168BB32700916B89 /* MobileAppTracker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MobileAppTracker.h; sourceTree = "<group>"; };
-		F898D3571995536400724219 /* MobileAppTracker-3.7.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "MobileAppTracker-3.7.a"; path = "MobileAppTrackingANE/MobileAppTracker-3.7.a"; sourceTree = "<group>"; };
 		F8F560F718BE8D8600D2F3D3 /* MATEventItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MATEventItem.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -43,8 +47,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				329906BA1B4DF3C10059B5C5 /* AdSupport.framework in Frameworks */,
 				96318CCA16020DC10075B93E /* Foundation.framework in Frameworks */,
-				F898D3581995536400724219 /* MobileAppTracker-3.7.a in Frameworks */,
+				329906BC1B4DF6940059B5C5 /* MobileAppTracker-3.10.0.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -71,7 +76,8 @@
 		96318CC816020DC10075B93E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				F898D3571995536400724219 /* MobileAppTracker-3.7.a */,
+				329906BB1B4DF6940059B5C5 /* MobileAppTracker-3.10.0.a */,
+				329906B91B4DF3C10059B5C5 /* AdSupport.framework */,
 				96318CC916020DC10075B93E /* Foundation.framework */,
 			);
 			name = Frameworks;
@@ -80,6 +86,8 @@
 		96318CCB16020DC10075B93E /* MobileAppTrackerANE */ = {
 			isa = PBXGroup;
 			children = (
+				329906B61B4DF22C0059B5C5 /* MATPreloadData.h */,
+				329906B51B4DEB8B0059B5C5 /* MATEvent.h */,
 				F8F560F718BE8D8600D2F3D3 /* MATEventItem.h */,
 				96318CF116020E4F0075B93E /* FlashRuntimeExtensions.h */,
 				F86BA37E1682889000916B89 /* FRETypeConversionHelper.h */,
@@ -126,7 +134,7 @@
 		96318CBD16020DC10075B93E /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0610;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "";
 			};
 			buildConfigurationList = 96318CC016020DC10075B93E /* Build configuration list for PBXProject "MobileAppTrackerANE" */;
@@ -175,8 +183,10 @@
 				COPY_PHASE_STRIP = NO;
 				DEAD_CODE_STRIPPING = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -192,7 +202,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				MACH_O_TYPE = staticlib;
-				ONLY_ACTIVE_ARCH = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				STRIP_INSTALLED_PRODUCT = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -216,6 +226,7 @@
 				DEAD_CODE_STRIPPING = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;

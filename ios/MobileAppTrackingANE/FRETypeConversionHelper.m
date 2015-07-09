@@ -16,7 +16,12 @@ FREResult MAT_FREGetObjectAsString( FREObject object, NSString** value )
     result = FREGetObjectAsUTF8(object, &length, &tempValue);
     if( FRE_OK == result )
     {
-        *value = [NSString stringWithUTF8String:(char*)tempValue];
+        NSString *strValue =[NSString stringWithUTF8String:(char*)tempValue];
+        if (![strValue isEqualToString:@"undefined"]) {
+            *value = [NSString stringWithUTF8String:(char*)tempValue];
+        } else {
+            NSLog(@"Conversion got string undefined");
+        }
     }
     
     return result;

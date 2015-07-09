@@ -19,7 +19,7 @@ public class CheckForDeferredDeeplinkFunction implements FREFunction {
 
             Log.i(MATExtensionContext.TAG, "Call " + NAME);
             MATExtensionContext mec = (MATExtensionContext)context;
-            mec.mat.checkForDeferredDeeplink(timeout);
+            mec.mat.setDeferredDeeplink(true, timeout);
 
             return FREObject.newObject(true);
         } catch (Exception e) {

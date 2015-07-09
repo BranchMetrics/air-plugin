@@ -21,8 +21,8 @@ public class MATExtensionContext extends FREContext {
 
         functionMap.put(InitFunction.NAME, new InitFunction());
         functionMap.put(MeasureSessionFunction.NAME, new MeasureSessionFunction());
-        functionMap.put(MeasureActionFunction.NAME, new MeasureActionFunction());
-        functionMap.put(MeasureActionWithEventItemsFunction.NAME, new MeasureActionWithEventItemsFunction());
+        functionMap.put(MeasureEventNameFunction.NAME, new MeasureEventNameFunction());
+        functionMap.put(MeasureEventFunction.NAME, new MeasureEventFunction());
 
         functionMap.put(GetIsPayingUserFunction.NAME, new GetIsPayingUserFunction());
         functionMap.put(GetMatIdFunction.NAME, new GetMatIdFunction());
@@ -35,15 +35,6 @@ public class MATExtensionContext extends FREContext {
         functionMap.put(SetCurrencyCodeFunction.NAME, new SetCurrencyCodeFunction());
         functionMap.put(SetDebugModeFunction.NAME, new SetDebugModeFunction());
         functionMap.put(SetExistingUserFunction.NAME, new SetExistingUserFunction());
-        functionMap.put(SetEventAttributeFunction.NAME, new SetEventAttributeFunction());
-        functionMap.put(SetEventContentIdFunction.NAME, new SetEventContentIdFunction());
-        functionMap.put(SetEventContentTypeFunction.NAME, new SetEventContentTypeFunction());
-        functionMap.put(SetEventDate1Function.NAME, new SetEventDate1Function());
-        functionMap.put(SetEventDate2Function.NAME, new SetEventDate2Function());
-        functionMap.put(SetEventLevelFunction.NAME, new SetEventLevelFunction());
-        functionMap.put(SetEventQuantityFunction.NAME, new SetEventQuantityFunction());
-        functionMap.put(SetEventRatingFunction.NAME, new SetEventRatingFunction());
-        functionMap.put(SetEventSearchStringFunction.NAME, new SetEventSearchStringFunction());
         functionMap.put(SetFacebookEventLoggingFunction.NAME, new SetFacebookEventLoggingFunction());
         functionMap.put(SetFacebookUserIdFunction.NAME, new SetFacebookUserIdFunction());
         functionMap.put(SetGoogleAdvertisingIdFunction.NAME, new SetGoogleAdvertisingIdFunction());
@@ -56,6 +47,7 @@ public class MATExtensionContext extends FREContext {
         functionMap.put(SetUserEmailFunction.NAME, new SetUserEmailFunction());
         functionMap.put(SetUserIdFunction.NAME,  new SetUserIdFunction());
         functionMap.put(SetUserNameFunction.NAME, new SetUserNameFunction());
+        functionMap.put(SetPhoneNumberFunction.NAME, new SetPhoneNumberFunction());
         functionMap.put(SetAgeFunction.NAME,  new SetAgeFunction());
         functionMap.put(SetGenderFunction.NAME,  new SetGenderFunction());
         functionMap.put(SetLocationFunction.NAME,  new SetLocationFunction());
