@@ -38,7 +38,7 @@ static FREContext matFREContext;
     
     NSString *str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     //DLog(@"MATSDKDelegate: success = %@", str);
-
+    
     const char *code = "success";
     const char *level = [str UTF8String];
     
@@ -110,9 +110,9 @@ NSDateFormatter* dateFormatter()
 
 #pragma mark - AIR iPhone Native Extension Methods
 
-DEFINE_ANE_FUNCTION(InitNativeCode)
+DEFINE_ANE_FUNCTION(InitMAT)
 {
-    DLog(@"InitNativeCode start");
+    DLog(@"InitMAT start");
     
     NSString *advId = nil;
     MAT_FREGetObjectAsString(argv[0], &advId);
@@ -235,7 +235,7 @@ DEFINE_ANE_FUNCTION(MeasureEventFunction)
     
     NSString *currencyCode = nil;
     MAT_FREGetObjectAsString(argv[3], &currencyCode);
-
+    
     NSString *refId = nil;
     MAT_FREGetObjectAsString(argv[4], &refId);
     
@@ -783,7 +783,7 @@ void MATExtContextInitializer(void* extData, const uint8_t* ctxType, FREContext 
     DLog(@"MobileAppTrackingANE.MATExtContextInitializer");
     
     static FRENamedFunction functions[] = {
-        MAP_FUNCTION(initNativeCode,                                NULL, InitNativeCode),
+        MAP_FUNCTION(initMAT,                                       NULL, InitMAT),
         
         MAP_FUNCTION(startAppToAppTracking,                         NULL, StartAppToAppTrackingFunction),
         
@@ -835,7 +835,7 @@ void MATExtContextInitializer(void* extData, const uint8_t* ctxType, FREContext 
     };
     
     *numFunctionsToSet = sizeof( functions ) / sizeof( FRENamedFunction );
-	*functionsToSet = functions;
+    *functionsToSet = functions;
     
     matFREContext = ctx;
 }

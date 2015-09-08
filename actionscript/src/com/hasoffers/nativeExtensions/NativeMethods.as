@@ -3,7 +3,7 @@ package com.hasoffers.nativeExtensions
     internal class NativeMethods
     {
         // Main MAT initialization methods
-        internal static const initNativeCode                : String = "initNativeCode";
+        internal static const initMAT                       : String = "initMAT";
         internal static const startAppToAppTracking         : String = "startAppToAppTracking";
         internal static const checkForDeferredDeeplink      : String = "checkForDeferredDeeplink";
         

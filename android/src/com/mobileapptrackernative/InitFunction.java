@@ -8,7 +8,7 @@ import com.adobe.fre.FREObject;
 import com.mobileapptracker.MobileAppTracker;
 
 public class InitFunction implements FREFunction {
-    public static final String NAME = "initNativeCode";
+    public static final String NAME = "initMAT";
 
     @Override
     public FREObject call(FREContext context, FREObject[] passedArgs) {
@@ -16,7 +16,7 @@ public class InitFunction implements FREFunction {
             Log.i(MATExtensionContext.TAG, "Initialize MobileAppTracker");
             MATExtensionContext mec = (MATExtensionContext) context;
 
-            // Get advertiser id and conversion key from params passed to initNativeCode
+            // Get advertiser id and conversion key from params passed to initMAT
             String advertiserId = "";
             String conversionKey = "";
             try {

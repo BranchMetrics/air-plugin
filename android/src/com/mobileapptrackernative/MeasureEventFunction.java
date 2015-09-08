@@ -144,18 +144,20 @@ public class MeasureEventFunction implements FREFunction {
                 if (passedArgs[14] != null) {
                     String dateString = getDefinedString(passedArgs[14]);
                     
-                    SimpleDateFormat sdf = new SimpleDateFormat(MAT_DATE_TIME_FORMAT, Locale.ENGLISH);
-                    sdf.setTimeZone(new SimpleTimeZone(SimpleTimeZone.UTC_TIME, "UTC"));
-                    
-                    date1 = sdf.parse(dateString);
+                    if (dateString.length() != 0) {
+                        SimpleDateFormat sdf = new SimpleDateFormat(MAT_DATE_TIME_FORMAT, Locale.ENGLISH);
+                        sdf.setTimeZone(new SimpleTimeZone(SimpleTimeZone.UTC_TIME, "UTC"));
+                        date1 = sdf.parse(dateString);
+                    }
                 }
                 if (passedArgs[15] != null) {
                     String dateString = getDefinedString(passedArgs[15]);
                     
-                    SimpleDateFormat sdf = new SimpleDateFormat(MAT_DATE_TIME_FORMAT, Locale.ENGLISH);
-                    sdf.setTimeZone(new SimpleTimeZone(SimpleTimeZone.UTC_TIME, "UTC"));
-                    
-                    date2 = sdf.parse(dateString);
+                    if (dateString.length() != 0) {
+                        SimpleDateFormat sdf = new SimpleDateFormat(MAT_DATE_TIME_FORMAT, Locale.ENGLISH);
+                        sdf.setTimeZone(new SimpleTimeZone(SimpleTimeZone.UTC_TIME, "UTC"));
+                        date2 = sdf.parse(dateString);
+                    }
                 }
                 if (passedArgs[16] != null) {
                     level = passedArgs[16].getAsInt();

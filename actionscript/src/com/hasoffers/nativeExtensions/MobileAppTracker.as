@@ -68,8 +68,8 @@ package com.hasoffers.nativeExtensions
             if ( extContext )
             {
                 extContext.addEventListener(StatusEvent.STATUS, onStatusEvent);
-                trace("MATAS.initExtension: calling initNativeCode");
-                extContext.call(NativeMethods.initNativeCode, matAdvertiserId, matConversionKey);
+                trace("MATAS.initExtension: calling initMAT");
+                extContext.call(NativeMethods.initMAT, matAdvertiserId, matConversionKey);
             }
             else
             {
@@ -77,7 +77,7 @@ package com.hasoffers.nativeExtensions
                 throw new Error("Error when instantiating MobileAppTracker native extension." );
             }
         }
-        
+
         public function checkForDeferredDeeplink(timeout:Number):void
         {
             trace("MATAS.checkForDeferredDeeplink(" + timeout + ")");
@@ -207,7 +207,7 @@ package com.hasoffers.nativeExtensions
             trace("MATAS.setExistingUser(" + existingUser + ")");
             extContext.call(NativeMethods.setExistingUser, existingUser);
         }
-        
+
         public function setFacebookEventLogging(enable:Boolean, limitUsage:Boolean):void
         {
             trace("MATAS.setFacebookEventLogging(" + enable + ", " + limitUsage + ")");

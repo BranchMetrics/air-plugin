@@ -333,8 +333,6 @@ typedef NS_ENUM(NSInteger, MATGender)
 + (BOOL)isPayingUser;
 
 
-#if USE_IAD
-
 #pragma mark - Show iAd advertising
 
 /** @name iAd advertising */
@@ -351,7 +349,6 @@ typedef NS_ENUM(NSInteger, MATGender)
  */
 + (void)removeiAd;
 
-#endif
 
 
 #pragma mark - Measuring Sessions

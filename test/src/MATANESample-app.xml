@@ -266,6 +266,5 @@
     
     <extensions>
         <extensionID>com.hasoffers.MobileAppTracker</extensionID>
-    <extensionID>com.hasoffers.IFA</extensionID>
     </extensions>
 </application>
