@@ -7,7 +7,7 @@
 
 #import "FRETypeConversionHelper.h"
 
-FREResult MAT_FREGetObjectAsString( FREObject object, NSString** value )
+FREResult Tune_FREGetObjectAsString( FREObject object, NSString** value )
 {
     FREResult result;
     const uint8_t *tempValue = NULL;

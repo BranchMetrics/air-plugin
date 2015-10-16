@@ -5,6 +5,7 @@ import android.util.Log;
 import com.adobe.fre.FREContext;
 import com.adobe.fre.FREFunction;
 import com.adobe.fre.FREObject;
+import com.mobileapptracker.MATGender;
 
 public class SetGenderFunction implements FREFunction {
     public static final String NAME = "setGender";
@@ -18,7 +19,13 @@ public class SetGenderFunction implements FREFunction {
                 int gender = passedArgs[0].getAsInt();
                 
                 MATExtensionContext mec = (MATExtensionContext)context;
-                mec.mat.setGender(gender);
+                if (gender == 0) {
+                    mec.mat.setGender(MATGender.MALE);
+                } else if (gender == 1) {
+                    mec.mat.setGender(MATGender.FEMALE);
+                } else {
+                    mec.mat.setGender(MATGender.UNKNOWN);
+                }
             }
             
             return FREObject.newObject(true);

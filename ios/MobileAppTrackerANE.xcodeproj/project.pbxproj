@@ -8,10 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		329906BA1B4DF3C10059B5C5 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 329906B91B4DF3C10059B5C5 /* AdSupport.framework */; };
-		329906BC1B4DF6940059B5C5 /* MobileAppTracker-3.10.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 329906BB1B4DF6940059B5C5 /* MobileAppTracker-3.10.0.a */; };
 		96318CCA16020DC10075B93E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96318CC916020DC10075B93E /* Foundation.framework */; };
-		96318CD116020DC10075B93E /* MobileAppTrackerANE.m in Sources */ = {isa = PBXBuildFile; fileRef = 96318CD016020DC10075B93E /* MobileAppTrackerANE.m */; };
 		F86BA3801682889000916B89 /* FRETypeConversionHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = F86BA37F1682889000916B89 /* FRETypeConversionHelper.m */; };
+		F8F59CD11BCDA84300DCF494 /* MobileAppTracker-3.13.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F8F59CD01BCDA84300DCF494 /* MobileAppTracker-3.13.0.a */; settings = {ASSET_TAGS = (); }; };
+		F8F59CE01BCDA86300DCF494 /* MobileAppTrackerANE.m in Sources */ = {isa = PBXBuildFile; fileRef = F8F59CDF1BCDA86300DCF494 /* MobileAppTrackerANE.m */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -27,19 +27,28 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		329906B51B4DEB8B0059B5C5 /* MATEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MATEvent.h; sourceTree = "<group>"; };
-		329906B61B4DF22C0059B5C5 /* MATPreloadData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MATPreloadData.h; sourceTree = "<group>"; };
 		329906B91B4DF3C10059B5C5 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
-		329906BB1B4DF6940059B5C5 /* MobileAppTracker-3.10.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "MobileAppTracker-3.10.0.a"; path = "MobileAppTrackingANE/MobileAppTracker-3.10.0.a"; sourceTree = "<group>"; };
 		96318CC616020DC10075B93E /* libMobileAppTrackerANE.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMobileAppTrackerANE.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		96318CC916020DC10075B93E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		96318CCD16020DC10075B93E /* MobileAppTrackingANE-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MobileAppTrackingANE-Prefix.pch"; sourceTree = "<group>"; };
-		96318CD016020DC10075B93E /* MobileAppTrackerANE.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MobileAppTrackerANE.m; sourceTree = "<group>"; };
 		96318CF116020E4F0075B93E /* FlashRuntimeExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlashRuntimeExtensions.h; sourceTree = "<group>"; };
 		F86BA37E1682889000916B89 /* FRETypeConversionHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FRETypeConversionHelper.h; sourceTree = "<group>"; };
 		F86BA37F1682889000916B89 /* FRETypeConversionHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FRETypeConversionHelper.m; sourceTree = "<group>"; };
-		F86BA393168BB32700916B89 /* MobileAppTracker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MobileAppTracker.h; sourceTree = "<group>"; };
-		F8F560F718BE8D8600D2F3D3 /* MATEventItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MATEventItem.h; sourceTree = "<group>"; };
+		F8F59CD01BCDA84300DCF494 /* MobileAppTracker-3.13.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "MobileAppTracker-3.13.0.a"; path = "MobileAppTrackingANE/MobileAppTracker-3.13.0.a"; sourceTree = "<group>"; };
+		F8F59CD21BCDA86300DCF494 /* MATEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MATEvent.h; sourceTree = "<group>"; };
+		F8F59CD31BCDA86300DCF494 /* MATEventItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MATEventItem.h; sourceTree = "<group>"; };
+		F8F59CD41BCDA86300DCF494 /* MATPreloadData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MATPreloadData.h; sourceTree = "<group>"; };
+		F8F59CD51BCDA86300DCF494 /* MobileAppTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobileAppTracker.h; sourceTree = "<group>"; };
+		F8F59CD61BCDA86300DCF494 /* Tune.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tune.h; sourceTree = "<group>"; };
+		F8F59CD71BCDA86300DCF494 /* TuneAdMetadata.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TuneAdMetadata.h; sourceTree = "<group>"; };
+		F8F59CD81BCDA86300DCF494 /* TuneAdView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TuneAdView.h; sourceTree = "<group>"; };
+		F8F59CD91BCDA86300DCF494 /* TuneBanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TuneBanner.h; sourceTree = "<group>"; };
+		F8F59CDA1BCDA86300DCF494 /* TuneEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TuneEvent.h; sourceTree = "<group>"; };
+		F8F59CDB1BCDA86300DCF494 /* TuneEventItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TuneEventItem.h; sourceTree = "<group>"; };
+		F8F59CDC1BCDA86300DCF494 /* TuneInterstitial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TuneInterstitial.h; sourceTree = "<group>"; };
+		F8F59CDD1BCDA86300DCF494 /* TuneLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TuneLocation.h; sourceTree = "<group>"; };
+		F8F59CDE1BCDA86300DCF494 /* TunePreloadData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TunePreloadData.h; sourceTree = "<group>"; };
+		F8F59CDF1BCDA86300DCF494 /* MobileAppTrackerANE.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MobileAppTrackerANE.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,7 +58,7 @@
 			files = (
 				329906BA1B4DF3C10059B5C5 /* AdSupport.framework in Frameworks */,
 				96318CCA16020DC10075B93E /* Foundation.framework in Frameworks */,
-				329906BC1B4DF6940059B5C5 /* MobileAppTracker-3.10.0.a in Frameworks */,
+				F8F59CD11BCDA84300DCF494 /* MobileAppTracker-3.13.0.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -76,7 +85,7 @@
 		96318CC816020DC10075B93E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				329906BB1B4DF6940059B5C5 /* MobileAppTracker-3.10.0.a */,
+				F8F59CD01BCDA84300DCF494 /* MobileAppTracker-3.13.0.a */,
 				329906B91B4DF3C10059B5C5 /* AdSupport.framework */,
 				96318CC916020DC10075B93E /* Foundation.framework */,
 			);
@@ -86,14 +95,23 @@
 		96318CCB16020DC10075B93E /* MobileAppTrackerANE */ = {
 			isa = PBXGroup;
 			children = (
-				329906B61B4DF22C0059B5C5 /* MATPreloadData.h */,
-				329906B51B4DEB8B0059B5C5 /* MATEvent.h */,
-				F8F560F718BE8D8600D2F3D3 /* MATEventItem.h */,
 				96318CF116020E4F0075B93E /* FlashRuntimeExtensions.h */,
 				F86BA37E1682889000916B89 /* FRETypeConversionHelper.h */,
 				F86BA37F1682889000916B89 /* FRETypeConversionHelper.m */,
-				F86BA393168BB32700916B89 /* MobileAppTracker.h */,
-				96318CD016020DC10075B93E /* MobileAppTrackerANE.m */,
+				F8F59CD21BCDA86300DCF494 /* MATEvent.h */,
+				F8F59CD31BCDA86300DCF494 /* MATEventItem.h */,
+				F8F59CD41BCDA86300DCF494 /* MATPreloadData.h */,
+				F8F59CD51BCDA86300DCF494 /* MobileAppTracker.h */,
+				F8F59CD61BCDA86300DCF494 /* Tune.h */,
+				F8F59CD71BCDA86300DCF494 /* TuneAdMetadata.h */,
+				F8F59CD81BCDA86300DCF494 /* TuneAdView.h */,
+				F8F59CD91BCDA86300DCF494 /* TuneBanner.h */,
+				F8F59CDA1BCDA86300DCF494 /* TuneEvent.h */,
+				F8F59CDB1BCDA86300DCF494 /* TuneEventItem.h */,
+				F8F59CDC1BCDA86300DCF494 /* TuneInterstitial.h */,
+				F8F59CDD1BCDA86300DCF494 /* TuneLocation.h */,
+				F8F59CDE1BCDA86300DCF494 /* TunePreloadData.h */,
+				F8F59CDF1BCDA86300DCF494 /* MobileAppTrackerANE.m */,
 				96318CCC16020DC10075B93E /* Supporting Files */,
 			);
 			name = MobileAppTrackerANE;
@@ -159,8 +177,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				96318CD116020DC10075B93E /* MobileAppTrackerANE.m in Sources */,
 				F86BA3801682889000916B89 /* FRETypeConversionHelper.m in Sources */,
+				F8F59CE01BCDA86300DCF494 /* MobileAppTrackerANE.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -200,7 +218,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				MACH_O_TYPE = staticlib;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -234,7 +252,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				MACH_O_TYPE = staticlib;
 				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = iphoneos;
@@ -249,6 +267,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DSTROOT = /tmp/MobileAppTrackingANE.dst;
+				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/MobileAppTrackingANE\"",
@@ -257,7 +276,7 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MobileAppTrackingANE/MobileAppTrackingANE-Prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/MobileAppTrackingANE",
@@ -276,6 +295,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DSTROOT = /tmp/MobileAppTrackingANE.dst;
+				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/MobileAppTrackingANE\"",
@@ -284,7 +304,7 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MobileAppTrackingANE/MobileAppTrackingANE-Prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/MobileAppTrackingANE",

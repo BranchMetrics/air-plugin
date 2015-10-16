@@ -1,7 +1,12 @@
 #import "FlashRuntimeExtensions.h"
 #import "FRETypeConversionHelper.h"
 #import "MobileAppTracker.h"
+
 #import <AdSupport/AdSupport.h>
+#import <iAd/iAd.h>
+#import <MobileCoreServices/MobileCoreServices.h>
+#import <StoreKit/StoreKit.h>
+#import <SystemConfiguration/SystemConfiguration.h>
 #import <UIKit/UIKit.h>
 
 #define DEFINE_ANE_FUNCTION(fn) FREObject (fn)(FREContext context, void* functionData, uint32_t argc, FREObject argv[])
@@ -16,41 +21,41 @@
 
 #pragma mark - MobileAppTrackerDelegate Methods
 
-static FREContext matFREContext;
+static FREContext tuneFREContext;
 
-@interface MATSDKDelegate : NSObject<MobileAppTrackerDelegate>
+@interface TuneSDKDelegate : NSObject<TuneDelegate>
 // empty
 @end
 
-#pragma mark - MobileAppTracker Plugin Helper Category
+#pragma mark - Tune Plugin Helper Category
 
-@interface MobileAppTracker (MATAIRPlugin)
+@interface Tune (TuneAIRPlugin)
 
 + (void)setPluginName:(NSString *)pluginName;
 
 @end
 
-@implementation MATSDKDelegate
+@implementation TuneSDKDelegate
 
-- (void)mobileAppTrackerDidSucceedWithData:(id)data
+-(void)tuneDidSucceedWithData:(NSData *)data
 {
-    DLog(@"MATSDKDelegate: mobileAppTracker:didSucceedWithData:");
+    DLog(@"TuneSDKDelegate: tuneDidSucceedWithData:");
     
     NSString *str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    //DLog(@"MATSDKDelegate: success = %@", str);
+    //DLog(@"TuneSDKDelegate: success = %@", str);
     
     const char *code = "success";
     const char *level = [str UTF8String];
     
-    FREDispatchStatusEventAsync(matFREContext, (const uint8_t *)code, (const uint8_t *)level);
+    FREDispatchStatusEventAsync(tuneFREContext, (const uint8_t *)code, (const uint8_t *)level);
 }
 
-- (void)mobileAppTrackerDidFailWithError:(NSError *)error
+-(void)tuneDidFailWithError:(NSError *)error
 {
-    DLog(@"MATSDKDelegate: mobileAppTracker:didFailWithError:");
-    //DLog(@"MATSDKDelegate: error = %@", error);
+    DLog(@"TuneSDKDelegate: tuneDidFailWithError:");
+    //DLog(@"TuneSDKDelegate: error = %@", error);
     
-    const char * code = "failure";
+    const char *code = "failure";
     
     NSInteger errorCode = [error code];
     NSString *errorDescr = [error localizedDescription];
@@ -69,18 +74,53 @@ static FREContext matFREContext;
     
     const char *level = [strError UTF8String];
     
-    FREDispatchStatusEventAsync(matFREContext, (const uint8_t *)code, (const uint8_t *)level);
+    FREDispatchStatusEventAsync(tuneFREContext, (const uint8_t *)code, (const uint8_t *)level);
 }
 
-- (void)mobileAppTrackerEnqueuedActionWithReferenceId:(NSString *)referenceId
+-(void)tuneEnqueuedActionWithReferenceId:(NSString *)referenceId
 {
-    DLog(@"MATSDKDelegate: mobileAppTrackerEnqueuedActionWithReferenceId:");
-    //DLog(@"MATSDKDelegate: referenceId = %@", referenceId);
+    DLog(@"TuneSDKDelegate: tunrEnqueuedActionWithReferenceId: referenceId = %@", referenceId);
     
     const char *code = "enqueued";
     const char *level = [referenceId UTF8String];
     
-    FREDispatchStatusEventAsync(matFREContext, (const uint8_t *)code, (const uint8_t *)level);
+    FREDispatchStatusEventAsync(tuneFREContext, (const uint8_t *)code, (const uint8_t *)level);
+}
+
+-(void)tuneDidReceiveDeeplink:(NSString *)deeplink
+{
+    DLog(@"TuneSDKDelegate: tuneDidReceiveDeeplink: deferred deeplink = %@", deeplink);
+    
+    const char *code = "TUNE_DEEPLINK";
+    const char *level = [deeplink UTF8String];
+    
+    FREDispatchStatusEventAsync(tuneFREContext, (const uint8_t *)code, (const uint8_t *)level);
+}
+
+-(void)tuneDidFailDeeplinkWithError:(NSError *)error
+{
+    DLog(@"TuneSDKDelegate: deferred deeplink error = %@", error);
+    
+    const char *code = "TUNE_DEEPLINK_FAILED";
+    
+    NSInteger errorCode = [error code];
+    NSString *errorDescr = [error localizedDescription];
+    
+    NSString *errorURLString = nil;
+    NSDictionary *dictError = [error userInfo];
+    
+    if(dictError)
+    {
+        errorURLString = [dictError objectForKey:NSURLErrorFailingURLStringErrorKey];
+    }
+    
+    errorURLString = nil == error ? @"" : errorURLString;
+    
+    NSString *strError = [NSString stringWithFormat:@"{\"code\":\"%ld\",\"localizedDescription\":\"%@\",\"failedURL\":\"%@\"}", (long)errorCode, errorDescr, errorURLString];
+    
+    const char *level = [strError UTF8String];
+    
+    FREDispatchStatusEventAsync(tuneFREContext, (const uint8_t *)code, (const uint8_t *)level);
 }
 
 @end
@@ -89,7 +129,7 @@ static FREContext matFREContext;
 
 // refer http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/Date.html#toUTCString()
 // example: Wed Apr 23 19:30:07 2014 UTC
-static const char * MAT_DATE_TIME_FORMAT = "EEE MMM dd HH:mm:ss yyyy ZZZ";
+static const char *MAT_DATE_TIME_FORMAT = "EEE MMM dd HH:mm:ss yyyy ZZZ";
 
 NSDateFormatter* dateFormatter()
 {
@@ -115,16 +155,14 @@ DEFINE_ANE_FUNCTION(InitMAT)
     DLog(@"InitMAT start");
     
     NSString *advId = nil;
-    MAT_FREGetObjectAsString(argv[0], &advId);
+    Tune_FREGetObjectAsString(argv[0], &advId);
     
     NSString *conversionKey = nil;
-    MAT_FREGetObjectAsString(argv[1], &conversionKey);
+    Tune_FREGetObjectAsString(argv[1], &conversionKey);
     
-    [MobileAppTracker initializeWithMATAdvertiserId:advId
-                                   MATConversionKey:conversionKey];
-    [MobileAppTracker setPluginName:@"air"];
-    [MobileAppTracker setAppleAdvertisingIdentifier:[[ASIdentifierManager sharedManager] advertisingIdentifier]
-                         advertisingTrackingEnabled:[[ASIdentifierManager sharedManager] isAdvertisingTrackingEnabled]];
+    [Tune initializeWithTuneAdvertiserId:advId
+                       tuneConversionKey:conversionKey];
+    [Tune setPluginName:@"air"];
     
     return NULL;
 }
@@ -133,10 +171,7 @@ DEFINE_ANE_FUNCTION(CheckForDeferredDeeplink)
 {
     DLog(@"CheckForDeferredDeeplink");
     
-    double_t millis;
-    FREGetObjectAsDouble(argv[0], &millis);
-    
-    [MobileAppTracker checkForDeferredDeeplinkWithTimeout:millis / 1000];
+    [Tune checkForDeferredDeeplink:[TuneSDKDelegate new]];
     
     return NULL;
 }
@@ -145,7 +180,7 @@ DEFINE_ANE_FUNCTION(MeasureSessionFunction)
 {
     DLog(@"MeasureSessionFunction start");
     
-    [MobileAppTracker measureSession];
+    [Tune measureSession];
     
     return NULL;
 }
@@ -155,9 +190,9 @@ DEFINE_ANE_FUNCTION(MeasureEventNameFunction)
     DLog("@MeasureEventNameFunction start");
     
     NSString *event = nil;
-    MAT_FREGetObjectAsString(argv[0], &event);
+    Tune_FREGetObjectAsString(argv[0], &event);
     
-    [MobileAppTracker measureEventName:event];
+    [Tune measureEventName:event];
     
     return NULL;
 }
@@ -167,7 +202,7 @@ DEFINE_ANE_FUNCTION(MeasureEventFunction)
     DLog("@MeasureEventFunction start");
     
     NSString *event = nil;
-    MAT_FREGetObjectAsString(argv[0], &event);
+    Tune_FREGetObjectAsString(argv[0], &event);
     
     uint32_t arrayLength = 0;
     NSMutableArray *eventItems = [NSMutableArray array];
@@ -211,17 +246,17 @@ DEFINE_ANE_FUNCTION(MeasureEventFunction)
                && FRE_OK == FREGetArrayElementAt(arrEventItems, i + 7, &freItemAttr4)
                && FRE_OK == FREGetArrayElementAt(arrEventItems, i + 8, &freItemAttr5))
             {
-                if(FRE_OK == MAT_FREGetObjectAsString(freItemName, &itemName)
+                if(FRE_OK == Tune_FREGetObjectAsString(freItemName, &itemName)
                    && FRE_OK == FREGetObjectAsDouble(freItemUnitPrice, &itemUnitPrice)
                    && FRE_OK == FREGetObjectAsUint32(freItemQty, &itemQty)
                    && FRE_OK == FREGetObjectAsDouble(freItemRevenue, &itemRevenue)
-                   && FRE_OK == MAT_FREGetObjectAsString(freItemAttr1, &itemAttr1)
-                   && FRE_OK == MAT_FREGetObjectAsString(freItemAttr2, &itemAttr2)
-                   && FRE_OK == MAT_FREGetObjectAsString(freItemAttr3, &itemAttr3)
-                   && FRE_OK == MAT_FREGetObjectAsString(freItemAttr4, &itemAttr4)
-                   && FRE_OK == MAT_FREGetObjectAsString(freItemAttr5, &itemAttr5))
+                   && FRE_OK == Tune_FREGetObjectAsString(freItemAttr1, &itemAttr1)
+                   && FRE_OK == Tune_FREGetObjectAsString(freItemAttr2, &itemAttr2)
+                   && FRE_OK == Tune_FREGetObjectAsString(freItemAttr3, &itemAttr3)
+                   && FRE_OK == Tune_FREGetObjectAsString(freItemAttr4, &itemAttr4)
+                   && FRE_OK == Tune_FREGetObjectAsString(freItemAttr5, &itemAttr5))
                 {
-                    MATEventItem *eventItem = [MATEventItem eventItemWithName:itemName unitPrice:itemUnitPrice quantity:itemQty revenue:itemRevenue attribute1:itemAttr1 attribute2:itemAttr2 attribute3:itemAttr3 attribute4:itemAttr4 attribute5:itemAttr5];
+                    TuneEventItem *eventItem = [TuneEventItem eventItemWithName:itemName unitPrice:itemUnitPrice quantity:itemQty revenue:itemRevenue attribute1:itemAttr1 attribute2:itemAttr2 attribute3:itemAttr3 attribute4:itemAttr4 attribute5:itemAttr5];
                     
                     // Add the eventItem to the array
                     [eventItems addObject:eventItem];
@@ -234,41 +269,41 @@ DEFINE_ANE_FUNCTION(MeasureEventFunction)
     FREGetObjectAsDouble(argv[2], &revenue);
     
     NSString *currencyCode = nil;
-    MAT_FREGetObjectAsString(argv[3], &currencyCode);
+    Tune_FREGetObjectAsString(argv[3], &currencyCode);
     
     NSString *refId = nil;
-    MAT_FREGetObjectAsString(argv[4], &refId);
+    Tune_FREGetObjectAsString(argv[4], &refId);
     
     NSString *strReceipt = nil;
-    MAT_FREGetObjectAsString(argv[5], &strReceipt);
+    Tune_FREGetObjectAsString(argv[5], &strReceipt);
     NSData *receipt = [strReceipt dataUsingEncoding:NSUTF8StringEncoding];
     
     NSString *attr1 = nil;
-    MAT_FREGetObjectAsString(argv[7], &attr1);
+    Tune_FREGetObjectAsString(argv[7], &attr1);
     
     NSString *attr2 = nil;
-    MAT_FREGetObjectAsString(argv[8], &attr2);
+    Tune_FREGetObjectAsString(argv[8], &attr2);
     
     NSString *attr3 = nil;
-    MAT_FREGetObjectAsString(argv[9], &attr3);
+    Tune_FREGetObjectAsString(argv[9], &attr3);
     
     NSString *attr4 = nil;
-    MAT_FREGetObjectAsString(argv[10], &attr4);
+    Tune_FREGetObjectAsString(argv[10], &attr4);
     
     NSString *attr5 = nil;
-    MAT_FREGetObjectAsString(argv[11], &attr5);
+    Tune_FREGetObjectAsString(argv[11], &attr5);
     
     NSString *contentId = nil;
-    MAT_FREGetObjectAsString(argv[12], &contentId);
+    Tune_FREGetObjectAsString(argv[12], &contentId);
     
     NSString *contentType = nil;
-    MAT_FREGetObjectAsString(argv[13], &contentType);
+    Tune_FREGetObjectAsString(argv[13], &contentType);
     
     NSString *dateString = nil;
-    MAT_FREGetObjectAsString(argv[14], &dateString);
+    Tune_FREGetObjectAsString(argv[14], &dateString);
     NSDate* date1 = [dateFormatter() dateFromString:dateString];
     
-    MAT_FREGetObjectAsString(argv[15], &dateString);
+    Tune_FREGetObjectAsString(argv[15], &dateString);
     NSDate* date2 = [dateFormatter() dateFromString:dateString];
     
     int32_t level;
@@ -281,29 +316,29 @@ DEFINE_ANE_FUNCTION(MeasureEventFunction)
     FREGetObjectAsDouble(argv[18], &rating);
     
     NSString *searchString = nil;
-    MAT_FREGetObjectAsString(argv[19], &searchString);
+    Tune_FREGetObjectAsString(argv[19], &searchString);
     
-    MATEvent *matEvent = [MATEvent eventWithName:event];
-    matEvent.eventItems = eventItems;
-    matEvent.revenue = revenue;
-    matEvent.currencyCode = currencyCode;
-    matEvent.refId = refId;
-    matEvent.receipt = receipt;
-    matEvent.attribute1 = attr1;
-    matEvent.attribute2 = attr2;
-    matEvent.attribute3 = attr3;
-    matEvent.attribute4 = attr4;
-    matEvent.attribute5 = attr5;
-    matEvent.contentId = contentId;
-    matEvent.contentType = contentType;
-    matEvent.date1 = date1;
-    matEvent.date2 = date2;
-    matEvent.level = level;
-    matEvent.quantity = quantity;
-    matEvent.rating = rating;
-    matEvent.searchString = searchString;
+    TuneEvent *tuneEvent = [TuneEvent eventWithName:event];
+    tuneEvent.eventItems = eventItems;
+    tuneEvent.revenue = revenue;
+    tuneEvent.currencyCode = currencyCode;
+    tuneEvent.refId = refId;
+    tuneEvent.receipt = receipt;
+    tuneEvent.attribute1 = attr1;
+    tuneEvent.attribute2 = attr2;
+    tuneEvent.attribute3 = attr3;
+    tuneEvent.attribute4 = attr4;
+    tuneEvent.attribute5 = attr5;
+    tuneEvent.contentId = contentId;
+    tuneEvent.contentType = contentType;
+    tuneEvent.date1 = date1;
+    tuneEvent.date2 = date2;
+    tuneEvent.level = level;
+    tuneEvent.quantity = quantity;
+    tuneEvent.rating = rating;
+    tuneEvent.searchString = searchString;
     
-    [MobileAppTracker measureEvent:matEvent];
+    [Tune measureEvent:tuneEvent];
     
     return NULL;
 }
@@ -313,22 +348,22 @@ DEFINE_ANE_FUNCTION(StartAppToAppTrackingFunction)
     DLog(@"StartAppToAppTrackingFunction");
     
     NSString *targetAppId = nil;
-    MAT_FREGetObjectAsString(argv[0], &targetAppId);
+    Tune_FREGetObjectAsString(argv[0], &targetAppId);
     
     NSString *advertiserId = nil;
-    MAT_FREGetObjectAsString(argv[1], &advertiserId);
+    Tune_FREGetObjectAsString(argv[1], &advertiserId);
     
     NSString *offerId = nil;
-    MAT_FREGetObjectAsString(argv[2], &offerId);
+    Tune_FREGetObjectAsString(argv[2], &offerId);
     
     NSString *publisherId = nil;
-    MAT_FREGetObjectAsString(argv[3], &publisherId);
+    Tune_FREGetObjectAsString(argv[3], &publisherId);
     
     uint32_t bRedirect;
     FREGetObjectAsBool(argv[4], &bRedirect);
     BOOL shouldRedirect = 1 == bRedirect;
     
-    [MobileAppTracker startAppToAppTracking:targetAppId advertiserId:advertiserId offerId:offerId publisherId:publisherId redirect:shouldRedirect];
+    [Tune startAppToAppMeasurement:targetAppId advertiserId:advertiserId offerId:offerId publisherId:publisherId redirect:shouldRedirect];
     
     return NULL;
 }
@@ -342,7 +377,7 @@ DEFINE_ANE_FUNCTION(SetDebugModeFunction)
     uint32_t shouldDebug;
     FREGetObjectAsBool(argv[0], &shouldDebug);
     
-    [MobileAppTracker setDebugMode:1 == shouldDebug];
+    [Tune setDebugMode:1 == shouldDebug];
     
     return NULL;
 }
@@ -355,7 +390,7 @@ DEFINE_ANE_FUNCTION(SetAllowDuplicatesFunction)
     FREGetObjectAsBool(argv[0], &isAllowDuplicates);
     BOOL allowDuplicates = 1 == isAllowDuplicates;
     
-    [MobileAppTracker setAllowDuplicateRequests:allowDuplicates];
+    [Tune setAllowDuplicateRequests:allowDuplicates];
     
     return NULL;
 }
@@ -368,7 +403,7 @@ DEFINE_ANE_FUNCTION(SetJailbrokenFunction)
     FREGetObjectAsBool(argv[0], &isJailbroken);
     BOOL jailbroken = 1 == isJailbroken;
     
-    [MobileAppTracker setJailbroken:jailbroken];
+    [Tune setJailbroken:jailbroken];
     
     return NULL;
 }
@@ -381,7 +416,7 @@ DEFINE_ANE_FUNCTION(SetShouldAutoDetectJailbrokenFunction)
     FREGetObjectAsBool(argv[0], &isAutoDetect);
     BOOL shouldAutoDetect = 1 == isAutoDetect;
     
-    [MobileAppTracker setShouldAutoDetectJailbroken:shouldAutoDetect];
+    [Tune setShouldAutoDetectJailbroken:shouldAutoDetect];
     
     return NULL;
 }
@@ -394,7 +429,7 @@ DEFINE_ANE_FUNCTION(SetShouldAutoGenerateAppleVendorIdentifierFunction)
     FREGetObjectAsBool(argv[0], &isAutoGenerate);
     BOOL shouldAutoGenerate = 1 == isAutoGenerate;
     
-    [MobileAppTracker setShouldAutoGenerateAppleVendorIdentifier:shouldAutoGenerate];
+    [Tune setShouldAutoGenerateAppleVendorIdentifier:shouldAutoGenerate];
     
     return NULL;
 }
@@ -404,9 +439,9 @@ DEFINE_ANE_FUNCTION(SetSiteIdFunction)
     DLog(@"SetSiteIdFunction");
     
     NSString *siteId = nil;
-    MAT_FREGetObjectAsString(argv[0], &siteId);
+    Tune_FREGetObjectAsString(argv[0], &siteId);
     
-    [MobileAppTracker setSiteId:siteId];
+    [Tune setSiteId:siteId];
     
     return NULL;
 }
@@ -419,7 +454,7 @@ DEFINE_ANE_FUNCTION(SetUseCookieTrackingFunction)
     FREGetObjectAsBool(argv[0], &isUseCookieTracking);
     BOOL useCookieTracking = 1 == isUseCookieTracking;
     
-    [MobileAppTracker setUseCookieTracking:useCookieTracking];
+    [Tune setUseCookieMeasurement:useCookieTracking];
     
     return NULL;
 }
@@ -429,9 +464,9 @@ DEFINE_ANE_FUNCTION(SetRedirectUrlFunction)
     DLog(@"SetRedirectUrlFunction");
     
     NSString *redirectUrl = nil;
-    MAT_FREGetObjectAsString(argv[0], &redirectUrl);
+    Tune_FREGetObjectAsString(argv[0], &redirectUrl);
     
-    [MobileAppTracker setRedirectUrl:redirectUrl];
+    [Tune setRedirectUrl:redirectUrl];
     
     return NULL;
 }
@@ -441,9 +476,9 @@ DEFINE_ANE_FUNCTION(SetCurrencyCodeFunction)
     DLog(@"SetCurrencyCodeFunction");
     
     NSString *currencyCode = nil;
-    MAT_FREGetObjectAsString(argv[0], &currencyCode);
+    Tune_FREGetObjectAsString(argv[0], &currencyCode);
     
-    [MobileAppTracker setCurrencyCode:currencyCode];
+    [Tune setCurrencyCode:currencyCode];
     
     return NULL;
 }
@@ -453,9 +488,9 @@ DEFINE_ANE_FUNCTION(SetPhoneNumberFunction)
     DLog(@"SetPhoneNumberFunction");
     
     NSString *phoneNumber = nil;
-    MAT_FREGetObjectAsString(argv[0], &phoneNumber);
+    Tune_FREGetObjectAsString(argv[0], &phoneNumber);
     
-    [MobileAppTracker setPhoneNumber:phoneNumber];
+    [Tune setPhoneNumber:phoneNumber];
     
     return NULL;
 }
@@ -465,9 +500,9 @@ DEFINE_ANE_FUNCTION(SetUserEmailFunction)
     DLog(@"SetUserEmailFunction");
     
     NSString *userEmail = nil;
-    MAT_FREGetObjectAsString(argv[0], &userEmail);
+    Tune_FREGetObjectAsString(argv[0], &userEmail);
     
-    [MobileAppTracker setUserEmail:userEmail];
+    [Tune setUserEmail:userEmail];
     
     return NULL;
 }
@@ -477,9 +512,9 @@ DEFINE_ANE_FUNCTION(SetUserIdFunction)
     DLog(@"SetUserIdFunction");
     
     NSString *userId = nil;
-    MAT_FREGetObjectAsString(argv[0], &userId);
+    Tune_FREGetObjectAsString(argv[0], &userId);
     
-    [MobileAppTracker setUserId:userId];
+    [Tune setUserId:userId];
     
     return NULL;
 }
@@ -489,9 +524,9 @@ DEFINE_ANE_FUNCTION(SetUserNameFunction)
     DLog(@"SetUserNameFunction");
     
     NSString *userName = nil;
-    MAT_FREGetObjectAsString(argv[0], &userName);
+    Tune_FREGetObjectAsString(argv[0], &userName);
     
-    [MobileAppTracker setUserName:userName];
+    [Tune setUserName:userName];
     
     return NULL;
 }
@@ -501,9 +536,9 @@ DEFINE_ANE_FUNCTION(SetFacebookUserIdFunction)
     DLog(@"SetFacebookUserIdFunction");
     
     NSString *userId = nil;
-    MAT_FREGetObjectAsString(argv[0], &userId);
+    Tune_FREGetObjectAsString(argv[0], &userId);
     
-    [MobileAppTracker setFacebookUserId:userId];
+    [Tune setFacebookUserId:userId];
     
     return NULL;
 }
@@ -513,9 +548,9 @@ DEFINE_ANE_FUNCTION(SetTwitterUserIdFunction)
     DLog(@"SetTwitterUserIdFunction");
     
     NSString *userId = nil;
-    MAT_FREGetObjectAsString(argv[0], &userId);
+    Tune_FREGetObjectAsString(argv[0], &userId);
     
-    [MobileAppTracker setTwitterUserId:userId];
+    [Tune setTwitterUserId:userId];
     
     return NULL;
 }
@@ -525,9 +560,9 @@ DEFINE_ANE_FUNCTION(SetGoogleUserIdFunction)
     DLog(@"SetGoogleUserIdFunction");
     
     NSString *userId = nil;
-    MAT_FREGetObjectAsString(argv[0], &userId);
+    Tune_FREGetObjectAsString(argv[0], &userId);
     
-    [MobileAppTracker setGoogleUserId:userId];
+    [Tune setGoogleUserId:userId];
     
     return NULL;
 }
@@ -540,7 +575,7 @@ DEFINE_ANE_FUNCTION(SetAppAdTrackingFunction)
     FREGetObjectAsBool(argv[0], &isOptOut);
     BOOL optout = 1 == isOptOut;
     
-    [MobileAppTracker setAppAdTracking:optout];
+    [Tune setAppAdMeasurement:optout];
     
     return NULL;
 }
@@ -550,9 +585,9 @@ DEFINE_ANE_FUNCTION(SetPackageNameFunction)
     DLog(@"SetPackageNameFunction");
     
     NSString *pkgName = nil;
-    MAT_FREGetObjectAsString(argv[0], &pkgName);
+    Tune_FREGetObjectAsString(argv[0], &pkgName);
     
-    [MobileAppTracker setPackageName:pkgName];
+    [Tune setPackageName:pkgName];
     
     return NULL;
 }
@@ -564,7 +599,7 @@ DEFINE_ANE_FUNCTION(SetAgeFunction)
     int32_t age;
     FREGetObjectAsInt32(argv[0], &age);
     
-    [MobileAppTracker setAge:age];
+    [Tune setAge:age];
     
     return NULL;
 }
@@ -576,7 +611,7 @@ DEFINE_ANE_FUNCTION(SetGenderFunction)
     uint32_t gender;
     FREGetObjectAsUint32(argv[0], &gender);
     
-    [MobileAppTracker setGender:gender];
+    [Tune setGender:gender];
     
     return NULL;
 }
@@ -594,7 +629,12 @@ DEFINE_ANE_FUNCTION(SetLocationFunction)
     double_t alt;
     FREGetObjectAsDouble(argv[2], &alt);
     
-    [MobileAppTracker setLatitude:lat longitude:lon altitude:alt];
+    TuneLocation *loc = [TuneLocation new];
+    loc.latitude = @(lat);
+    loc.longitude = @(lon);
+    loc.altitude = @(alt);
+    
+    [Tune setLocation:loc];
     
     return NULL;
 }
@@ -604,9 +644,9 @@ DEFINE_ANE_FUNCTION(SetTRUSTeIdFunction)
     DLog(@"SetTRUSTeIdFunction");
     
     NSString *trusteId = nil;
-    MAT_FREGetObjectAsString(argv[0], &trusteId);
+    Tune_FREGetObjectAsString(argv[0], &trusteId);
     
-    [MobileAppTracker setTRUSTeId:trusteId];
+    [Tune setTRUSTeId:trusteId];
     
     return NULL;
 }
@@ -619,7 +659,7 @@ DEFINE_ANE_FUNCTION(SetExistingUserFunction)
     FREGetObjectAsBool(argv[0], &isExisting);
     BOOL existing = 1 == isExisting;
     
-    [MobileAppTracker setExistingUser:existing];
+    [Tune setExistingUser:existing];
     
     return NULL;
 }
@@ -636,7 +676,7 @@ DEFINE_ANE_FUNCTION(SetFacebookEventLogging)
     FREGetObjectAsBool(argv[1], &shouldLimit);
     BOOL limit = 1 == shouldLimit;
     
-    [MobileAppTracker setFacebookEventLogging:enable limitEventAndDataUsage:limit];
+    [Tune setFacebookEventLogging:enable limitEventAndDataUsage:limit];
     
     return NULL;
 }
@@ -649,7 +689,7 @@ DEFINE_ANE_FUNCTION(SetPayingUserFunction)
     FREGetObjectAsBool(argv[0], &isPaying);
     BOOL payingUser = 1 == isPaying;
     
-    [MobileAppTracker setPayingUser:payingUser];
+    [Tune setPayingUser:payingUser];
     
     return NULL;
 }
@@ -659,7 +699,7 @@ DEFINE_ANE_FUNCTION(SetAppleAdvertisingIdentifierFunction)
     DLog(@"SetAppleAdvertisingIdentifierFunction");
     
     NSString *aId = nil;
-    MAT_FREGetObjectAsString(argv[0], &aId);
+    Tune_FREGetObjectAsString(argv[0], &aId);
     
     NSUUID *appleAdvId = [[NSUUID alloc] initWithUUIDString:aId];
     
@@ -667,7 +707,7 @@ DEFINE_ANE_FUNCTION(SetAppleAdvertisingIdentifierFunction)
     FREGetObjectAsBool(argv[1], &isTrackingEnabled);
     BOOL trackingEnabled = 1 == isTrackingEnabled;
     
-    [MobileAppTracker setAppleAdvertisingIdentifier:appleAdvId advertisingTrackingEnabled:trackingEnabled];
+    [Tune setAppleAdvertisingIdentifier:appleAdvId advertisingTrackingEnabled:trackingEnabled];
     
     return NULL;
 }
@@ -677,11 +717,11 @@ DEFINE_ANE_FUNCTION(SetAppleVendorIdentifierFunction)
     DLog(@"SetAppleVendorIdentifierFunction");
     
     NSString *vId = nil;
-    MAT_FREGetObjectAsString(argv[0], &vId);
+    Tune_FREGetObjectAsString(argv[0], &vId);
     
     NSUUID *appleVendorId = [[NSUUID alloc] initWithUUIDString:vId];
     
-    [MobileAppTracker setAppleVendorIdentifier:appleVendorId];
+    [Tune setAppleVendorIdentifier:appleVendorId];
     
     return NULL;
 }
@@ -694,14 +734,14 @@ DEFINE_ANE_FUNCTION(SetDelegateFunction)
     FREGetObjectAsBool(argv[0], &isUseDelegate);
     BOOL useDelegate = 1 == isUseDelegate;
     
-    MATSDKDelegate *sdkDelegate = nil;
+    TuneSDKDelegate *sdkDelegate = nil;
     
     if(useDelegate)
     {
-        // when enabled set an object of MATSDKDelegate as the delegate for MobileAppTracker
-        sdkDelegate = [[MATSDKDelegate alloc] init];
+        // when enabled set an object of TuneSDKDelegate as the delegate for Tune
+        sdkDelegate = [[TuneSDKDelegate alloc] init];
     }
-    [MobileAppTracker setDelegate:sdkDelegate];
+    [Tune setDelegate:sdkDelegate];
     
     return NULL;
 }
@@ -710,7 +750,7 @@ DEFINE_ANE_FUNCTION(GetMatIdFunction)
 {
     DLog(@"GetMatIdFunction");
     
-    NSString *matId = [MobileAppTracker matId];
+    NSString *matId = [Tune matId];
     
     // Convert Obj-C string to C UTF8String
     const char *strMatId = [matId UTF8String];
@@ -727,7 +767,7 @@ DEFINE_ANE_FUNCTION(GetOpenLogIdFunction)
 {
     DLog(@"GetOpenLogIdFunction");
     
-    NSString *openLogId = [MobileAppTracker openLogId];
+    NSString *openLogId = [Tune openLogId];
     
     // Convert Obj-C string to C UTF8String
     const char *strOpenLogId = [openLogId UTF8String];
@@ -748,7 +788,7 @@ DEFINE_ANE_FUNCTION(GetIsPayingUserFunction)
 {
     DLog(@"GetIsPayingUserFunction");
     
-    BOOL payingUser = [MobileAppTracker isPayingUser];
+    BOOL payingUser = [Tune isPayingUser];
     
     // Prepare for AS3
     FREObject retPayingUser = nil;
@@ -837,7 +877,7 @@ void MATExtContextInitializer(void* extData, const uint8_t* ctxType, FREContext 
     *numFunctionsToSet = sizeof( functions ) / sizeof( FRENamedFunction );
     *functionsToSet = functions;
     
-    matFREContext = ctx;
+    tuneFREContext = ctx;
 }
 
 void MATExtContextFinalizer(FREContext ctx)

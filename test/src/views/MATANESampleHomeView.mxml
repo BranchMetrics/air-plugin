@@ -30,6 +30,15 @@
                 trace("MATANESampleHomeView.init() end");
             }
 
+            private function tuneDeeplinkCallback(event:StatusEvent):void {
+                // Handle deferred deeplink here
+                trace(event.code + "::" + event.level);
+            }
+
+            private function tuneDeeplinkFailedCallback(event:StatusEvent):void {
+                trace(event.code + "::" + event.level);
+            }
+
             protected function startMAT_clickHandler(event:MouseEvent):void
             {
                 trace("MATANESampleHomeView Start MAT clicked");
@@ -40,7 +49,11 @@
                 mat.init(matAdvertiserId, matConversionKey);
                 mat.setPackageName(matPackageName);
                 
-                mat.checkForDeferredDeeplink(750); // 750 ms
+                // Add event listeners for TUNE_DEEPLINK, TUNE_DEEPLINK_FAILED before checking for deferred deeplinks
+                mat.addEventListener(MobileAppTracker.TUNE_DEEPLINK, tuneDeeplinkCallback);
+                mat.addEventListener(MobileAppTracker.TUNE_DEEPLINK_FAILED, tuneDeeplinkFailedCallback);
+
+                mat.checkForDeferredDeeplink();
             }
             
             protected function debugMode_clickHandler(event:MouseEvent):void

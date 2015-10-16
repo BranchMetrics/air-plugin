@@ -8,7 +8,7 @@
 #import <Foundation/Foundation.h>
 #import "FlashRuntimeExtensions.h"
 
-FREResult MAT_FREGetObjectAsString( FREObject object, NSString** value );
+FREResult Tune_FREGetObjectAsString( FREObject object, NSString** value );
 
 @interface FRETypeConversionHelper : NSObject
 

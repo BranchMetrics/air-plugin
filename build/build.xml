@@ -120,12 +120,12 @@
                 <fileset dir="${android.sdk}/platforms/android-19" includes="android.jar"/>
                 <fileset dir="${flex.sdk}/lib/android/" includes="FlashRuntimeExtensions.jar"/>
                 <fileset dir="${android.sdk}/extras/google/google_play_services/libproject/google-play-services_lib/libs/" includes="google-play-services.jar"/>
-                <fileset dir="../android/libs/" includes="MobileAppTracker-3.9.1.jar"/>
+                <fileset dir="../android/libs/" includes="MobileAppTracker-3.11.1.jar"/>
             </classpath>
         </javac>
         
         <mkdir dir="../android/temp/zip"/>
-        <unzip src="../android/libs/MobileAppTracker-3.9.1.jar" dest="../android/temp/zip"/>
+        <unzip src="../android/libs/MobileAppTracker-3.11.1.jar" dest="../android/temp/zip"/>
         <copy todir="../android/temp/classes/com" overwrite="true">
             <fileset dir="../android/temp/zip/com" >
                 <include name="**/*"/>

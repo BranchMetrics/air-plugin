@@ -94,7 +94,7 @@
             <arg value="-target"/>
             <arg value="ipa-debug"/>
             <arg value="-hideAneLibSymbols" />
-            <arg value="yes" />
+            <arg value="no" />
             <arg value="-storetype"/>
             <arg value="pkcs12"/>
             <arg value="-keystore"/>

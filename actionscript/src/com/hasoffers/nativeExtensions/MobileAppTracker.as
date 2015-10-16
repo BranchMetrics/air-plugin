@@ -8,6 +8,8 @@ package com.hasoffers.nativeExtensions
     [RemoteClass(alias="com.hasoffers.nativeExtensions.MobileAppTracker")]
     public class MobileAppTracker extends EventDispatcher
     {
+        static public const TUNE_DEEPLINK:String = "TUNE_DEEPLINK";
+        static public const TUNE_DEEPLINK_FAILED:String = "TUNE_DEEPLINK_FAILED";
         // If the AIR application creates multiple MobileAppTracker objects,
         // all the objects share one instance of the ExtensionContext class.
 
@@ -78,10 +80,10 @@ package com.hasoffers.nativeExtensions
             }
         }
 
-        public function checkForDeferredDeeplink(timeout:Number):void
+        public function checkForDeferredDeeplink():void
         {
-            trace("MATAS.checkForDeferredDeeplink(" + timeout + ")");
-            extContext.call(NativeMethods.checkForDeferredDeeplink, timeout);
+            trace("MATAS.checkForDeferredDeeplink()");
+            extContext.call(NativeMethods.checkForDeferredDeeplink);
         }
         
         public function measureSession():void
