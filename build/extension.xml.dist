@@ -1,6 +1,6 @@
 <extension xmlns="http://ns.adobe.com/air/extension/<replace_with_air_sdk_version>">
     <id>com.hasoffers.MobileAppTracker</id>
-    <versionNumber>4.0.0</versionNumber>
+    <versionNumber>4.1.0</versionNumber>
 
     <platforms>
         <platform name="Android-ARM">

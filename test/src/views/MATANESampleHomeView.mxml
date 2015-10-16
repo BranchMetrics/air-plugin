@@ -9,8 +9,6 @@
             
             import flash.utils.Dictionary;
             
-            import mx.events.FlexEvent;
-            
             public var mat:MobileAppTracker;
             
             public var isAndroidPlatform:Boolean;
