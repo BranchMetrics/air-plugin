@@ -18,9 +18,6 @@ import com.mobileapptracker.MATEventItem;
 public class MeasureEventFunction implements FREFunction {
     public static final String NAME = "measureEvent";
     
-    private final String MAT_DATE_TIME_FORMAT = "EEE MMM d HH:mm:ss yyyy zzz";
-    
-    
     @Override
     public FREObject call(FREContext context, FREObject[] passedArgs) {
         if (passedArgs.length == 20) {
@@ -145,7 +142,7 @@ public class MeasureEventFunction implements FREFunction {
                     String dateString = getDefinedString(passedArgs[14]);
                     
                     if (dateString.length() != 0) {
-                        SimpleDateFormat sdf = new SimpleDateFormat(MAT_DATE_TIME_FORMAT, Locale.ENGLISH);
+                        SimpleDateFormat sdf = new SimpleDateFormat(MATExtensionContext.MAT_DATE_TIME_FORMAT, Locale.ENGLISH);
                         sdf.setTimeZone(new SimpleTimeZone(SimpleTimeZone.UTC_TIME, "UTC"));
                         date1 = sdf.parse(dateString);
                     }
@@ -154,7 +151,7 @@ public class MeasureEventFunction implements FREFunction {
                     String dateString = getDefinedString(passedArgs[15]);
                     
                     if (dateString.length() != 0) {
-                        SimpleDateFormat sdf = new SimpleDateFormat(MAT_DATE_TIME_FORMAT, Locale.ENGLISH);
+                        SimpleDateFormat sdf = new SimpleDateFormat(MATExtensionContext.MAT_DATE_TIME_FORMAT, Locale.ENGLISH);
                         sdf.setTimeZone(new SimpleTimeZone(SimpleTimeZone.UTC_TIME, "UTC"));
                         date2 = sdf.parse(dateString);
                     }

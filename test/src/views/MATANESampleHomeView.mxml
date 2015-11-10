@@ -6,6 +6,7 @@
     <fx:Script>
         <![CDATA[
             import com.hasoffers.nativeExtensions.MobileAppTracker;
+            import com.hasoffers.nativeExtensions.TuneBannerPosition;
             
             import flash.utils.Dictionary;
             
@@ -37,6 +38,27 @@
                 trace(event.code + "::" + event.level);
             }
 
+            private function tuneShowBanner(event:Event):void {
+                var adMetadata:Dictionary = new Dictionary();
+                adMetadata.birthDate = new Date().toUTCString();
+                var customTargets:Dictionary = new Dictionary();
+                customTargets.type = "game";
+                customTargets.subtype1 = "adventure";
+                customTargets.subtype2 = "action";
+                adMetadata.customTargets = customTargets;
+                adMetadata.debugMode = true;
+                adMetadata.gender = 0;
+                adMetadata.latitude = 111.11;
+                adMetadata.longitude = 222.22;
+                adMetadata.keywords = new Array("pro", "evening");
+                
+                mat.showBannerWithMetadataAndPosition("TestBanner", adMetadata, TuneBannerPosition.TOP_CENTER);
+            }
+            
+            private function tuneHideBanner(event:Event):void {
+                mat.hideBanner();
+            }
+
             protected function startMAT_clickHandler(event:MouseEvent):void
             {
                 trace("MATANESampleHomeView Start MAT clicked");
@@ -50,6 +72,9 @@
                 // Add event listeners for TUNE_DEEPLINK, TUNE_DEEPLINK_FAILED before checking for deferred deeplinks
                 mat.addEventListener(MobileAppTracker.TUNE_DEEPLINK, tuneDeeplinkCallback);
                 mat.addEventListener(MobileAppTracker.TUNE_DEEPLINK_FAILED, tuneDeeplinkFailedCallback);
+                
+                mat.addEventListener(flash.events.Event.ACTIVATE, tuneShowBanner);
+                mat.addEventListener(flash.events.Event.DEACTIVATE, tuneHideBanner);
 
                 mat.checkForDeferredDeeplink();
             }
@@ -179,13 +204,40 @@
             
             protected function testGetterMethods_clickHandler(event:MouseEvent):void
             {
+                var advertisingId:String = mat.getAdvertisingId();
                 var matId:String = mat.getMatId();
                 var openLogId:String = mat.getOpenLogId();
                 var payingUser:Boolean = mat.getIsPayingUser();
                 
-                trace("MATANESampleHomeView testGetterMethods: matId      = " + matId);
-                trace("MATANESampleHomeView testGetterMethods: openLogId  = " + openLogId);
+                trace("MATANESampleHomeView testGetterMethods: advertisingId = " + advertisingId);
+                trace("MATANESampleHomeView testGetterMethods: matId = " + matId);
+                trace("MATANESampleHomeView testGetterMethods: openLogId = " + openLogId);
                 trace("MATANESampleHomeView testGetterMethods: payingUser = " + payingUser);
+            }
+            
+            protected function showBanner_clickHandler(event:MouseEvent):void
+            {
+                tuneShowBanner(event);
+            }
+            
+            protected function hideBanner_clickHandler(event:MouseEvent):void
+            {
+                tuneHideBanner(event);
+            }
+            
+            protected function destroyBanner_clickHandler(event:MouseEvent):void
+            {
+                mat.destroyBanner();
+            }
+            
+            protected function cacheInterstitial_clickHandler(event:MouseEvent):void
+            {
+                mat.cacheInterstitial("TestInterstitial");
+            }
+            
+            protected function showInterstitial_clickHandler(event:MouseEvent):void
+            {
+                mat.showInterstitial("TestInterstitial");
             }
             
             protected function getSampleiTunesIAPReceipt():String
@@ -206,6 +258,11 @@
             <s:Button label="Measure event with event item" click="measureEventWithEventItems_clickHandler(event)" horizontalCenter="0" width="80%" top="310"/>
             <s:Button label="Test Setter Methods" click="testSetterMethods_clickHandler(event)" horizontalCenter="0" width="80%" top="360"/>
             <s:Button label="Test Getter Methods" click="testGetterMethods_clickHandler(event)" horizontalCenter="0" width="80%" top="410"/>
+            <s:Button label="Show Banner" click="showBanner_clickHandler(event)" horizontalCenter="0" width="80%" top="460"/>
+            <s:Button label="Hide Banner" click="hideBanner_clickHandler(event)" horizontalCenter="0" width="80%" top="510"/>
+            <s:Button label="Destroy Banner" click="destroyBanner_clickHandler(event)" horizontalCenter="0" width="80%" top="560"/>
+            <s:Button label="Cache Interstitial" click="cacheInterstitial_clickHandler(event)" horizontalCenter="0" width="80%" top="610"/>
+            <s:Button label="Show Interstitial" click="showInterstitial_clickHandler(event)" horizontalCenter="0" width="80%" top="660"/>
         </s:Group>
     </s:Scroller>
 </s:View>

@@ -49,6 +49,7 @@ package com.hasoffers.nativeExtensions
         internal static const setPayingUser                 : String = "setPayingUser";
         
         // Getter Methods
+        internal static const getAdvertisingId              : String = "getAdvertisingId";
         internal static const getMatId                      : String = "getMatId";
         internal static const getOpenLogId                  : String = "getOpenLogId";
         internal static const getIsPayingUser               : String = "getIsPayingUser";
@@ -61,5 +62,13 @@ package com.hasoffers.nativeExtensions
         
         // Android getter
         internal static const getReferrer                   : String = "getReferrer";
+        
+        // Cross-Promo Methods
+        internal static const showBanner                    : String = "showBanner";
+        internal static const hideBanner                    : String = "hideBanner";
+        internal static const destroyBanner                 : String = "destroyBanner";
+        internal static const cacheInterstitial             : String = "cacheInterstitial";
+        internal static const showInterstitial              : String = "showInterstitial";
+        internal static const destroyInterstitial           : String = "destroyInterstitial";
     }
 }

@@ -4,6 +4,7 @@
     <classEntry path="com.hasoffers.nativeExtensions.MobileAppTracker"/>
     <classEntry path="com.hasoffers.nativeExtensions.NativeMethods"/>
     <classEntry path="com.hasoffers.nativeExtensions.SingletonEnforcer"/>
+    <classEntry path="com.hasoffers.nativeExtensions.TuneBannerPosition"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

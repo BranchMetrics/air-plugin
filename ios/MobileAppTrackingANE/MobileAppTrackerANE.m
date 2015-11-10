@@ -22,9 +22,14 @@
 #pragma mark - MobileAppTrackerDelegate Methods
 
 static FREContext tuneFREContext;
+static UIViewController *bannerViewController;
+static UIWindow *window;
+static uint32_t bannerPosition = 0;
+static TuneBanner *banner;
+static TuneInterstitial *interstitial;
 
-@interface TuneSDKDelegate : NSObject<TuneDelegate>
-// empty
+@interface TuneSDKDelegate : NSObject<TuneDelegate, TuneAdDelegate>
+
 @end
 
 #pragma mark - Tune Plugin Helper Category
@@ -123,13 +128,66 @@ static FREContext tuneFREContext;
     FREDispatchStatusEventAsync(tuneFREContext, (const uint8_t *)code, (const uint8_t *)level);
 }
 
+
+- (void)tuneAdDidFetchAdForView:(TuneAdView *)adView placement:(NSString *)placement
+{
+    if ([adView isKindOfClass:[TuneBanner class]])
+    {
+        [self layoutAnimated];
+    }
+}
+
+- (void)tuneAdDidFailWithError:(NSError *)error forView:(TuneAdView *)adView
+{
+    NSLog(@"tuneAdDidFailWithError %@", [error localizedDescription]);
+}
+
+- (void)layoutAnimated
+{
+    // all we need to do is ask the banner for a size that fits into the layout area we are using
+    CGSize sizeForBanner = [banner sizeThatFits:bannerViewController.view.bounds.size];
+    
+    // compute the ad banner frame
+    CGRect bannerFrame = banner.frame;
+    
+    if (banner.isReady)
+    {
+        // bring the ad into view
+        if (bannerPosition == 0) {
+            bannerFrame.origin.y = bannerViewController.view.frame.size.height - sizeForBanner.height;
+        } else {
+            bannerFrame.origin.y = [UIApplication sharedApplication].statusBarFrame.size.height;
+        }
+        
+        bannerFrame.size.height = sizeForBanner.height;
+        bannerFrame.size.width = sizeForBanner.width;
+    }
+    else
+    {
+        // hide the banner off screen
+        if (bannerPosition == 0) {
+            bannerFrame.origin.y = [[UIScreen mainScreen] bounds].size.height;
+        } else {
+            bannerFrame.origin.y = -sizeForBanner.height;
+        }
+    }
+    
+    // re-layout the current view
+    [bannerViewController.view setNeedsLayout];
+    
+    // animate the change in frame size of the main view and the banner view
+    [UIView animateWithDuration:0.25 animations:^{
+        banner.frame = bannerFrame;
+    }];
+}
+
 @end
 
 #pragma mark - Date Helper Methods
 
 // refer http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/Date.html#toUTCString()
 // example: Wed Apr 23 19:30:07 2014 UTC
-static const char *MAT_DATE_TIME_FORMAT = "EEE MMM dd HH:mm:ss yyyy ZZZ";
+static const char *MAT_DATE_TIME_FORMAT = "EEE MMM d HH:mm:ss yyyy zzz";
 
 NSDateFormatter* dateFormatter()
 {
@@ -167,9 +225,9 @@ DEFINE_ANE_FUNCTION(InitMAT)
     return NULL;
 }
 
-DEFINE_ANE_FUNCTION(CheckForDeferredDeeplink)
+DEFINE_ANE_FUNCTION(CheckForDeferredDeeplinkFunction)
 {
-    DLog(@"CheckForDeferredDeeplink");
+    DLog(@"CheckForDeferredDeeplinkFunction");
     
     [Tune checkForDeferredDeeplink:[TuneSDKDelegate new]];
     
@@ -746,6 +804,23 @@ DEFINE_ANE_FUNCTION(SetDelegateFunction)
     return NULL;
 }
 
+DEFINE_ANE_FUNCTION(GetAdvertisingIdFunction)
+{
+    DLog(@"GetAdvertisingIdFunction");
+    
+    NSString *advertisingId = [Tune appleAdvertisingIdentifier];
+    
+    // Convert Obj-C string to C UTF8String
+    const char *strIfa = [advertisingId UTF8String];
+    
+    // Prepare for AS3
+    FREObject retIfa = nil;
+    FRENewObjectFromUTF8((unsigned int)strlen(strIfa) + 1, (const uint8_t*)strIfa, &retIfa);
+    
+    // Return data back to ActionScript
+    return retIfa;
+}
+
 DEFINE_ANE_FUNCTION(GetMatIdFunction)
 {
     DLog(@"GetMatIdFunction");
@@ -797,6 +872,159 @@ DEFINE_ANE_FUNCTION(GetIsPayingUserFunction)
     // Return data back to ActionScript
     return retPayingUser;
 }
+
+DEFINE_ANE_FUNCTION(ShowBannerFunction)
+{
+    DLog(@"ShowBannerFunction");
+    
+    NSString *placement = nil;
+    Tune_FREGetObjectAsString(argv[0], &placement);
+    
+    // Get TuneAdMetadata as argv[1]
+    TuneAdMetadata *metadata = nil;
+    if (argv[1] != nil)
+    {
+        Tune_FREGetObjectAsTuneAdMetadata(argv[1], &metadata);
+    }
+    
+    // Get TuneBannerPosition as argv[2]
+    if (argv[2] != nil)
+    {
+        FREGetObjectAsUint32(argv[2], &bannerPosition);
+    }
+    
+    if (!bannerViewController)
+    {
+        bannerViewController = [UIViewController new];
+    }
+    
+    if (banner == nil)
+    {
+        banner = [TuneBanner adViewWithDelegate:[TuneSDKDelegate new]];
+    }
+    if (window == nil)
+    {
+        [bannerViewController.view addSubview:banner];
+        id delegate = [[UIApplication sharedApplication] delegate];
+        window = [delegate window];
+        
+        // Determine rect y position based on banner position
+        // Default is BOTTOM_CENTER
+        CGFloat yPos = window.frame.size.height - banner.frame.size.height;
+        // If position is TOP_CENTER, use yPos 0
+        if (bannerPosition == 1)
+        {
+            yPos = 0;
+        }
+        CGRect rect = CGRectMake(0, yPos, window.frame.size.width, banner.frame.size.height);
+        bannerViewController.view.frame = rect;
+        
+        [window addSubview:bannerViewController.view];
+    }
+    
+    [banner showForPlacement:placement adMetadata:metadata];
+    
+    return NULL;
+}
+
+DEFINE_ANE_FUNCTION(HideBannerFunction)
+{
+    DLog(@"HideBannerFunction");
+    if (banner)
+    {
+        // We need to expose a banner timer pause function in iOS banners
+        // For now, hide will be the same as destroy on iOS
+        banner.delegate = nil;
+        [banner removeFromSuperview];
+        [bannerViewController.view removeFromSuperview];
+        bannerViewController = nil;
+        [banner release], banner = nil;
+    }
+    return NULL;
+}
+
+DEFINE_ANE_FUNCTION(DestroyBannerFunction)
+{
+    DLog(@"DestroyBannerFunction");
+    if (banner)
+    {
+        banner.delegate = nil;
+        [banner removeFromSuperview];
+        [bannerViewController.view removeFromSuperview];
+        bannerViewController = nil;
+        [banner release], banner = nil;
+    }
+    return NULL;
+}
+
+
+DEFINE_ANE_FUNCTION(CacheInterstitialFunction)
+{
+    DLog(@"CacheInterstitialFunction");
+
+/* 11/10/15 - This breaks showInterstitial, for some reason the interstitial variable gets polluted 
+ * or corrupted by the time showInterstitial accesses it so making this a no-op on iOS for now
+ */
+//    NSString *placement = nil;
+//    Tune_FREGetObjectAsString(argv[0], &placement);
+//
+//    // Get TuneAdMetadata as argv[1]
+//    TuneAdMetadata *metadata = [TuneAdMetadata new];
+//    if (argv[1] != nil)
+//    {
+//        Tune_FREGetObjectAsTuneAdMetadata(argv[1], metadata);
+//    }
+//    
+//    if (interstitial == nil)
+//    {
+//        interstitial = [TuneInterstitial adViewWithDelegate:[TuneSDKDelegate new]];
+//    }
+//
+//    [interstitial cacheForPlacement:placement adMetadata:metadata];
+    
+    return NULL;
+}
+
+DEFINE_ANE_FUNCTION(ShowInterstitialFunction)
+{
+    DLog(@"ShowInterstitialFunction");
+    
+    NSString *placement = nil;
+    Tune_FREGetObjectAsString(argv[0], &placement);
+    
+    // Get TuneAdMetadata as argv[1]
+    TuneAdMetadata *metadata = nil;
+    if (argv[1] != nil)
+    {
+        Tune_FREGetObjectAsTuneAdMetadata(argv[1], &metadata);
+    }
+    
+    if (interstitial == nil)
+    {
+        interstitial = [TuneInterstitial adView];
+    }
+    
+    if (window == nil)
+    {
+        id delegate = [[UIApplication sharedApplication] delegate];
+        window = [delegate window];
+    }
+    
+    [interstitial showForPlacement:placement viewController:window.rootViewController adMetadata:metadata];
+    
+    return NULL;
+}
+
+DEFINE_ANE_FUNCTION(DestroyInterstitialFunction)
+{
+    DLog(@"DestroyInterstitialFunction");
+    if (interstitial)
+    {
+        [interstitial release], interstitial = nil;
+    }
+    return NULL;
+}
+
 
 DEFINE_ANE_FUNCTION(GetReferrerFunction)
 {
@@ -863,6 +1091,7 @@ void MATExtContextInitializer(void* extData, const uint8_t* ctxType, FREContext 
         
         MAP_FUNCTION(setShouldAutoGenerateAppleVendorIdentifier,    NULL, SetShouldAutoGenerateAppleVendorIdentifierFunction),
         
+        MAP_FUNCTION(getAdvertisingId,                              NULL, GetAdvertisingIdFunction),
         MAP_FUNCTION(getMatId,                                      NULL, GetMatIdFunction),
         MAP_FUNCTION(getOpenLogId,                                  NULL, GetOpenLogIdFunction),
         MAP_FUNCTION(getIsPayingUser,                               NULL, GetIsPayingUserFunction),
@@ -871,7 +1100,14 @@ void MATExtContextInitializer(void* extData, const uint8_t* ctxType, FREContext 
         MAP_FUNCTION(setGoogleAdvertisingId,                        NULL, SetGoogleAdvertisingIdFunction),
         MAP_FUNCTION(setAndroidId,                                  NULL, SetAndroidIdFunction),
         
-        MAP_FUNCTION(checkForDeferredDeeplink,                      NULL, CheckForDeferredDeeplink)
+        MAP_FUNCTION(checkForDeferredDeeplink,                      NULL, CheckForDeferredDeeplinkFunction),
+        
+        MAP_FUNCTION(showBanner,                                    NULL, ShowBannerFunction),
+        MAP_FUNCTION(hideBanner,                                    NULL, HideBannerFunction),
+        MAP_FUNCTION(destroyBanner,                                 NULL, DestroyBannerFunction),
+        MAP_FUNCTION(cacheInterstitial,                             NULL, CacheInterstitialFunction),
+        MAP_FUNCTION(showInterstitial,                              NULL, ShowInterstitialFunction),
+        MAP_FUNCTION(destroyInterstitial,                           NULL, DestroyInterstitialFunction)
     };
     
     *numFunctionsToSet = sizeof( functions ) / sizeof( FRENamedFunction );

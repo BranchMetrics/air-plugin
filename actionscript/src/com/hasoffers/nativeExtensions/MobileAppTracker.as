@@ -330,6 +330,12 @@ package com.hasoffers.nativeExtensions
             extContext.call(NativeMethods.setPayingUser, payingUser);
         }
         
+        public function getAdvertisingId():String
+        {
+            trace("MATAS.getAdvertisingId()");
+            return extContext.call(NativeMethods.getAdvertisingId) as String;
+        }
+        
         public function getMatId():String
         {
             trace("MATAS.getMatId()");
@@ -352,6 +358,80 @@ package com.hasoffers.nativeExtensions
         {
             trace("MATAS.getReferrer()");
             return extContext.call(NativeMethods.getReferrer) as String;
+        }
+
+        public function showBanner(placement:String):void
+        {
+            trace("MATAS.showBanner(" + placement + ")");
+            extContext.call(NativeMethods.showBanner, placement);
+        }
+
+        public function showBannerWithMetadata(placement:String, metadata:Dictionary):void
+        {
+            trace("MATAS.showBannerWithMetadata(" + placement + ", " + metadata + ")");
+            showBannerWithMetadataAndPosition(placement, metadata, 0);
+        }
+
+        public function showBannerWithMetadataAndPosition(placement:String, metadata:Dictionary, position:int):void
+        {
+            trace("MATAS.showBannerWithMetadataAndPosition(" + placement + ", " + metadata + ", " + position + ")");
+            // Convert metadata's customTargets to array to iterate through on native
+            var customTargetsArr:Array = new Array();
+            for (var key:Object in metadata.customTargets) {
+                var value:Object = metadata.customTargets[key];
+                customTargetsArr.push(key, value);
+            }
+            metadata.customTargets = customTargetsArr;
+            extContext.call(NativeMethods.showBanner, placement, metadata, position);
+        }
+        
+        public function hideBanner():void
+        {
+            trace("MATAS.hideBanner()");
+            extContext.call(NativeMethods.hideBanner);
+        }
+
+        public function destroyBanner():void
+        {
+            trace("MATAS.destroyBanner()");
+            extContext.call(NativeMethods.destroyBanner);
+        }
+
+        public function cacheInterstitial(placement:String):void
+        {
+            trace("MATAS.cacheInterstitial(" + placement + ")");
+            extContext.call(NativeMethods.cacheInterstitial, placement);
+        }
+
+        public function cacheInterstitialWithMetadata(placement:String, metadata:Dictionary):void
+        {
+            trace("MATAS.cacheInterstitial(" + placement + ", " + metadata + ")");
+            extContext.call(NativeMethods.cacheInterstitial, placement, metadata);
+        }
+
+        public function showInterstitial(placement:String):void
+        {
+            trace("MATAS.showInterstitial(" + placement + ")");
+            extContext.call(NativeMethods.showInterstitial, placement);
+        }
+
+        public function showInterstitialWithMetadata(placement:String, metadata:Dictionary):void
+        {
+            trace("MATAS.showInterstitialWithMetadata(" + placement + ", " + metadata + ")");
+            // Convert metadata's customTargets to array to iterate through on native
+            var customTargetsArr:Array = new Array();
+            for (var key:Object in metadata.customTargets) {
+                var value:Object = metadata.customTargets[key];
+                customTargetsArr.push(key, value);
+            }
+            metadata.customTargets = customTargetsArr;
+            extContext.call(NativeMethods.showInterstitial, placement, metadata);
+        }
+        
+        public function destroyInterstitial():void
+        {
+            trace("MATAS.destroyInterstitial()");
+            extContext.call(NativeMethods.destroyInterstitial);
         }
 
         public static function onStatusEvent(event:StatusEvent):void

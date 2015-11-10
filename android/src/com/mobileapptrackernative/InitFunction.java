@@ -25,8 +25,7 @@ public class InitFunction implements FREFunction {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            MobileAppTracker.init(context.getActivity(), advertiserId, conversionKey);
-            mec.mat = MobileAppTracker.getInstance();
+            mec.mat = MobileAppTracker.init(context.getActivity(), advertiserId, conversionKey);
             mec.mat.setPluginName("air");
             mec.mat.setReferralSources(context.getActivity());
 

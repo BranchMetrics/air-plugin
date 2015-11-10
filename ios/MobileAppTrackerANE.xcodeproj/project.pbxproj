@@ -7,11 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		328140C71BEBDB960009D01D /* MobileAppTracker-3.14.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 328140C61BEBDB960009D01D /* MobileAppTracker-3.14.0.a */; };
 		329906BA1B4DF3C10059B5C5 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 329906B91B4DF3C10059B5C5 /* AdSupport.framework */; };
 		96318CCA16020DC10075B93E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96318CC916020DC10075B93E /* Foundation.framework */; };
 		F86BA3801682889000916B89 /* FRETypeConversionHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = F86BA37F1682889000916B89 /* FRETypeConversionHelper.m */; };
-		F8F59CD11BCDA84300DCF494 /* MobileAppTracker-3.13.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F8F59CD01BCDA84300DCF494 /* MobileAppTracker-3.13.0.a */; settings = {ASSET_TAGS = (); }; };
-		F8F59CE01BCDA86300DCF494 /* MobileAppTrackerANE.m in Sources */ = {isa = PBXBuildFile; fileRef = F8F59CDF1BCDA86300DCF494 /* MobileAppTrackerANE.m */; settings = {ASSET_TAGS = (); }; };
+		F8F59CE01BCDA86300DCF494 /* MobileAppTrackerANE.m in Sources */ = {isa = PBXBuildFile; fileRef = F8F59CDF1BCDA86300DCF494 /* MobileAppTrackerANE.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -27,6 +27,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		328140C61BEBDB960009D01D /* MobileAppTracker-3.14.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "MobileAppTracker-3.14.0.a"; path = "MobileAppTrackingANE/MobileAppTracker-3.14.0.a"; sourceTree = "<group>"; };
 		329906B91B4DF3C10059B5C5 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		96318CC616020DC10075B93E /* libMobileAppTrackerANE.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMobileAppTrackerANE.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		96318CC916020DC10075B93E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -34,7 +35,6 @@
 		96318CF116020E4F0075B93E /* FlashRuntimeExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlashRuntimeExtensions.h; sourceTree = "<group>"; };
 		F86BA37E1682889000916B89 /* FRETypeConversionHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FRETypeConversionHelper.h; sourceTree = "<group>"; };
 		F86BA37F1682889000916B89 /* FRETypeConversionHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FRETypeConversionHelper.m; sourceTree = "<group>"; };
-		F8F59CD01BCDA84300DCF494 /* MobileAppTracker-3.13.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "MobileAppTracker-3.13.0.a"; path = "MobileAppTrackingANE/MobileAppTracker-3.13.0.a"; sourceTree = "<group>"; };
 		F8F59CD21BCDA86300DCF494 /* MATEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MATEvent.h; sourceTree = "<group>"; };
 		F8F59CD31BCDA86300DCF494 /* MATEventItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MATEventItem.h; sourceTree = "<group>"; };
 		F8F59CD41BCDA86300DCF494 /* MATPreloadData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MATPreloadData.h; sourceTree = "<group>"; };
@@ -58,7 +58,7 @@
 			files = (
 				329906BA1B4DF3C10059B5C5 /* AdSupport.framework in Frameworks */,
 				96318CCA16020DC10075B93E /* Foundation.framework in Frameworks */,
-				F8F59CD11BCDA84300DCF494 /* MobileAppTracker-3.13.0.a in Frameworks */,
+				328140C71BEBDB960009D01D /* MobileAppTracker-3.14.0.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -85,7 +85,7 @@
 		96318CC816020DC10075B93E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				F8F59CD01BCDA84300DCF494 /* MobileAppTracker-3.13.0.a */,
+				328140C61BEBDB960009D01D /* MobileAppTracker-3.14.0.a */,
 				329906B91B4DF3C10059B5C5 /* AdSupport.framework */,
 				96318CC916020DC10075B93E /* Foundation.framework */,
 			);
