@@ -133,12 +133,14 @@
         </copy>
         <copy tofile="../temp/android/google-play-services.jar" file="${android.sdk}/extras/google/google_play_services/libproject/google-play-services_lib/libs/google-play-services.jar" overwrite="true" />
 
-        <copy todir="../temp/android/google-play-services-res">
-            <fileset dir="${android.sdk}/extras/google/google_play_services/libproject/google-play-services_lib/res"/>
-        </copy>
-        
+        <copy tofile="../temp/android/google-play-services-res/values/version.xml" file="${android.sdk}/extras/google/google_play_services/libproject/google-play-services_lib/res/values/version.xml" />
+
         <mkdir dir="../temp/android/"/>
         <jar basedir="../android/temp/classes" destfile="../temp/android/lib${name}.jar"/>
+
+        <mkdir dir="../temp/androidsim/"/>
+        <jar basedir="../android/temp/classes" destfile="../temp/androidsim/lib${name}.jar"/>
+
         <delete dir="../android/temp"/>
     </target>
     
@@ -168,6 +170,7 @@
             </patternset>
         </unzip>
         <copy file="../temp/swc/content/library.swf" todir="../temp/android" overwrite="true"/>
+        <copy file="../temp/swc/content/library.swf" todir="../temp/androidsim" overwrite="true"/>
         <copy file="../temp/swc/content/library.swf" todir="../temp/ios" overwrite="true"/>
         <copy file="../temp/swc/content/library.swf" todir="../temp/iossim" overwrite="true"/>
         <copy file="../temp/swc/content/library.swf" todir="../temp/default" overwrite="true"/>
@@ -186,6 +189,7 @@
             <arg value="../build/extension.xml"/>
             <arg line="-swc swc/MATAS.swc"/>
             <arg line="-platform Android-ARM -C android/ . -platformoptions ../build/platformandroid.xml"/>
+            <arg line="-platform Android-x86 -C androidsim/ ."/>
             <arg line="-platform iPhone-ARM -C ios/ . -platformoptions ../build/platformios.xml"/>
             <arg line="-platform iPhone-x86 -C iossim/ . -platformoptions ../build/platformios.xml"/>
             <arg line="-platform default -C default/ . "/>

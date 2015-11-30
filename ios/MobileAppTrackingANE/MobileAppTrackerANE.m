@@ -272,17 +272,17 @@ DEFINE_ANE_FUNCTION(MeasureEventFunction)
             arrayLength = 0;
         }
         
-        for (uint32_t i = 0; i < arrayLength; i += 8)
+        for (uint32_t i = 0; i < arrayLength; i += 9)
         {
-            NSString *itemName;
+            NSString *itemName = nil;
             double_t itemUnitPrice;
             uint32_t itemQty;
             double_t itemRevenue;
-            NSString *itemAttr1;
-            NSString *itemAttr2;
-            NSString *itemAttr3;
-            NSString *itemAttr4;
-            NSString *itemAttr5;
+            NSString *itemAttr1 = nil;
+            NSString *itemAttr2 = nil;
+            NSString *itemAttr3 = nil;
+            NSString *itemAttr4 = nil;
+            NSString *itemAttr5 = nil;
             
             FREObject freItemName = NULL;
             FREObject freItemUnitPrice = NULL;
@@ -304,16 +304,17 @@ DEFINE_ANE_FUNCTION(MeasureEventFunction)
                && FRE_OK == FREGetArrayElementAt(arrEventItems, i + 7, &freItemAttr4)
                && FRE_OK == FREGetArrayElementAt(arrEventItems, i + 8, &freItemAttr5))
             {
-                if(FRE_OK == Tune_FREGetObjectAsString(freItemName, &itemName)
-                   && FRE_OK == FREGetObjectAsDouble(freItemUnitPrice, &itemUnitPrice)
-                   && FRE_OK == FREGetObjectAsUint32(freItemQty, &itemQty)
-                   && FRE_OK == FREGetObjectAsDouble(freItemRevenue, &itemRevenue)
-                   && FRE_OK == Tune_FREGetObjectAsString(freItemAttr1, &itemAttr1)
-                   && FRE_OK == Tune_FREGetObjectAsString(freItemAttr2, &itemAttr2)
-                   && FRE_OK == Tune_FREGetObjectAsString(freItemAttr3, &itemAttr3)
-                   && FRE_OK == Tune_FREGetObjectAsString(freItemAttr4, &itemAttr4)
-                   && FRE_OK == Tune_FREGetObjectAsString(freItemAttr5, &itemAttr5))
+                if(FRE_OK == Tune_FREGetObjectAsString(freItemName, &itemName))
                 {
+                    FREGetObjectAsDouble(freItemUnitPrice, &itemUnitPrice);
+                    FREGetObjectAsUint32(freItemQty, &itemQty);
+                    FREGetObjectAsDouble(freItemRevenue, &itemRevenue);
+                    Tune_FREGetObjectAsString(freItemAttr1, &itemAttr1);
+                    Tune_FREGetObjectAsString(freItemAttr2, &itemAttr2);
+                    Tune_FREGetObjectAsString(freItemAttr3, &itemAttr3);
+                    Tune_FREGetObjectAsString(freItemAttr4, &itemAttr4);
+                    Tune_FREGetObjectAsString(freItemAttr5, &itemAttr5);
+                    
                     TuneEventItem *eventItem = [TuneEventItem eventItemWithName:itemName unitPrice:itemUnitPrice quantity:itemQty revenue:itemRevenue attribute1:itemAttr1 attribute2:itemAttr2 attribute3:itemAttr3 attribute4:itemAttr4 attribute5:itemAttr5];
                     
                     // Add the eventItem to the array

@@ -113,7 +113,7 @@
             {
                 trace("MATANESampleHomeView Measure Event With Event Items clicked");
                 var matEvent:Dictionary = new Dictionary();
-                matEvent.name = "evt123";
+                matEvent.name = "evt123WithEventItems";
                 matEvent.revenue = 0.42;
                 matEvent.currency = "USD";
                 matEvent.advertiserRefId = "ref111";
