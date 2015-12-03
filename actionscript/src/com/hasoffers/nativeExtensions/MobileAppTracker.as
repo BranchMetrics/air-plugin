@@ -192,6 +192,12 @@ package com.hasoffers.nativeExtensions
             extContext.call(NativeMethods.setCurrencyCode, currencyCode);
         }
 
+        public function setDeepLink(deepLinkUrl:String):void
+        {
+            trace("MATAS.setDeepLink(" + deepLinkUrl + ")");
+            extContext.call(NativeMethods.setDeepLink, deepLinkUrl);
+        }
+
         public function setDebugMode(enable:Boolean):void
         {
             trace("MATAS.setDebugMode(" + enable + ")");

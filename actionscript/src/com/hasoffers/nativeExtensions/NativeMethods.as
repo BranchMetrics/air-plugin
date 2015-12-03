@@ -26,7 +26,7 @@ package com.hasoffers.nativeExtensions
         internal static const setAndroidId                  : String = "setAndroidId";
         internal static const setAppAdTracking              : String = "setAppAdTracking";
         internal static const setCurrencyCode               : String = "setCurrencyCode";
-        
+        internal static const setDeepLink                   : String = "setDeepLink";
         internal static const setExistingUser               : String = "setExistingUser";
         internal static const setFacebookEventLogging       : String = "setFacebookEventLogging";
         internal static const setFacebookUserId             : String = "setFacebookUserId";

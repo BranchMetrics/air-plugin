@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		323F36361C04F7B70001B45F /* MobileAppTracker-3.14.1.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 323F36351C04F7B70001B45F /* MobileAppTracker-3.14.1.a */; };
+		323351E21C10E55A00025F32 /* MobileAppTracker-3.15.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 323351E11C10E55A00025F32 /* MobileAppTracker-3.15.0.a */; };
 		329906BA1B4DF3C10059B5C5 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 329906B91B4DF3C10059B5C5 /* AdSupport.framework */; };
 		96318CCA16020DC10075B93E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96318CC916020DC10075B93E /* Foundation.framework */; };
 		F86BA3801682889000916B89 /* FRETypeConversionHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = F86BA37F1682889000916B89 /* FRETypeConversionHelper.m */; };
@@ -27,7 +27,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		323F36351C04F7B70001B45F /* MobileAppTracker-3.14.1.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "MobileAppTracker-3.14.1.a"; path = "MobileAppTrackingANE/MobileAppTracker-3.14.1.a"; sourceTree = "<group>"; };
+		323351E11C10E55A00025F32 /* MobileAppTracker-3.15.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "MobileAppTracker-3.15.0.a"; path = "MobileAppTrackingANE/MobileAppTracker-3.15.0.a"; sourceTree = "<group>"; };
 		329906B91B4DF3C10059B5C5 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		96318CC616020DC10075B93E /* libMobileAppTrackerANE.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMobileAppTrackerANE.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		96318CC916020DC10075B93E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -58,7 +58,7 @@
 			files = (
 				329906BA1B4DF3C10059B5C5 /* AdSupport.framework in Frameworks */,
 				96318CCA16020DC10075B93E /* Foundation.framework in Frameworks */,
-				323F36361C04F7B70001B45F /* MobileAppTracker-3.14.1.a in Frameworks */,
+				323351E21C10E55A00025F32 /* MobileAppTracker-3.15.0.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -85,7 +85,7 @@
 		96318CC816020DC10075B93E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				323F36351C04F7B70001B45F /* MobileAppTracker-3.14.1.a */,
+				323351E11C10E55A00025F32 /* MobileAppTracker-3.15.0.a */,
 				329906B91B4DF3C10059B5C5 /* AdSupport.framework */,
 				96318CC916020DC10075B93E /* Foundation.framework */,
 			);

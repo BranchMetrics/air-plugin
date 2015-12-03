@@ -805,6 +805,18 @@ DEFINE_ANE_FUNCTION(SetDelegateFunction)
     return NULL;
 }
 
+DEFINE_ANE_FUNCTION(SetDeepLinkFunction)
+{
+    DLog(@"SetDeepLinkFunction");
+    
+    NSString *deepLinkUrl = nil;
+    Tune_FREGetObjectAsString(argv[0], &deepLinkUrl);
+    
+    [Tune applicationDidOpenURL:deepLinkUrl sourceApplication:nil];
+    
+    return NULL;
+}
+
 DEFINE_ANE_FUNCTION(GetAdvertisingIdFunction)
 {
     DLog(@"GetAdvertisingIdFunction");
@@ -1063,6 +1075,7 @@ void MATExtContextInitializer(void* extData, const uint8_t* ctxType, FREContext 
         MAP_FUNCTION(setAllowDuplicates,                            NULL, SetAllowDuplicatesFunction),
         MAP_FUNCTION(setCurrencyCode,                               NULL, SetCurrencyCodeFunction),
         MAP_FUNCTION(setDebugMode,                                  NULL, SetDebugModeFunction),
+        MAP_FUNCTION(setDeepLink,                                   NULL, SetDeepLinkFunction),
         MAP_FUNCTION(setDelegate,                                   NULL, SetDelegateFunction),
         MAP_FUNCTION(setAppAdTracking,                              NULL, SetAppAdTrackingFunction),
         MAP_FUNCTION(setExistingUser,                               NULL, SetExistingUserFunction),

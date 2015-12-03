@@ -32,6 +32,7 @@
             private function tuneDeeplinkCallback(event:StatusEvent):void {
                 // Handle deferred deeplink here
                 trace(event.code + "::" + event.level);
+                mat.setDeepLink(event.level);
             }
 
             private function tuneDeeplinkFailedCallback(event:StatusEvent):void {

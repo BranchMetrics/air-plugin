@@ -51,6 +51,7 @@ public class MATExtensionContext extends FREContext {
         functionMap.put(SetAppAdTrackingFunction.NAME, new SetAppAdTrackingFunction());
         functionMap.put(SetCurrencyCodeFunction.NAME, new SetCurrencyCodeFunction());
         functionMap.put(SetDebugModeFunction.NAME, new SetDebugModeFunction());
+        functionMap.put(SetDeepLinkFunction.NAME, new SetDeepLinkFunction());
         functionMap.put(SetExistingUserFunction.NAME, new SetExistingUserFunction());
         functionMap.put(SetFacebookEventLoggingFunction.NAME, new SetFacebookEventLoggingFunction());
         functionMap.put(SetFacebookUserIdFunction.NAME, new SetFacebookUserIdFunction());
