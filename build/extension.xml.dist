@@ -9,6 +9,12 @@
                 <initializer>com.mobileapptrackernative.MATExtension</initializer>
             </applicationDeployment>
         </platform>
+        <platform name="Android-x86">
+            <applicationDeployment>
+                <nativeLibrary>libMobileAppTrackerANE.jar</nativeLibrary>
+                <initializer>com.mobileapptrackernative.MATExtension</initializer>
+            </applicationDeployment>
+        </platform>
         <platform name="iPhone-ARM">
             <applicationDeployment>
                 <nativeLibrary>libMobileAppTrackerANE.a</nativeLibrary>
