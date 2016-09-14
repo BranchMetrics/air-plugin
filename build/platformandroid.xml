@@ -1,6 +1,6 @@
-<platform xmlns="http://ns.adobe.com/air/extension/19.0">
+<platform xmlns="http://ns.adobe.com/air/extension/22.0">
     <packagedDependencies>
-        <packagedDependency>google-play-services.jar</packagedDependency>
+        <packagedDependency>play-services-basement.jar</packagedDependency>
     </packagedDependencies>
     <packagedResources>
         <packagedResource>

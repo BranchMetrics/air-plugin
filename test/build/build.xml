@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 
 <!-- Build the AIR application -->
-<project name="MATANESample" default="all">
+<project name="TuneANESample" default="all">
     
     <!-- Build Config -->
     <property file="build.config"/>
@@ -27,12 +27,12 @@
     
     <!-- Target that calls all other targets -->
     <target name="all" depends="clean,swf,copy-resources,android,ios" description="Full build of MAT AIR sample app">
-        <echo level="verbose">MAT AIR Sample App Created!</echo>
+        <echo level="verbose">TUNE AIR Sample App Created!</echo>
     </target>
     
     <!-- Remove Output Folder -->
     <target name="clean" description="Clean the output and temp folders">
-        <echo level="verbose">Cleaning MAT AIR sample app output and temp folders...</echo>
+        <echo level="verbose">Cleaning TUNE AIR sample app output and temp folders...</echo>
         <delete dir="${OUTPUT}"/>
     </target>
     

@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" title="TUNE ANE Test App"
+        xmlns:s="library://ns.adobe.com/flex/spark" 
+        xmlns:Tune="com.tune.ane.Tune">
+
+    <fx:Script>
+        <![CDATA[
+            import com.tune.ane.Tune;
+            
+            import flash.utils.Dictionary;
+            
+            public var tune:Tune;
+            
+            public var isAndroidPlatform:Boolean;
+            
+            public var flagAutoGenerateParams:Boolean = false;
+
+            public function init():void 
+            {
+                var platform:String = String(Capabilities.manufacturer);
+                isAndroidPlatform = -1 != platform.toLowerCase().search("linux");
+                
+                trace("TuneANESampleHomeView.init() start");
+                
+                trace("TuneANESampleHomeView.init(): getting Tune singleton instance.");
+                tune = Tune.instance;
+                
+                trace("TuneANESampleHomeView.init() end");
+            }
+
+            private function tuneDeeplinkCallback(event:StatusEvent):void {
+                // Handle deferred deeplink here
+                trace(event.code + "::" + event.level);
+                tune.setDeepLink(event.level);
+            }
+
+            private function tuneDeeplinkFailedCallback(event:StatusEvent):void {
+                trace(event.code + "::" + event.level);
+            }
+
+            protected function startTUNE_clickHandler(event:MouseEvent):void
+            {
+                trace("TuneANESampleHomeView Start TUNE clicked");
+                var tuneAdvertiserId:String = "877";
+                var tuneConversionKey:String = "8c14d6bbe466b65211e781d62e301eec";
+                var tunePackageName:String = "com.hasoffers.airtestapp";
+
+                tune.init(tuneAdvertiserId, tuneConversionKey);
+                tune.setPackageName(tunePackageName);
+                
+                // Add event listeners for TUNE_DEEPLINK, TUNE_DEEPLINK_FAILED before checking for deferred deeplinks
+                tune.addEventListener(Tune.TUNE_DEEPLINK, tuneDeeplinkCallback);
+                tune.addEventListener(Tune.TUNE_DEEPLINK_FAILED, tuneDeeplinkFailedCallback);
+                
+                tune.checkForDeferredDeeplink();
+            }
+            
+            protected function debugMode_clickHandler(event:MouseEvent):void
+            {
+                trace("TuneANESampleHomeView Debug Mode clicked");
+                tune.setDebugMode(true);
+            }
+            
+            protected function delegate_clickHandler(event:MouseEvent):void
+            {
+                trace("TuneANESampleHomeView Set Delegate clicked");
+                tune.setDelegate(true);
+            }
+            
+            protected function measureSession_clickHandler(event:MouseEvent):void
+            {
+                trace("TuneANESampleHomeView Measure Session clicked");
+                tune.measureSession();
+            }
+            
+            protected function measureEvent_clickHandler(event:MouseEvent):void
+            {
+                trace("TuneANESampleHomeView Measure Event clicked");
+                tune.measureEventName("evt123");
+            }
+            
+            protected function measureEventWithEventItems_clickHandler(event:MouseEvent):void
+            {
+                trace("TuneANESampleHomeView Measure Event With Event Items clicked");
+                var tuneEvent:Dictionary = new Dictionary();
+                tuneEvent.name = "evt123WithEventItems";
+                tuneEvent.revenue = 0.42;
+                tuneEvent.currency = "USD";
+                tuneEvent.advertiserRefId = "ref111";
+                tuneEvent.attribute1 = "test_attribute1";
+                tuneEvent.attribute2 = "test_attribute2";
+                tuneEvent.attribute3 = "test_attribute3";
+                tuneEvent.attribute4 = "test_attribute4";
+                tuneEvent.attribute5 = "test_attribute5";
+
+                tuneEvent.contentId = "testContentId";
+                tuneEvent.contentType = "testContentType";
+                tuneEvent.date1 = new Date().toUTCString();
+                tuneEvent.date2 = new Date().toUTCString();
+                tuneEvent.level = 3;
+                tuneEvent.quantity = 2;
+                tuneEvent.rating = 4.5;
+                tuneEvent.searchString = "testSearchString";
+
+                var arrEvents:Array = new Array();
+                
+                var dict1:Dictionary = new Dictionary();
+                dict1.item = "item1";
+                dict1.unit_price = 1.11;
+                dict1.quantity = 1;
+                dict1.revenue = 1.11;
+                dict1.attribute1 = "attr11";
+                dict1.attribute2 = "attr12";
+                dict1.attribute3 = "";
+                dict1.attribute4 = null;
+                dict1.attribute5 = "";
+                
+                arrEvents.push(dict1);
+                
+                var dict2:Dictionary = new Dictionary();
+                dict2.item = "item1";
+                dict2.unit_price = 0.99;
+                dict2.quantity = 2;
+                dict2.revenue = 1.5;
+                dict2.attribute1 = "attr21";
+                dict2.attribute2 = null;
+                dict2.attribute3 = "attr23";
+                dict2.attribute4 = "";
+                dict2.attribute5 = "attr25";
+                
+                arrEvents.push(dict2);
+
+                tuneEvent.eventItems = arrEvents;
+                
+                var storeReceipt:String = isAndroidPlatform ? null : getSampleiTunesIAPReceipt();
+                tuneEvent.receipt = storeReceipt;
+
+                tune.measureEvent(tuneEvent);
+            }
+            
+            protected function testSetterMethods_clickHandler(event:MouseEvent):void
+            {
+                trace("TuneANESampleHomeView Test Setters clicked");
+                tune.setAge(34);
+                tune.setAppAdTracking(true);
+                tune.setAppleAdvertisingIdentifier("1234567890", true);
+                tune.setAppleVendorIdentifier("87654321-4321-4321-4321-210987654321");
+                tune.setCurrencyCode("CAD");
+                tune.setDebugMode(true);
+                tune.setDelegate(true);
+                
+                tune.setExistingUser(false);
+                tune.setFacebookUserId("temp_facebook_user_id");
+                tune.setGender(0);
+                tune.setGoogleAdvertisingId("1234567890", true);
+                tune.setGoogleUserId("temp_google_user_id");
+                tune.setJailbroken(false);
+                tune.setLocation(111,222,333);
+                tune.setPackageName("com.tempcompany.tempapp");
+                tune.setRedirectUrl("http://www.example.com");
+                tune.setShouldAutoDetectJailbroken(true);
+                tune.setShouldAutoGenerateAppleVendorIdentifier(true);
+                tune.setTRUSTeId("1234567890");
+                tune.setTwitterUserId("temp_twitter_user_id");
+                tune.setUseCookieTracking(false);
+                tune.setUserEmail("tempuser@tempcompany.com");
+                tune.setUserId("temp_user_id");
+                tune.setUserName("temp_user_name");
+                tune.setPhoneNumber("123-456-7890");
+                tune.setPayingUser(false);
+            }
+            
+            protected function testGetterMethods_clickHandler(event:MouseEvent):void
+            {
+                var advertisingId:String = tune.getAdvertisingId();
+                var matId:String = tune.getMatId();
+                var openLogId:String = tune.getOpenLogId();
+                var payingUser:Boolean = tune.getIsPayingUser();
+                
+                trace("TuneANESampleHomeView testGetterMethods: advertisingId = " + advertisingId);
+                trace("TuneANESampleHomeView testGetterMethods: matId = " + matId);
+                trace("TuneANESampleHomeView testGetterMethods: openLogId = " + openLogId);
+                trace("TuneANESampleHomeView testGetterMethods: payingUser = " + payingUser);
+            }
+            
+            protected function getSampleiTunesIAPReceipt():String
+            {
+                return "{\"signature\" = \"AiuR/oePW4lQq2qAFerYcL/lU7HB7rqPKoddrjnqLUqvLywbSukO3OUwWwiRGE8iFiNvaqVF2CaG8siBkfkP5KYaeiTHT2RNLCIKyCfhOIr4q0wYCKwxNp2vdo3S8b+4boeSAXzgzBHCR1S1hTN5LuoeRzDeIWHoYT66CBweqDetAAADVzCCA1MwggI7oAMCAQICCGUUkU3ZWAS1MA0GCSqGSIb3DQEBBQUAMH8xCzAJBgNVBAYTAlVTMRMwEQYDVQQKDApBcHBsZSBJbmMuMSYwJAYDVQQLDB1BcHBsZSBDZXJ0aWZpY2F0aW9uIEF1dGhvcml0eTEzMDEGA1UEAwwqQXBwbGUgaVR1bmVzIFN0b3JlIENlcnRpZmljYXRpb24gQXV0aG9yaXR5MB4XDTA5MDYxNTIyMDU1NloXDTE0MDYxNDIyMDU1NlowZDEjMCEGA1UEAwwaUHVyY2hhc2VSZWNlaXB0Q2VydGlmaWNhdGUxGzAZBgNVBAsMEkFwcGxlIGlUdW5lcyBTdG9yZTETMBEGA1UECgwKQXBwbGUgSW5jLjELMAkGA1UEBhMCVVMwgZ8wDQYJKoZIhvcNAQEBBQADgY0AMIGJAoGBAMrRjF2ct4IrSdiTChaI0g8pwv/cmHs8p/RwV/rt/91XKVhNl4XIBimKjQQNfgHsDs6yju++DrKJE7uKsphMddKYfFE5rGXsAdBEjBwRIxexTevx3HLEFGAt1moKx509dhxtiIdDgJv2YaVs49B0uJvNdy6SMqNNLHsDLzDS9oZHAgMBAAGjcjBwMAwGA1UdEwEB/wQCMAAwHwYDVR0jBBgwFoAUNh3o4p2C0gEYtTJrDtdDC5FYQzowDgYDVR0PAQH/BAQDAgeAMB0GA1UdDgQWBBSpg4PyGUjFPhJXCBTMzaN+mV8k9TAQBgoqhkiG92NkBgUBBAIFADANBgkqhkiG9w0BAQUFAAOCAQEAEaSbPjtmN4C/IB3QEpK32RxacCDXdVXAeVReS5FaZxc+t88pQP93BiAxvdW/3eTSMGY5FbeAYL3etqP5gm8wrFojX0ikyVRStQ+/AQ0KEjtqB07kLs9QUe8czR8UGfdM1EumV/UgvDd4NwNYxLQMg4WTQfgkQQVy8GXZwVHgbE/UC6Y7053pGXBk51NPM3woxhd3gSRLvXj+loHsStcTEqe9pBDpmG5+sk4tw+GK3GMeEN5/+e1QT9np/Kl1nj+aBw7C0xsy0bFnaAd1cSS6xdory/CUvM6gtKsmnOOdqTesbp0bs8sn6Wqs0C9dgcxRHuOMZ2tm8npLUm7argOSzQ==\";\"purchase-info\" = \"ewoJIm9yaWdpbmFsLXB1cmNoYXNlLWRhdGUtcHN0IiA9ICIyMDEzLTA2LTE5IDEzOjMyOjE5IEFtZXJpY2EvTG9zX0FuZ2VsZXMiOwoJInVuaXF1ZS1pZGVudGlmaWVyIiA9ICJjODU0OGI1YWExZjM5NDA2NmY1ZWEwM2Q3ZGU0YTBiYzdjMTEyZDk5IjsKCSJvcmlnaW5hbC10cmFuc2FjdGlvbi1pZCIgPSAiMTAwMDAwMDA3Nzk2MDgzNSI7CgkiYnZycyIgPSAiMS4xIjsKCSJ0cmFuc2FjdGlvbi1pZCIgPSAiMTAwMDAwMDA4MzE1MjA1NCI7CgkicXVhbnRpdHkiID0gIjEiOwoJIm9yaWdpbmFsLXB1cmNoYXNlLWRhdGUtbXMiID0gIjEzNzE2NzM5MzkwMDAiOwoJInVuaXF1ZS12ZW5kb3ItaWRlbnRpZmllciIgPSAiQTM3MjFCQzctNDA3Qi00QzcyLTg4RDAtMTdGNjIwRUMzNzEzIjsKCSJwcm9kdWN0LWlkIiA9ICJjb20uaGFzb2ZmZXJzLmluYXBwcHVyY2hhc2V0cmFja2VyMS5iYWxsIjsKCSJpdGVtLWlkIiA9ICI2NTMyMzA4MjkiOwoJImJpZCIgPSAiY29tLkhhc09mZmVycy5JbkFwcFB1cmNoYXNlVHJhY2tlcjEiOwoJInB1cmNoYXNlLWRhdGUtbXMiID0gIjEzNzU4MTM2NDcxMDIiOwoJInB1cmNoYXNlLWRhdGUiID0gIjIwMTMtMDgtMDYgMTg6Mjc6MjcgRXRjL0dNVCI7CgkicHVyY2hhc2UtZGF0ZS1wc3QiID0gIjIwMTMtMDgtMDYgMTE6Mjc6MjcgQW1lcmljYS9Mb3NfQW5nZWxlcyI7Cgkib3JpZ2luYWwtcHVyY2hhc2UtZGF0ZSIgPSAiMjAxMy0wNi0xOSAyMDozMjoxOSBFdGMvR01UIjsKfQ==\";\"environment\" = \"Sandbox\";\"pod\" = \"100\";\"signing-status\" = \"0\";}";
+            }
+        ]]>
+    </fx:Script>
+    
+    <s:Scroller width="100%" height="100%">
+        <s:Group width="100%" height="100%" initialize="init()" >
+            <s:Button label="Start TUNE" click="startTUNE_clickHandler(event)" horizontalCenter="0" width="80%" top="10" />
+            <s:Button label="Enable Delegate" click="delegate_clickHandler(event)" horizontalCenter="0" width="80%" top="60" />
+            <s:Button label="Enable Debug Mode" click="debugMode_clickHandler(event)" horizontalCenter="0" width="80%" top="110" />
+            <s:Button label="Measure session" click="measureSession_clickHandler(event)" horizontalCenter="0" width="80%" top="160" />
+            <s:Button label="Measure event" click="measureEvent_clickHandler(event)" horizontalCenter="0" width="80%" top="210"/>
+            <s:Button label="Measure event with event item" click="measureEventWithEventItems_clickHandler(event)" horizontalCenter="0" width="80%" top="260"/>
+            <s:Button label="Test Setter Methods" click="testSetterMethods_clickHandler(event)" horizontalCenter="0" width="80%" top="310"/>
+            <s:Button label="Test Getter Methods" click="testGetterMethods_clickHandler(event)" horizontalCenter="0" width="80%" top="360"/>
+        </s:Group>
+    </s:Scroller>
+</s:View>

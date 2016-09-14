@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <flexLibProperties includeAllClasses="true" useMultiPlatformConfig="false" version="3">
   <includeClasses>
-    <classEntry path="com.hasoffers.nativeExtensions.MobileAppTracker"/>
-    <classEntry path="com.hasoffers.nativeExtensions.NativeMethods"/>
-    <classEntry path="com.hasoffers.nativeExtensions.SingletonEnforcer"/>
-    <classEntry path="com.hasoffers.nativeExtensions.TuneBannerPosition"/>
+    <classEntry path="com.tune.ane.Tune"/>
+    <classEntry path="com.tune.ane.NativeMethods"/>
+    <classEntry path="com.tune.ane.SingletonEnforcer"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

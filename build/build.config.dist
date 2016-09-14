@@ -2,6 +2,7 @@ name = MobileAppTrackerANE
 
 android.sdk = <replace_with_android_sdk_path>
 flex.sdk = <replace_with_flex_home_path>
+google-play-services-version = <replace_with_google_play_services_version>
 adt.ext = 
 compc.ext = 
 

@@ -1,12 +1,12 @@
-# MAT AIR Native Extension
+# TUNE AIR Native Extension
 
 Please see the Quick Start guide here:
 
-[AIR Quick Start](https://developers.mobileapptracking.com/adobe-air-plugin/)
+[AIR Quick Start](https://developers.tune.com/sdk/adobe-air-quick-start/)
 
 ### Building the ANE
 
-The following tools are required to build the MobileAppTracking ANE:
+The following tools are required to build the TUNE ANE:
 
 __Adobe AIR__
 
@@ -28,4 +28,4 @@ In the /build/ folder, rename the build.config.dist file to build.config and set
 
 In extension.xml, platformandroid.xml, and platformios.xml, change the AIR SDK version if needed.
 
-Then from /build/, run 'ant' which will create a MobileAppTrackerANE.ane file in the /dist/ folder.
+Then from /build/, run 'ant' which will create a TuneANE.ane file in the /dist/ folder.

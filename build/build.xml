@@ -1,35 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="Air Native Extension Build Scripts" default="all">
-    
+
     <!-- Config -->
     <property file="build.config"/>
 
     <property name="tempbuild" value="../temp/ios/build" />
-    
+
+    <property environment="env" />
+
     <!-- All -->
     <target name="all" depends="clean,android,ios,swc,package" description="Full build of extension">
-        <echo level="verbose">MAT AIR Native Extension created!</echo>
+        <echo level="verbose">TUNE AIR Native Extension created!</echo>
     </target>
-    
+
     <!-- Clean -->
     <target name="clean" description="Clean the output and temp folders">
         <echo level="verbose">Cleaning ANE output and temp folders...</echo>
         <delete dir="../temp"/>
         <delete file="../dist/${name}.ane"/>
     </target>
-    
+
     <!-- iOS -->
     <target name="ios" description="Build iOS Library">
         <echo level="verbose">Creating iPhone library build...</echo>
         <mkdir dir="${tempbuild}" />
         <mkdir dir="${tempbuild}/Release-universal" />
-        
+
         <echo level="verbose">Cleaning iPhone project target(s) output folders...</echo>
         <exec executable="xcodebuild" failonerror="true" dir="../ios/">
             <arg line="-project ${name}.xcodeproj"/>
             <arg line="-alltargets clean"/>
         </exec>
-        
+
         <echo level="verbose">Creating iPhone device arch armv7 build...</echo>
         <exec executable="xcodebuild" failonerror="true" dir="../ios/">
             <arg line="-project ${name}.xcodeproj"/>
@@ -55,7 +57,7 @@
         </exec>
 
         <move file="${tempbuild}/Release-${ios.sdkversion}/lib${name}.a" tofile="${tempbuild}/Release-${ios.sdkversion}/lib${name}armv7s.a"/>
-                
+
         <echo level="verbose">Creating iPhone device arch arm64 build...</echo>
         <exec executable="xcodebuild" failonerror="true" dir="../ios/">
             <arg line="-project ${name}.xcodeproj"/>
@@ -68,7 +70,7 @@
         </exec>
 
         <move file="${tempbuild}/Release-${ios.sdkversion}/lib${name}.a" tofile="${tempbuild}/Release-${ios.sdkversion}/lib${name}arm64.a"/>
-        
+
         <echo level="verbose">Creating iPhone simulator arch i386 build...</echo>
         <exec executable="xcodebuild" failonerror="true" dir="../ios/">
             <arg line="-project ${name}.xcodeproj"/>
@@ -94,46 +96,62 @@
         </exec>
 
         <move file="${tempbuild}/Release-${ios.sim.sdkversion}/lib${name}.a" tofile="${tempbuild}/Release-${ios.sim.sdkversion}/lib${name}x86_64.a"/>
-        
+
         <echo level="verbose">Merging armv7, armv7s, arm64, i386 and x86_64 builds to generate a universal static library fat binary...</echo>
         <exec executable="lipo" failonerror="true" dir="../ios/">
             <arg line="-create ${tempbuild}/Release-${ios.sdkversion}/lib${name}armv7.a ${tempbuild}/Release-${ios.sdkversion}/lib${name}armv7s.a ${tempbuild}/Release-${ios.sdkversion}/lib${name}arm64.a ${tempbuild}/Release-${ios.sim.sdkversion}/lib${name}i386.a ${tempbuild}/Release-${ios.sim.sdkversion}/lib${name}x86_64.a"/>
             <arg line="-output ${tempbuild}/Release-universal/lib${name}.a" />
         </exec>
-        
+
         <echo level="verbose">Copying completed iOS static library files to temp ANE build folder...</echo>
         <copy file="${tempbuild}/Release-universal/lib${name}.a" tofile="../temp/ios/lib${name}.a" overwrite="true" />
         <copy file="${tempbuild}/Release-universal/lib${name}.a" tofile="../temp/iossim/lib${name}.a" overwrite="true" />
-        
+
         <echo level="verbose">Deleting temp iOS build folder...</echo>
         <delete dir="${tempbuild}"/>
     </target>
-    
+
     <!-- Android -->
     <target name="android" description="Build Android Library">
         <echo level="verbose">Creating Android library build...</echo>
         <delete dir="../android/temp"/>
         <mkdir dir="../android/temp/classes"/>
+        <mkdir dir="../android/temp/zip"/>
 
-        <javac source="1.6" srcdir="../android/src" destdir="../android/temp/classes" includeantruntime="false">
+        <unzip src="${android.sdk}/extras/google/m2repository/com/google/android/gms/play-services-basement/${google-play-services-version}/play-services-basement-${google-play-services-version}.aar" dest="../android/temp/zip/play-services-basement-${google-play-services-version}"/>
+        <copy tofile="../temp/android/play-services-basement.jar" file="../android/temp/zip/play-services-basement-${google-play-services-version}/classes.jar" overwrite="true" />
+        <copy tofile="../temp/android/google-play-services-res/values/values.xml" file="../android/temp/zip/play-services-basement-${google-play-services-version}/res/values/values.xml" overwrite="true" />
+
+        <javac srcdir="../android/src" destdir="../android/temp/classes" includeantruntime="false">
             <classpath>
-                <fileset dir="${android.sdk}/platforms/android-19" includes="android.jar"/>
+                <fileset dir="${android.sdk}/platforms/android-23" includes="android.jar"/>
                 <fileset dir="${flex.sdk}/lib/android/" includes="FlashRuntimeExtensions.jar"/>
-                <fileset dir="${android.sdk}/extras/google/google_play_services/libproject/google-play-services_lib/libs/" includes="google-play-services.jar"/>
-                <fileset dir="../android/libs/" includes="MobileAppTracker-3.11.4.jar"/>
+                <fileset dir="../temp/android" includes="play-services-basement.jar"/>
+                <fileset dir="../android/libs/" includes="android-support-v4.jar"/>
+                <fileset dir="../android/libs/" includes="eventbus-2.4.0.jar"/>
+                <fileset dir="../android/libs/" includes="TuneMarketingConsoleSDK-4.6.0.jar"/>
             </classpath>
         </javac>
-        
-        <mkdir dir="../android/temp/zip"/>
-        <unzip src="../android/libs/MobileAppTracker-3.11.4.jar" dest="../android/temp/zip"/>
+
+        <unzip src="../android/libs/eventbus-2.4.0.jar" dest="../android/temp/zip"/>
+        <unzip src="../android/libs/android-support-v4.jar" dest="../android/temp/zip"/>
+        <unzip src="../android/libs/TuneMarketingConsoleSDK-4.6.0.jar" dest="../android/temp/zip"/>
+
         <copy todir="../android/temp/classes/com" overwrite="true">
             <fileset dir="../android/temp/zip/com" >
                 <include name="**/*"/>
             </fileset>
         </copy>
-        <copy tofile="../temp/android/google-play-services.jar" file="${android.sdk}/extras/google/google_play_services/libproject/google-play-services_lib/libs/google-play-services.jar" overwrite="true" />
-
-        <copy tofile="../temp/android/google-play-services-res/values/version.xml" file="${android.sdk}/extras/google/google_play_services/libproject/google-play-services_lib/res/values/version.xml" />
+        <copy todir="../android/temp/classes/de" overwrite="true">
+            <fileset dir="../android/temp/zip/de" >
+                <include name="**/*"/>
+            </fileset>
+        </copy>
+        <copy todir="../android/temp/classes/android" overwrite="true">
+            <fileset dir="../android/temp/zip/android" >
+                <include name="**/*"/>
+            </fileset>
+        </copy>
 
         <mkdir dir="../temp/android/"/>
         <jar basedir="../android/temp/classes" destfile="../temp/android/lib${name}.jar"/>
@@ -143,7 +161,7 @@
 
         <delete dir="../android/temp"/>
     </target>
-    
+
     <!-- Actionscript -->
     <target name="swc" description="Build SWC library">
         <echo level="verbose">Creating SWC library...</echo>
@@ -159,12 +177,12 @@
 
         <exec executable="${flex.sdk}/bin/compc${compc.ext}" failonerror="true">
             <arg line='-source-path ../actionscript/src'/>
-            <arg line='-output ../temp/swc/MATAS.swc'/>
+            <arg line='-output ../temp/swc/TUNEAS.swc'/>
             <arg line='-external-library-path+="${flex.sdk}/frameworks/libs/air/airglobal.swc"'/>
             <arg line='-include-classes ${classlist}'/>
         </exec>
 
-        <unzip src="../temp/swc/MATAS.swc" dest="../temp/swc/content" overwrite="true">
+        <unzip src="../temp/swc/TUNEAS.swc" dest="../temp/swc/content" overwrite="true">
             <patternset>
                 <include name="library.swf" />
             </patternset>
@@ -174,27 +192,27 @@
         <copy file="../temp/swc/content/library.swf" todir="../temp/ios" overwrite="true"/>
         <copy file="../temp/swc/content/library.swf" todir="../temp/iossim" overwrite="true"/>
         <copy file="../temp/swc/content/library.swf" todir="../temp/default" overwrite="true"/>
-        
+
         <delete dir="../temp/swc/content/"/>
     </target>
-    
+
     <!-- Package -->
     <target name="package" description="Create the extension package">
-        <echo level="verbose">Creating MAT AIR Native Extension package (.ane)...</echo>
+        <echo level="verbose">Creating TUNE AIR Native Extension package (.ane)...</echo>
         <exec executable="${flex.sdk}/bin/adt${adt.ext}" failonerror="true" dir="../temp">
             <arg value="-package"/>
             <arg value="-target"/>
             <arg value="ane"/>
             <arg value="../dist/${name}.ane"/>
             <arg value="../build/extension.xml"/>
-            <arg line="-swc swc/MATAS.swc"/>
+            <arg line="-swc swc/TUNEAS.swc"/>
             <arg line="-platform Android-ARM -C android/ . -platformoptions ../build/platformandroid.xml"/>
             <arg line="-platform Android-x86 -C androidsim/ ."/>
             <arg line="-platform iPhone-ARM -C ios/ . -platformoptions ../build/platformios.xml"/>
             <arg line="-platform iPhone-x86 -C iossim/ . -platformoptions ../build/platformios.xml"/>
             <arg line="-platform default -C default/ . "/>
         </exec>
-        
+
         <delete dir="../temp"/>
     </target>
 

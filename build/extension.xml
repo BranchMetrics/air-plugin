@@ -1,32 +1,32 @@
-<extension xmlns="http://ns.adobe.com/air/extension/19.0">
-    <id>com.hasoffers.MobileAppTracker</id>
-    <versionNumber>4.1.0</versionNumber>
+<extension xmlns="http://ns.adobe.com/air/extension/22.0">
+    <id>com.tune.Tune</id>
+    <versionNumber>5.0.0</versionNumber>
 
     <platforms>
         <platform name="Android-ARM">
             <applicationDeployment>
-                <nativeLibrary>libMobileAppTrackerANE.jar</nativeLibrary>
-                <initializer>com.mobileapptrackernative.MATExtension</initializer>
+                <nativeLibrary>libTuneANE.jar</nativeLibrary>
+                <initializer>com.tune.ane.TuneExtension</initializer>
             </applicationDeployment>
         </platform>
         <platform name="Android-x86">
             <applicationDeployment>
-                <nativeLibrary>libMobileAppTrackerANE.jar</nativeLibrary>
-                <initializer>com.mobileapptrackernative.MATExtension</initializer>
+                <nativeLibrary>libTuneANE.jar</nativeLibrary>
+                <initializer>com.tune.ane.TuneExtension</initializer>
             </applicationDeployment>
         </platform>
         <platform name="iPhone-ARM">
             <applicationDeployment>
-                <nativeLibrary>libMobileAppTrackerANE.a</nativeLibrary>
-                <initializer>MATExtInitializer</initializer>
-                <finalizer>MATExtFinalizer</finalizer>
+                <nativeLibrary>libTuneANE.a</nativeLibrary>
+                <initializer>TuneExtInitializer</initializer>
+                <finalizer>TuneExtFinalizer</finalizer>
             </applicationDeployment>
         </platform>
         <platform name="iPhone-x86">
             <applicationDeployment>
-                <nativeLibrary>libMobileAppTrackerANE.a</nativeLibrary>
-                <initializer>MATExtInitializer</initializer>
-                <finalizer>MATExtFinalizer</finalizer>
+                <nativeLibrary>libTuneANE.a</nativeLibrary>
+                <initializer>TuneExtInitializer</initializer>
+                <finalizer>TuneExtFinalizer</finalizer>
             </applicationDeployment>
         </platform>
         <platform name="default">
