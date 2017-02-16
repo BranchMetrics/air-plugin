@@ -10,6 +10,8 @@ test_flashbuilder4.6/bin-debug
 !default.xcworkspace
 xcuserdata/
 build.config
+ios/build
+temp
 
 # OS X
 .DS_Store
