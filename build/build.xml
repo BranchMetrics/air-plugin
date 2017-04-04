@@ -97,15 +97,21 @@
 
         <move file="${tempbuild}/Release-${ios.sim.sdkversion}/lib${name}.a" tofile="${tempbuild}/Release-${ios.sim.sdkversion}/lib${name}x86_64.a"/>
 
-        <echo level="verbose">Merging armv7, armv7s, arm64, i386 and x86_64 builds to generate a universal static library fat binary...</echo>
+        <echo level="verbose">Merging armv7, armv7s and arm64 to generate a universal static library fat binary for device...</echo>
         <exec executable="lipo" failonerror="true" dir="../ios/">
-            <arg line="-create ${tempbuild}/Release-${ios.sdkversion}/lib${name}armv7.a ${tempbuild}/Release-${ios.sdkversion}/lib${name}armv7s.a ${tempbuild}/Release-${ios.sdkversion}/lib${name}arm64.a ${tempbuild}/Release-${ios.sim.sdkversion}/lib${name}i386.a ${tempbuild}/Release-${ios.sim.sdkversion}/lib${name}x86_64.a"/>
-            <arg line="-output ${tempbuild}/Release-universal/lib${name}.a" />
+            <arg line="-create ${tempbuild}/Release-${ios.sdkversion}/lib${name}armv7.a ${tempbuild}/Release-${ios.sdkversion}/lib${name}armv7s.a ${tempbuild}/Release-${ios.sdkversion}/lib${name}arm64.a"/>
+            <arg line="-output ${tempbuild}/Release-universal/lib${name}_ios.a" />
+        </exec>
+
+        <echo level="verbose">Merging i386 and x86_64 to generate a universal static library fat binary for simulator...</echo>
+        <exec executable="lipo" failonerror="true" dir="../ios/">
+            <arg line="-create ${tempbuild}/Release-${ios.sim.sdkversion}/lib${name}i386.a ${tempbuild}/Release-${ios.sim.sdkversion}/lib${name}x86_64.a"/>
+            <arg line="-output ${tempbuild}/Release-universal/lib${name}_iossim.a" />
         </exec>
 
         <echo level="verbose">Copying completed iOS static library files to temp ANE build folder...</echo>
-        <copy file="${tempbuild}/Release-universal/lib${name}.a" tofile="../temp/ios/lib${name}.a" overwrite="true" />
-        <copy file="${tempbuild}/Release-universal/lib${name}.a" tofile="../temp/iossim/lib${name}.a" overwrite="true" />
+        <copy file="${tempbuild}/Release-universal/lib${name}_ios.a" tofile="../temp/ios/lib${name}.a" overwrite="true" />
+        <copy file="${tempbuild}/Release-universal/lib${name}_iossim.a" tofile="../temp/iossim/lib${name}.a" overwrite="true" />
 
         <echo level="verbose">Deleting temp iOS build folder...</echo>
         <delete dir="${tempbuild}"/>

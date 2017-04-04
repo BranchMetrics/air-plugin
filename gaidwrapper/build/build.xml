@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="Air Native Extension Build Scripts" default="all">
-    
+
     <!-- Config -->
     <property file="build.config"/>
-    
+
     <property name="tempbuild" value="../temp/ios/build" />
-    
+
     <!-- All -->
     <target name="all" depends="clean,android,ios,swc,package" description="Full build of extension">
         <echo level="verbose">GAID AIR Native Extension created!</echo>
     </target>
-    
+
     <!-- Clean -->
     <target name="clean" description="Clean the output and temp folders">
         <echo level="verbose">Cleaning ANE output and temp folders...</echo>
         <delete dir="../temp"/>
         <delete file="../dist/${name}.ane"/>
     </target>
-    
+
     <!-- Android -->
     <target name="android" description="Build Android Library">
         <echo level="verbose">Creating Android library build...</echo>
@@ -43,19 +43,19 @@
 
         <delete dir="../android/temp"/>
     </target>
-    
+
     <!-- iOS -->
     <target name="ios" description="Build iOS Library">
         <echo level="verbose">Creating iPhone library build...</echo>
         <mkdir dir="${tempbuild}" />
         <mkdir dir="${tempbuild}/Release-universal" />
-        
+
         <echo level="verbose">Cleaning iPhone project target(s) output folders...</echo>
         <exec executable="xcodebuild" failonerror="true" dir="../ios/">
             <arg line="-project ${name}.xcodeproj"/>
             <arg line="-alltargets clean"/>
         </exec>
-        
+
         <echo level="verbose">Creating iPhone device arch armv7 build...</echo>
         <exec executable="xcodebuild" failonerror="true" dir="../ios/">
             <arg line="-project ${name}.xcodeproj"/>
@@ -66,9 +66,9 @@
             <arg line="SYMROOT=${tempbuild}"/>
             <arg line="VALID_ARCHS='armv7'"/>
         </exec>
-        
+
         <move file="${tempbuild}/Release-${ios.sdkversion}/lib${name}.a" tofile="${tempbuild}/Release-${ios.sdkversion}/lib${name}armv7.a"/>
-        
+
         <echo level="verbose">Creating iPhone device arch armv7s build...</echo>
         <exec executable="xcodebuild" failonerror="true" dir="../ios/">
             <arg line="-project ${name}.xcodeproj"/>
@@ -79,9 +79,9 @@
             <arg line="SYMROOT=${tempbuild}"/>
             <arg line="VALID_ARCHS='armv7s'"/>
         </exec>
-        
+
         <move file="${tempbuild}/Release-${ios.sdkversion}/lib${name}.a" tofile="${tempbuild}/Release-${ios.sdkversion}/lib${name}armv7s.a"/>
-        
+
         <echo level="verbose">Creating iPhone device arch arm64 build...</echo>
         <exec executable="xcodebuild" failonerror="true" dir="../ios/">
             <arg line="-project ${name}.xcodeproj"/>
@@ -92,9 +92,9 @@
             <arg line="SYMROOT=${tempbuild}"/>
             <arg line="VALID_ARCHS='arm64'"/>
         </exec>
-        
+
         <move file="${tempbuild}/Release-${ios.sdkversion}/lib${name}.a" tofile="${tempbuild}/Release-${ios.sdkversion}/lib${name}arm64.a"/>
-        
+
         <echo level="verbose">Creating iPhone simulator arch i386 build...</echo>
         <exec executable="xcodebuild" failonerror="true" dir="../ios/">
             <arg line="-project ${name}.xcodeproj"/>
@@ -105,9 +105,9 @@
             <arg line="SYMROOT=${tempbuild}"/>
             <arg line="VALID_ARCHS='i386'"/>
         </exec>
-        
+
         <move file="${tempbuild}/Release-${ios.sim.sdkversion}/lib${name}.a" tofile="${tempbuild}/Release-${ios.sim.sdkversion}/lib${name}i386.a"/>
-        
+
         <echo level="verbose">Creating iPhone simulator arch x86_64 build...</echo>
         <exec executable="xcodebuild" failonerror="true" dir="../ios/">
             <arg line="-project ${name}.xcodeproj"/>
@@ -118,23 +118,29 @@
             <arg line="SYMROOT=${tempbuild}"/>
             <arg line="VALID_ARCHS='x86_64'"/>
         </exec>
-        
+
         <move file="${tempbuild}/Release-${ios.sim.sdkversion}/lib${name}.a" tofile="${tempbuild}/Release-${ios.sim.sdkversion}/lib${name}x86_64.a"/>
-        
-        <echo level="verbose">Merging armv7, armv7s, arm64, i386 and x86_64 builds to generate a universal static library fat binary...</echo>
+
+        <echo level="verbose">Merging armv7, armv7s and arm64 to generate a universal static library fat binary for device...</echo>
         <exec executable="lipo" failonerror="true" dir="../ios/">
-            <arg line="-create ${tempbuild}/Release-${ios.sdkversion}/lib${name}armv7.a ${tempbuild}/Release-${ios.sdkversion}/lib${name}armv7s.a ${tempbuild}/Release-${ios.sdkversion}/lib${name}arm64.a ${tempbuild}/Release-${ios.sim.sdkversion}/lib${name}i386.a ${tempbuild}/Release-${ios.sim.sdkversion}/lib${name}x86_64.a"/>
-            <arg line="-output ${tempbuild}/Release-universal/lib${name}.a" />
+            <arg line="-create ${tempbuild}/Release-${ios.sdkversion}/lib${name}armv7.a ${tempbuild}/Release-${ios.sdkversion}/lib${name}armv7s.a ${tempbuild}/Release-${ios.sdkversion}/lib${name}arm64.a"/>
+            <arg line="-output ${tempbuild}/Release-universal/lib${name}_ios.a" />
         </exec>
-        
+
+        <echo level="verbose">Merging i386 and x86_64 to generate a universal static library fat binary for simulator...</echo>
+        <exec executable="lipo" failonerror="true" dir="../ios/">
+            <arg line="-create ${tempbuild}/Release-${ios.sim.sdkversion}/lib${name}i386.a ${tempbuild}/Release-${ios.sim.sdkversion}/lib${name}x86_64.a"/>
+            <arg line="-output ${tempbuild}/Release-universal/lib${name}_iossim.a" />
+        </exec>
+
         <echo level="verbose">Copying completed iOS static library files to temp ANE build folder...</echo>
-        <copy file="${tempbuild}/Release-universal/lib${name}.a" tofile="../temp/ios/lib${name}.a" overwrite="true" />
-        <copy file="${tempbuild}/Release-universal/lib${name}.a" tofile="../temp/iossim/lib${name}.a" overwrite="true" />
-        
+        <copy file="${tempbuild}/Release-universal/lib${name}_ios.a" tofile="../temp/ios/lib${name}.a" overwrite="true" />
+        <copy file="${tempbuild}/Release-universal/lib${name}_iossim.a" tofile="../temp/iossim/lib${name}.a" overwrite="true" />
+
         <echo level="verbose">Deleting temp iOS build folder...</echo>
         <delete dir="${tempbuild}"/>
     </target>
-    
+
     <!-- Actionscript -->
     <target name="swc" description="Build SWC library">
         <echo level="verbose">Creating SWC library...</echo>
@@ -162,7 +168,7 @@
             </patternset>
         </unzip>
         <copy file="../temp/swc/content/library.swf" todir="../temp/android" overwrite="true"/>
-        
+
         <!-- Default platform library.swf -->
         <fileset dir="../default/src" casesensitive="yes" id="classfiles-default">
             <include name="**/*.as"/>
@@ -191,7 +197,7 @@
         <delete dir="../temp/swc/content/"/>
         <delete dir="../temp/swc/content-default/"/>
     </target>
-    
+
     <!-- Package -->
     <target name="package" description="Create the extension package">
         <echo level="verbose">Creating MAT AIR Native Extension package (.ane)...</echo>
@@ -207,7 +213,7 @@
             <arg line="-platform iPhone-x86 -C iossim/ . -platformoptions ../build/platformios.xml"/>
             <arg line="-platform default -C default library.swf"/>
         </exec>
-        
+
         <delete dir="../temp"/>
     </target>
 

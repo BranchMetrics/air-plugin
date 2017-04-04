@@ -258,6 +258,8 @@
                 <string>1</string>
                 <string>2</string>
             </array>
+            <key>MinimumOSVersion</key>
+          	<string>8.0</string>
         ]]></InfoAdditions>
         <requestedDisplayResolution>high</requestedDisplayResolution>
     </iPhone>

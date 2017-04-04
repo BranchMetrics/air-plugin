@@ -10,6 +10,8 @@ Please see the Quick Start guide here:
 
 1. [Install Apache Ant](http://ant.apache.org/bindownload.cgi) if you haven't already
 
+Make sure to use an Ant distribution compatible with Java 7 or lower, such as Ant 1.9.x.
+
 Put the download somewhere permanent and add the bin directory to your PATH
 
 2. [Download the Flex SDK installer](http://flex.apache.org/installer.html) This is the SDK that you need to build the AIR plugin
@@ -28,7 +30,7 @@ This is the IDE that you build the AIR Plugin with.
 
 ### Developing and testing in the Adobe Flash Builder IDE
 
-1. Run the Adobe Flash Builder
+1. Run Adobe Flash Builder
 
 Adobe Flash Builder is built on Eclipse, so it might look familiar to you
 
@@ -37,6 +39,14 @@ Adobe Flash Builder is built on Eclipse, so it might look familiar to you
 You should see 9 projects imported into the workspace.
 
 3. Run the TuneANETestApp project on both iOS and Android devices. All the buttons in the test app should work on device without crashes. You can verify the AA requests succeed by looking at debug output from Xcode console or Android LogCat.
+
+### Upgrading Air SDK for Adobe Flash Builder
+
+1.  Make a backup of /Applications/Adobe Flash Builder 4.7/eclipse/plugins/com.adobe.flash.compiler_4.7.0.349722
+
+2.  Erase all contents inside com.adobe.flash.compiler_4.7.0.349722
+
+3.  Extract the new Air SDK and then paste it into com.adobe.flash.compiler_4.7.0.349722
 
 ### Building the ANE from the command line
 
