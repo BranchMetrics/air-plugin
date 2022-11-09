@@ -53,7 +53,7 @@ package com.tune.ane
         }
 
         // Initialize the extension by calling our "initNativeCode" ANE function
-        private static function initExtension(tuneAdvertiserId:String, tuneConversionKey:String):void
+        private function initExtension(tuneAdvertiserId:String, tuneConversionKey:String):void
         {
             trace("TUNEAS.initExtension(" + tuneAdvertiserId + ", " + tuneConversionKey + "): Create an extension context");
 
@@ -348,7 +348,7 @@ package com.tune.ane
             return extContext.call(NativeMethods.getReferrer) as String;
         }
 
-        public static function onStatusEvent(event:StatusEvent):void
+        public function onStatusEvent(event:StatusEvent):void
         {
             trace("TUNEAS.statusHandler(): " + event);
             if("success" == event.code)
@@ -363,6 +363,7 @@ package com.tune.ane
             {
                 trackerDidEnqueueRequest(event.level);
             }
+            dispatchEvent(new StatusEvent(event.code, false, false, event.code, event.level));
         }
 
         public static function trackerDidSucceed(data:String):void
