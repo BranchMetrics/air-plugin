@@ -1,3 +1,5 @@
+This SDK is deprecated
+
 # TUNE AIR Native Extension
 
 Please see the Quick Start guide here:
